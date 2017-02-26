@@ -29,13 +29,14 @@ class AppCtrl {
             dividendes: { name: 'dividendes', min: 0, max: 150000, step: 1000, value: 0 },
         };
 
-        // this.params['charges'].value = 0;
+        // this.params['capital'].value = 2000;
+        // this.params['charges'].value = 10000;
         // this.params['tj'].value = 500;
-        // this.params['nbJours'].value = 200;
+        // this.params['nbJours'].value = 180;
         // this.accre = true;
-        // this.sa = true;
-        // this.params['remuneration'].value = 0;
-        // this.params['dividendes'].value = 100000;
+        // this.sa = false;
+        // this.params['remuneration'].value = 28000;
+        // this.params['dividendes'].value = 39000;
         // this.onChange();
     }
 
@@ -47,7 +48,7 @@ class AppCtrl {
         this.resteJoursParSemaine = this.resteJoursParMois % 5;
 
         this.exercice = new Exercice(
-            this.params.capital,
+            this.params.capital.value,
             this.params.tj.value * this.params.nbJours.value,
             this.params.charges.value,
             this.params.remuneration.value,
