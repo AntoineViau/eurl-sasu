@@ -21,6 +21,7 @@ class AppCtrl {
 
     constructor(private $uibModal, private $sce) {
         this.params = {
+            capital: { name: 'capital', min: 0, max: 100000, step: 100, value: 0 },
             charges: { name: 'charges', min: 0, max: 100000, step: 1000, value: 0 },
             tj: { name: 'tj', min: 0, max: 1000, step: 10, value: 0 },
             nbJours: { name: 'nbJours', min: 0, max: 365, step: 1, value: 0 },
@@ -28,14 +29,14 @@ class AppCtrl {
             dividendes: { name: 'dividendes', min: 0, max: 150000, step: 1000, value: 0 },
         };
 
-        this.params['charges'].value = 0;
-        this.params['tj'].value = 500;
-        this.params['nbJours'].value = 200;
-        this.accre = true;
-        this.sa = true;
-        this.params['remuneration'].value = 0;
-        this.params['dividendes'].value = 100000;
-        this.onChange();
+        // this.params['charges'].value = 0;
+        // this.params['tj'].value = 500;
+        // this.params['nbJours'].value = 200;
+        // this.accre = true;
+        // this.sa = true;
+        // this.params['remuneration'].value = 0;
+        // this.params['dividendes'].value = 100000;
+        // this.onChange();
     }
 
     onChange() {
@@ -46,7 +47,7 @@ class AppCtrl {
         this.resteJoursParSemaine = this.resteJoursParMois % 5;
 
         this.exercice = new Exercice(
-            2000,
+            this.params.capital,
             this.params.tj.value * this.params.nbJours.value,
             this.params.charges.value,
             this.params.remuneration.value,
