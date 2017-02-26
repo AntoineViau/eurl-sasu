@@ -2,7 +2,7 @@
 
 Ce bout de code sert à déterminer vos prélèvements (cotisations sociales, impôt société, impôt sur le revenu) dans le cadre d'une EURL ou d'une SASU à l'IS, avec prise en compte éventuelle de l'ACCRE.  
 
-Les lois et règlements pris en compte sont ceux applicables en 2017. L'interface permet de visualiser facilement les divers montants, et surtout il affiche le revenu en super-net. De la documentation permet de comprendre le fonctionnemetn et les calculs (visez les petit points d'interrogation).   
+Les lois et règlements pris en compte sont ceux applicables en 2017. L'interface permet de visualiser facilement les divers montants, et surtout il affiche le revenu en super-net : ce qui vous reste réellement dans la poche. De la documentation permet de comprendre le fonctionnemet et les calculs (visez les petit points d'interrogation).   
 
 ## Installation et usage
 
