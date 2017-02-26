@@ -93,7 +93,7 @@
                 <div class="col-md-6">
                     <div class="alert alert-info">
                         <field label="Assiette impôt société">{{ctrl.exercice.IS.assiette | currency:'€':2}}</field>
-                        <field label="Impôt société">
+                        <field label="Impôt société" doc="impotSocietes">
                             {{ctrl.exercice.IS.impot | currency:'€':2}} ({{ctrl.exercice.IS.impot / ctrl.exercice.IS.assiette * 100 | number:2}} %)
                         </field>
                         <field label="Distribuable" doc="distribuable">{{ctrl.exercice.IS.assiette - ctrl.exercice.IS.impot | currency:'€':2}}</field>
@@ -105,7 +105,7 @@
                         <field label="Dividendes bruts">{{ctrl.params['dividendes'].value | currency:'€':2}}</field>
                         <field label="Cotisations sociales sur dividendes">{{ctrl.exercice.dividendes.cotisationsSociales | currency:'€':2}}</field>
                         <field label="Dividendes nets">{{ctrl.exercice.dividendes.net | currency:'€':2}} </field>
-                        <field label="Assiette IR sur dividendes">{{ctrl.exercice.dividendes.assietteIR | currency:'€':2}} </field>
+                        <field label="Assiette IR sur dividendes" doc="assietteDividendesIR">{{ctrl.exercice.dividendes.assietteIR | currency:'€':2}} </field>
                         <div ng-if="ctrl.exercice.dividendes.dividendes10">
                             <hr />
                             <div>Part sur 10% du capital :</div>

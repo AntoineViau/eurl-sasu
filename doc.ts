@@ -63,10 +63,23 @@ Les cotisations sociales sur rémunération ne concernent pas votre entreprise m
 En principe, tout euro donné donne des droits. Ainsi, l'assurance maladie donne le droit à la sécurité sociale, de même pour la retraite, les allocations familiales, etc.  
 Il y a deux exceptions, la CSG et la CRDS : ces deux taxes ne donnent aucun droit, et servent - entre autres - à "boucher" le trou de la sécu.  
 
-Concernant les calculs : 
- * maladie : 6,5% de la rémunération
- * allocations familiales : pour les revenus compris entre 43 151 € et 54 919 €, taux progressif entre 2,15 % et 5,25 % (au delà de 54 919 €, 5,25 %)  
- * formation professionnelle : 0,25% du plafond annuel de la sécurité sociale (PASS)`
+Les montants et modalités sont différents selon que l'on soit SASU ou EURL : 
+ * en EURL on est travailleur non-salarié (TNS). Si on est profession libérale on cotise à trois caisses : RSI pour la maladie, CIPAV pour la retraite, URSSAF pour le reste.
+ * en SASU on est assimilé salarié et on paye nettement plus. `
+    },
+    assietteDividendesIR: {
+        title: 'Assiette IR des dividendes',
+        content:`
+Un des gros avantages des dividendes est qu'ils sont taxés à l'IR sur 60% de leur valeur, et on peut aussi déduire la CSG de l'assiette (5,1%).  
+Exemple donné par [www.service-public.fr](https://www.service-public.fr/professionnels-entreprises/vosdroits/F32963) :  
+*Par exemple, un actionnaire ou associé qui perçoit 1 000 € de dividendes doit acquitter 15,5 % de prélèvements sociaux, soit 155 €, déductibles à hauteur de 5,1 %, soit 51 €. Le montant imposable des revenus distribués, soumis au barème progressif de l'impôt sur le revenu, est égal à 600 € (1 000 - 1 000 x 40 %) - 51 € (CSG déductible) = 549 €.*  
+
+Par ailleurs, au moment où les dividendes sont distribués, il y a un acompte de 21% qui est prélevé à la source. Il faudra donc l'indiquer sur sa feuille d'impôt pour qu'il soit déduit.`
+    },
+    impotSocietes: {
+        title: 'Impôt sur les sociétés',
+        content: `15% pour la partie en dessous de 38 120 €, et 33 % au-delà.
+`
     }
 }
 
