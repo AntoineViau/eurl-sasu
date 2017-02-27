@@ -61,7 +61,7 @@ class AppCtrl {
 }
 
 angular.module('app', ['ngLocale', 'ui.bootstrap', 'ngSanitize'])
-    .controller('appCtrl', ($uibModal, $sce) => new AppCtrl($uibModal, $sce))
+    .controller('appCtrl',['$uibModal', '$sce', ($uibModal, $sce) => new AppCtrl($uibModal, $sce)])
     .component('field', {
         bindings: {
             label: '@',
@@ -72,18 +72,17 @@ angular.module('app', ['ngLocale', 'ui.bootstrap', 'ngSanitize'])
             <b>{{$ctrl.label}}<sup ng-if="$ctrl.doc" ng-click="$ctrl.openDoc($ctrl.doc)">?</sup></b> : <span ng-transclude></span> 
         </div>`,
         transclude: true,
-        controller: function ($uibModal, $sce) {
+        controller: ['$uibModal', '$sce', function ($uibModal, $sce) {
             this.openDoc = function (id) {
                 $uibModal.open({
                     templateUrl: 'myModalContent.html',
                     size: 'lg',
-                    controller: ($scope) => {
+                    controller: ['$scope', ($scope) => {
                         let converter = new showdown.Converter();
                         $scope.title = doc[id].title;
                         $scope.content = $sce.trustAsHtml(converter.makeHtml(doc[id].content));
-                    }
+                    }]
                 });
             }
-
-        }
+        }]
     });
