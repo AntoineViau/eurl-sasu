@@ -4,6 +4,10 @@ Ce bout de code est à destination des freelances qui facturent leurs prestation
 
 Les lois et règlements pris en compte sont ceux applicables en 2017. L'interface est basée sur des sliders, et permet de visualiser facilement les divers montants. De la documentation permet de comprendre le fonctionnement et les calculs : visez les petit points d'interrogation.   
 
+## Je veux jouer tout de suite !
+
+Cliquez ici : [http://www.antoineviau.com/eurl-sasu](http://www.antoineviau.com/eurl-sasu)
+
 ## Installation et usage
 
 Après clone ou download : 
@@ -11,7 +15,12 @@ Après clone ou download :
     npm install
     npm start
 
-Vous pouvez ensuite ouvrir le fichier index.html avec votre navigateur favori (pas besoin de lancer un serveur local).
+Vous pouvez ensuite ouvrir le fichier index.html avec votre navigateur favori (pas besoin de lancer un serveur local).  
+
+Pour produire une version minifier (350 Kb au lieu de 1,5 Mb) : 
+
+    ./node_modules/.bin/webpack -p
+
 
 **ATTENTION**  
 Il n'y a pas de "blindages" si vous entrez des valeurs incohérentes. Par exemple, si vous vous versez plus de dividendes que vous ne le pouvez réellement, aucun message d'erreur ne s'affichera. Toutefois, les réultats seront suffisamment bizarres pour que vous en rendiez compte (typiquement : des nombres négatifs).
