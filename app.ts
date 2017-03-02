@@ -34,7 +34,7 @@ class AppCtrl {
         // this.params['tj'].value = 500;
         // this.params['nbJours'].value = 180;
         // this.accre = true;
-        // this.sa = false;
+        // this.sa = true;
         // this.params['remuneration'].value = 28000;
         // this.params['dividendes'].value = 39000;
         // this.onChange();
