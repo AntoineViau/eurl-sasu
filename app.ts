@@ -29,15 +29,15 @@ class AppCtrl {
             dividendes: { name: 'dividendes', min: 0, max: 150000, step: 1000, value: 0 },
         };
 
-        // this.params['capital'].value = 2000;
-        // this.params['charges'].value = 10000;
-        // this.params['tj'].value = 500;
-        // this.params['nbJours'].value = 180;
-        // this.accre = true;
-        // this.sa = false;
-        // this.params['remuneration'].value = 28000;
-        // this.params['dividendes'].value = 39000;
-        // this.onChange();
+        this.params['capital'].value = 2000;
+        this.params['charges'].value = 10000;
+        this.params['tj'].value = 500;
+        this.params['nbJours'].value = 180;
+        this.accre = true;
+        this.sa = true;
+        this.params['remuneration'].value = 28000;
+        this.params['dividendes'].value = 39000;
+        this.onChange();
     }
 
     onChange() {
