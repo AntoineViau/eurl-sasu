@@ -1,6 +1,6 @@
 class Tranche {
 
-    constructor(private min: number, private max: number, private taux: number) {    }
+    constructor(private min: number, private max: number, private taux: number) { }
 
     getMin(): number { return this.min; };
 
@@ -8,7 +8,7 @@ class Tranche {
 
     getTaux(): number { return this.taux };
 
-    getImpot(revenu) { 
+    getImpot(revenu) {
         return this.compute(revenu);
     }
 
@@ -29,8 +29,9 @@ class Tranche {
 export default class ImpotRevenu {
 
     tranches: Tranche[];
+    revenu: number;
 
-    constructor(private revenu: number) {
+    constructor() {
         this.tranches = [
             new Tranche(0, 9700, 0),
             new Tranche(9701, 26818, 0.14),
@@ -38,7 +39,6 @@ export default class ImpotRevenu {
             new Tranche(71899, 152260, 0.41),
             new Tranche(152261, 99999999, 0.45),
         ];
-        this.revenu = revenu;
     }
 
     setRevenu(revenu) {

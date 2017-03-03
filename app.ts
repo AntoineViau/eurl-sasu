@@ -4,6 +4,9 @@ import 'angular-ui-bootstrap'
 import Exercice from './exercice';
 import { doc } from './doc';
 import 'angular-sanitize';
+import ImpotSociete from "./impot-societe";
+import CotisationsSociales from "./cotisations-sociales";
+import ImpotRevenu from "./impot-revenu";
 
 declare const angular: any;
 declare const showdown: any;
@@ -15,11 +18,11 @@ class AppCtrl {
     public resteJoursParMois: number;
     public resteSemainesParMois: number;
     public resteJoursParSemaine: number;
-    public exercice;
+    public result;
     public accre: boolean;
     public sa: boolean;
 
-    constructor(private $uibModal, private $sce) {
+    constructor(private $uibModal, private $sce, private exercice: Exercice) {
         this.params = {
             capital: { name: 'capital', min: 0, max: 100000, step: 100, value: 0 },
             charges: { name: 'charges', min: 0, max: 100000, step: 1000, value: 0 },
@@ -47,21 +50,24 @@ class AppCtrl {
         this.resteSemainesParMois = Math.floor(this.resteJoursParMois / 5);
         this.resteJoursParSemaine = this.resteJoursParMois % 5;
 
-        this.exercice = new Exercice(
-            this.params.capital.value,
-            this.params.tj.value * this.params.nbJours.value,
-            this.params.charges.value,
-            this.params.remuneration.value,
-            this.params.dividendes.value,
-            this.accre,
-            0,      // autres revenus
-            this.sa 
-        ).exercice();
+        this.exercice.capital = this.params.capital.value;
+        this.exercice.ca = this.params.tj.value * this.params.nbJours.value;
+        this.exercice.charges = this.params.charges.value;
+        this.exercice.remuneration = this.params.remuneration.value;
+        this.exercice.dividendes = this.params.dividendes.value;
+        this.exercice.accre2017 = this.accre;
+        this.exercice.autresRevenus = 0; // autres revenus
+        this.exercice.sa = this.sa;
+        this.result = this.exercice.exercice();
     }
 }
 
 angular.module('app', ['ngLocale', 'ui.bootstrap', 'ngSanitize'])
-    .controller('appCtrl',['$uibModal', '$sce', ($uibModal, $sce) => new AppCtrl($uibModal, $sce)])
+    .service('cotisationsSociales', [() => new CotisationsSociales()])
+    .service('impotSociete', [() => new ImpotSociete()])
+    .service('impotRevenu', [() => new ImpotRevenu()])
+    .service('exercice', ['impotSociete', 'cotisationsSociales', 'impotRevenu',(impotSociete, cotisationsSociales, impotRevenu) => new Exercice(impotSociete, cotisationsSociales, impotRevenu)])
+    .controller('appCtrl', ['$uibModal', '$sce', 'exercice', ($uibModal, $sce, exercice) => new AppCtrl($uibModal, $sce, exercice)])
     .component('field', {
         bindings: {
             label: '@',

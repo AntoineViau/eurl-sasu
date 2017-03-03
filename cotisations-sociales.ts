@@ -1,18 +1,18 @@
 export default class CotisationsSociales {
 
-    constructor(
-        private remuneration: number = 0,
-        private accre: number = 0,
-        private accre2017: boolean,
-        private PASS: number = 38616) {
-    }
+    remuneration: number = 0;
+    accre: number = 0;
+    accre2017: boolean;
+    PASS: number = 38616
+
+    constructor() { }
 
     _revenuPro() {
         return this.remuneration;
     }
 
     getMaladie(): number {
-        if ( this.accre2017 && this._revenuPro() < 28962) {
+        if (this.accre2017 && this._revenuPro() < 28962) {
             return 0;
         }
         var assiette = this._revenuPro() < this.accre ? 0 : this._revenuPro() - this.accre;
@@ -20,7 +20,7 @@ export default class CotisationsSociales {
     }
 
     getAllocationsFamiliales() {
-        if ( this.accre2017 && this._revenuPro() < 28962) {
+        if (this.accre2017 && this._revenuPro() < 28962) {
             return 0;
         }
         var assiette = this._revenuPro() < this.accre ? 0 : this._revenuPro() - this.accre;
@@ -46,7 +46,7 @@ export default class CotisationsSociales {
     }
 
     getRetraiteBase(): number {
-        if ( this.accre2017 && this._revenuPro() < 28962) {
+        if (this.accre2017 && this._revenuPro() < 28962) {
             return 0;
         }
         var assiette = this._revenuPro() < this.accre ? 0 : this._revenuPro() - this.accre;
@@ -57,7 +57,7 @@ export default class CotisationsSociales {
     }
 
     getRetraiteComplementaire(): number {
-        if ( this.accre2017 && this._revenuPro() < 28962) {
+        if (this.accre2017 && this._revenuPro() < 28962) {
             return 0;
         }
         // http://service.cipav-retraite.fr/cipav/article-16-pour-les-beneficiaires-de-laccre-100.htm
@@ -94,7 +94,7 @@ export default class CotisationsSociales {
     }
 
     getInvaliditeDeces(classe = 'C'): number {
-        if ( this.accre2017 && this._revenuPro() < 28962) {
+        if (this.accre2017 && this._revenuPro() < 28962) {
             return 0;
         }
         // http://service.cipav-retraite.fr/cipav/article-16-pour-les-beneficiaires-de-laccre-100.htm
