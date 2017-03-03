@@ -105,7 +105,7 @@ export default class Exercice {
         res.IR.tranches = ir.getTranches();
 
         // Brut, net
-        res.brut = res.societe.ca - res.societe.charges; 
+        res.brut = res.societe.ca - res.societe.charges - res.societe.reste; 
         res.net = res.remuneration.net + res.dividendes.net - res.IR.impot;
         return res;
     }

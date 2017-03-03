@@ -26,6 +26,14 @@
         sup {
             cursor: pointer;
         }
+
+        h3 {
+            margin-top: 0;
+            font-size: 120%;
+            border-bottom: 1px solid;
+            padding-bottom: 6px;
+            font-weight: bold;
+        }
     </style>
 </head>
 
@@ -36,12 +44,16 @@
 
     <div class="container row">
 
+        <div class="alert alert-warning">
+            Ce calculateur est essentiellement à destination des freelances qui vendent leurs prestations à la journée.<br />
+            Il fonctionne pour les EURL et les SASU, avec prise en compte de l'ACCRE ou non (modalités 2017, <strong>mais sans la partie dégressive</strong>).<br />
+            <strong>Attention ! Il n'est pas source de vérité ! Vérifiez avec un professionnel le résultat des calculs !</strong>
+        </div>
+
+
         <div class="col-md-12">
 
             <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Paramètres</h3>
-                </div>
                 <div class="panel-body">
                     <div ng-repeat="(name, param) in ctrl.params" class="row param">
                         <div class="col-md-2 text-right">{{param.name | uppercase}}</div>
@@ -67,13 +79,17 @@
             <div class="row results">
                 <div class="col-md-6">
                     <div class="alert alert-info">
+                        <h3>Récapitulatif</h3>
                         <field label="Durée">{{ctrl.nbMois | number:0}} mois, {{ctrl.resteSemainesParMois}} semaines</field>
                         <field label="CA">{{ctrl.exercice.societe.ca | currency:'€':2}}</field>
+                        <field label="Charges">{{ctrl.exercice.societe.charges | currency:'€':2}}</field>
                         <field label="Rémunération">{{ctrl.params.remuneration.value | currency:'€':2}}</field>
                         <field label="Dividendes">{{ctrl.params.dividendes.value | currency:'€':2}}</field>
-                        <field label="Revenu" doc="revenu">{{ctrl.params.dividendes.value + ctrl.params.remuneration.value | currency:'€':2}}</field>
+                        <field label="Revenu brut" doc="revenuBrut">{{ctrl.exercice.brut | currency:'€':2}} </field>
+                        <field label="Reste en société">{{ctrl.exercice.societe.reste | currency:'€':2}} </field>
                     </div>
                     <div class="alert alert-info">
+                        <h3>Rémunération</h3>
                         <field label="Cotisations sociales sur rémunération" doc="cotisationsRemu">{{ctrl.exercice.remuneration.cotisationsSociales | currency:'€':2}}</field>
                         <div ng-if="ctrl.exercice.remuneration.cs">
                             <field label=" dont Maladie">{{ctrl.exercice.remuneration.cs.getMaladie() | currency:'€':2}}</field>
@@ -88,10 +104,9 @@
                             {{ctrl.exercice.remuneration.cotisationsSociales / ctrl.params.remuneration.value * 100 | number:2}} %
                         </field>
                     </div>
-                </div>
 
-                <div class="col-md-6">
                     <div class="alert alert-info">
+                       <h3>Impôt sur les sociétés</h3> 
                         <field label="Assiette impôt société">{{ctrl.exercice.IS.assiette | currency:'€':2}}</field>
                         <field label="Impôt société" doc="impotSocietes">
                             {{ctrl.exercice.IS.impot | currency:'€':2}} ({{ctrl.exercice.IS.impot / ctrl.exercice.IS.assiette * 100 | number:2}} %)
@@ -100,8 +115,11 @@
                         <field label="Dividendes bruts">{{ctrl.params['dividendes'].value | currency:'€':2}} </field>
                         <field label="Reste en société">{{ctrl.exercice.societe.reste | currency:'€':2}} </field>
                     </div>
+                </div>
 
+                <div class="col-md-6">
                     <div class="alert alert-info">
+                        <h3>Dividendes</h3>
                         <field label="Dividendes bruts">{{ctrl.params['dividendes'].value | currency:'€':2}}</field>
                         <field label="Cotisations sociales sur dividendes">{{ctrl.exercice.dividendes.cotisationsSociales | currency:'€':2}}</field>
                         <field label="Dividendes nets">{{ctrl.exercice.dividendes.net | currency:'€':2}} </field>
@@ -121,6 +139,7 @@
                     </div>
 
                     <div class="alert alert-info">
+                        <h3>Impôt sur le revenu</h3>
                         <field label="Assiette impôt sur le revenu">{{ctrl.exercice.IR.assiette | currency:'€':2}}</field>
                         <field label=" dont rémunération">{{ctrl.exercice.remuneration.assietteIR | currency:'€':2}}</field>
                         <field label=" dont dividendes">{{ctrl.exercice.dividendes.assietteIR | currency:'€':2}}</field>
@@ -136,9 +155,10 @@
                     </div>
 
                     <div class="alert alert-info">
-                        <field label="Revenu brut">{{ctrl.exercice.brut | currency:'€':2}} </field>
-                        <field label="Revenu net">{{ctrl.exercice.net | currency:'€':2}} (mensuel : {{ctrl.exercice.net/12 | currency:'€':2}}) </field>
-                        <field label="Pourcentage de prélèvements">{{(ctrl.exercice.brut - ctrl.exercice.net) / ctrl.exercice.brut * 100 | number:2}} % </field>
+                        <h3>Résultat</h3>
+                        <field label="Revenu brut" doc="revenuBrut">{{ctrl.exercice.brut | currency:'€':2}} </field>
+                        <field label="Revenu net" doc="revenuNet">{{ctrl.exercice.net | currency:'€':2}} (mensuel : {{ctrl.exercice.net/12 | currency:'€':2}}) </field>
+                        <field label="Pourcentage de prélèvements" doc="pourcentagePrelevements">{{(ctrl.exercice.brut - ctrl.exercice.net) / ctrl.exercice.brut * 100 | number:2}} % </field>
                     </div>
                 </div>
             </div>
