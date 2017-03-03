@@ -23,13 +23,13 @@ Pour produire une version minifiée (350 Kb au lieu de 1,5 Mb) :
 
 
 **ATTENTION**  
-Il n'y a pas de "blindages" si vous entrez des valeurs incohérentes. Par exemple, si vous vous versez plus de dividendes que vous ne le pouvez réellement, aucun message d'erreur ne s'affichera. Toutefois, les réultats seront suffisamment bizarres pour que vous en rendiez compte (typiquement : des nombres négatifs).
+Il n'y a aucun "blindage" contre des valeurs incohérentes. Par exemple, si vous vous versez plus de dividendes que possible, aucun message d'erreur ne s'affichera. Toutefois, les réultats seront suffisamment bizarres pour que ça saute aux yeux (typiquement : des nombres négatifs).
 
 ## Côté code
 
 Typescript 2.1.6, Angular 1.6, Webpack 2.2.1, Bootstrap 3.  
 N'hésitez pas à forker, améliorer et faire des PR, je pense que ça pourra être utile à pas mal de monde.
 
-Vous trouverez dans le code les différentes références utilisées pour les calculs. La documentation est au format Markdown dans le fichier doc.ts. Elle est assez succincte pour l'heure et n'attend que vous pour s'étoffer. 
+Vous trouverez dans le code les différentes références utilisées pour les calculs. La documentation est au format Markdown dans le fichier doc.ts. Elle n'attend que vous pour s'étoffer. 
 
  
