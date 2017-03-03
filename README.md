@@ -17,7 +17,7 @@ Après clone ou download :
 
 Vous pouvez ensuite ouvrir le fichier index.html avec votre navigateur favori (pas besoin de lancer un serveur local).  
 
-Pour produire une version minifier (350 Kb au lieu de 1,5 Mb) : 
+Pour produire une version minifiée (350 Kb au lieu de 1,5 Mb) : 
 
     ./node_modules/.bin/webpack -p
 
