@@ -86,7 +86,7 @@ Par ailleurs, au moment où les dividendes sont distribués, il y a un acompte d
     },
     impotSocietes: {
         title: 'Impôt sur les sociétés',
-        content: `15% pour la partie en dessous de 38 120 €, et 33 % au-delà.`
+        content: `15% pour la partie en dessous de 38 120 €, 28% entre 38 120 et 75 000, et 33 % au-delà.`
     },
     revenuBrut: {
         title: 'Revenu brut',
