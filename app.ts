@@ -30,6 +30,7 @@ class AppCtrl {
             nbJours: { name: 'nbJours', min: 0, max: 365, step: 1, value: 0 },
             remuneration: { name: 'remuneration', min: 0, max: 150000, step: 1000, value: 0 },
             dividendes: { name: 'dividendes', min: 0, max: 150000, step: 1000, value: 0 },
+            autresRevenus: { name: 'autresRevenus', min: 0, max: 50000, step: 1000, value: 0 }
         };
 
         // this.params['capital'].value = 2000;
@@ -40,6 +41,7 @@ class AppCtrl {
         // this.sa = true;
         // this.params['remuneration'].value = 28000;
         // this.params['dividendes'].value = 39000;
+        // this.params['autresRevenus'].value = 9000;
         // this.onChange();
     }
 
@@ -56,7 +58,7 @@ class AppCtrl {
         this.exercice.remuneration = this.params.remuneration.value;
         this.exercice.dividendes = this.params.dividendes.value;
         this.exercice.accre2017 = this.accre;
-        this.exercice.autresRevenus = 0; // autres revenus
+        this.exercice.autresRevenus = this.params.autresRevenus.value
         this.exercice.sa = this.sa;
         this.result = this.exercice.exercice();
     }
