@@ -5,8 +5,6 @@ export default class CotisationsSociales {
     accre2017: boolean;
     PASS: number = 38616
 
-    constructor() { }
-
     _revenuPro() {
         return this.remuneration;
     }
