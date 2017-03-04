@@ -61,7 +61,7 @@
                             <input type="range" min="{{param.min}}" max="{{param.max}}" step="{{param.step}}" ng-model="param.value" ng-change="ctrl.onChange()"
                             />
                         </div>
-                        <div class="col-md-2">{{param.value}}</div>
+                        <div class="col-md-2"><input type="number" ng-model="param.value" ng-change="ctrl.onChange()" /></div>
                     </div>
                     <hr />
                     <div class="row">
@@ -85,6 +85,7 @@
                         <field label="Charges">{{ctrl.result.societe.charges | currency:'€':2}}</field>
                         <field label="Rémunération">{{ctrl.params.remuneration.value | currency:'€':2}}</field>
                         <field label="Dividendes">{{ctrl.params.dividendes.value | currency:'€':2}}</field>
+                        <field label="Autres revenus">{{ctrl.params.autresRevenus.value | currency:'€':2}}</field>
                         <field label="Revenu brut" doc="revenuBrut">{{ctrl.result.brut | currency:'€':2}} </field>
                         <field label="Reste en société">{{ctrl.result.societe.reste | currency:'€':2}} </field>
                     </div>
@@ -146,7 +147,7 @@
                         <field label="Impôt sur le revenu">{{ctrl.result.IR.impot | currency:'€':2}}</field>
 
                         <field label="" ng-repeat="tranche in ctrl.result.IR.tranches">
-                            Tranche {{$idx+1}} ({{tranche.min | currency:'€':2}} - {{tranche.max | currency:'€':2}}, {{tranche.taux*100|number}} %) :
+                            Tranche {{$index+1}} ({{tranche.min | currency:'€':2}} - {{tranche.max | currency:'€':2}}, {{tranche.taux*100|number}} %) :
                             {{tranche.value | currency:'€':2}}</field>
                         </field>
                         <field label="Pourcentage de l'IR sur revenus nets (après CS)">
