@@ -65,9 +65,13 @@ export default class Exercice {
             res.remuneration.net = res.remuneration.brut - res.remuneration.cotisationsSociales;
         } else {
             res.remuneration.cs = undefined;
-            let taux = this.accre2017 && res.remuneration.brut < 39228 * 0.75 ? 1.35 : 1.8;
             // https://www.zefyr.net/blog/sasu-ou-eurl-comparaison-des-revenus-apres-charges-et-ir/
             // http://www.lecoindesentrepreneurs.fr/accre-president-de-sasu-ou-de-sas/
+            // Calcul approximatif et pessimiste de cotisations en SASU : 89% du net (35% avec ACCRE)
+            // cs = net * 0.89
+            // brut = net + cs = net + net*0.89 = net*1.89
+            // net = brut / 1.89
+            let taux = this.accre2017 && res.remuneration.brut < 39228 * 0.75 ? 1.35 : 1.89;
             res.remuneration.net = res.remuneration.brut / taux;
             res.remuneration.cotisationsSociales = res.remuneration.brut - res.remuneration.net;
         }

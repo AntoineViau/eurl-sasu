@@ -10,22 +10,28 @@
         body {
             padding: 1em;
         }
-        
+
+
         .param {
             padding: 5px;
         }
-        
+
+
+
         .container {
             margin: auto;
         }
-        
+
+
+
+
         .results {
-            font-size: 100%;
+            font-size: 80%;
         }
-        
         sup {
             cursor: pointer;
         }
+
 
         h3 {
             margin-top: 0;
@@ -39,23 +45,24 @@
 
 <body ng-app="app" ng-controller="appCtrl as ctrl">
 
-<a href="https://github.com/AntoineViau/eurl-sasu"><img style="position: absolute; top: 0; left: 0; border: 0; z-index: 9999" src="https://camo.githubusercontent.com/121cd7cbdc3e4855075ea8b558508b91ac463ac2/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f677265656e5f3030373230302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_green_007200.png"></a>
+    <a href="https://github.com/AntoineViau/eurl-sasu"><img style="position: absolute; top: 0; left: 0; border: 0; z-index: 9999" src="https://camo.githubusercontent.com/121cd7cbdc3e4855075ea8b558508b91ac463ac2/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f677265656e5f3030373230302e706e67"
+            alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_green_007200.png"></a>
 
 
     <div class="container row">
 
         <div class="alert alert-warning">
-            Ce calculateur est essentiellement à destination des freelances qui vendent leurs prestations à la journée.<br />
-            Il fonctionne pour les EURL et les SASU, avec prise en compte de l'ACCRE ou non (modalités 2017, <strong>mais sans la partie dégressive</strong>).<br />
+            Ce calculateur est essentiellement à destination des freelances qui vendent leurs prestations à la journée.<br
+            /> Il fonctionne pour les EURL et les SASU, avec prise en compte de l'ACCRE ou non (modalités 2017, <strong>mais sans la partie dégressive</strong>).<br
+            />
             <strong>Attention ! Il n'est pas source de vérité ! Vérifiez avec un professionnel le résultat des calculs !</strong>
         </div>
 
 
         <div class="col-md-12">
-
             <div class="panel panel-info">
                 <div class="panel-body">
-                    <div ng-repeat="(name, param) in ctrl.params" class="row param">
+                    <div ng-repeat="(name, param) in ctrl.params" class="row param" ng-if="!param.notSlider">
                         <div class="col-md-2 text-right">{{param.name | uppercase}}</div>
                         <div class="col-md-8">
                             <input type="range" min="{{param.min}}" max="{{param.max}}" step="{{param.step}}" ng-model="param.value" ng-change="ctrl.onChange()"
@@ -65,12 +72,20 @@
                     </div>
                     <hr />
                     <div class="row">
-                        <div class="col-md-6">
-                            <input type="checkbox" id="accre" ng-model="ctrl.accre" ng-change="ctrl.onChange()" /> <label
-                                for="accre">ACCRE</label>
+                        <div class="col-md-2">
+                            <input type="checkbox" id="accre" ng-model="ctrl.params.accre.value" ng-change="ctrl.onChange()" />
+                            <label for="accre">ACCRE</label>
                         </div>
-                        <div class="col-md-6">
-                            <input type="checkbox" id="sa" ng-model="ctrl.sa" ng-change="ctrl.onChange()" /> <label for="sa">SASU</label>
+                        <div class="col-md-2">
+                            <input type="checkbox" id="sa" ng-model="ctrl.params.sa.value" ng-change="ctrl.onChange()" />
+                            <label for="sa">SASU</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="text" ng-model="ctrl.newStateName" placeholder="Nom de la sauvegarde..." />
+                            <button type="button" class="btn btn-primary btn-sm" ng-click="ctrl.pushState()">Sauvegarder</button>
+                            <select ng-if="ctrl.states.length > 0" ng-model="ctrl.currentState" ng-options="state.name for state in ctrl.states" ng-change="ctrl.loadState()">
+                            </select>
+                            <button ng-if="ctrl.states.length > 0" type="button" class="btn btn-primary btn-sm" ng-click="ctrl.clearStates()">Tout effacer</button>                            
                         </div>
                     </div>
                 </div>
@@ -79,7 +94,7 @@
             <div class="row results">
                 <div class="col-md-6">
                     <div class="alert alert-info">
-                        <h3>Récapitulatif</h3>
+                        <h3>Récapitulatif et resultat</h3>
                         <field label="Durée">{{ctrl.nbMois | number:0}} mois, {{ctrl.resteSemainesParMois}} semaines</field>
                         <field label="CA">{{ctrl.result.societe.ca | currency:'€':2}}</field>
                         <field label="Charges">{{ctrl.result.societe.charges | currency:'€':2}}</field>
@@ -87,7 +102,10 @@
                         <field label="Dividendes">{{ctrl.params.dividendes.value | currency:'€':2}}</field>
                         <field label="Autres revenus">{{ctrl.params.autresRevenus.value | currency:'€':2}}</field>
                         <field label="Revenu brut" doc="revenuBrut">{{ctrl.result.brut | currency:'€':2}} </field>
+                        <hr />
                         <field label="Reste en société">{{ctrl.result.societe.reste | currency:'€':2}} </field>
+                        <field label="Revenu net" doc="revenuNet">{{ctrl.result.net | currency:'€':2}} (mensuel : {{ctrl.result.net/12 | currency:'€':2}}) </field>
+                        <field label="Pourcentage de prélèvements" doc="pourcentagePrelevements">{{(ctrl.result.brut - ctrl.result.net) / ctrl.result.brut * 100 | number:2}} % </field>
                     </div>
                     <div class="alert alert-info">
                         <h3>Rémunération</h3>
@@ -107,7 +125,7 @@
                     </div>
 
                     <div class="alert alert-info">
-                       <h3>Impôt sur les sociétés</h3> 
+                        <h3>Impôt sur les sociétés</h3>
                         <field label="Assiette impôt société">{{ctrl.result.IS.assiette | currency:'€':2}}</field>
                         <field label="Impôt société" doc="impotSocietes">
                             {{ctrl.result.IS.impot | currency:'€':2}} ({{ctrl.result.IS.impot / ctrl.result.IS.assiette * 100 | number:2}} %)
@@ -147,20 +165,14 @@
                         <field label="Impôt sur le revenu">{{ctrl.result.IR.impot | currency:'€':2}}</field>
 
                         <field label="" ng-repeat="tranche in ctrl.result.IR.tranches">
-                            Tranche {{$index+1}} ({{tranche.min | currency:'€':2}} - {{tranche.max | currency:'€':2}}, {{tranche.taux*100|number}} %) :
-                            {{tranche.value | currency:'€':2}}</field>
+                            Tranche {{$index+1}} ({{tranche.min | currency:'€':2}} - {{tranche.max | currency:'€':2}}, {{tranche.taux*100|number}} %)
+                            : {{tranche.value | currency:'€':2}}</field>
                         </field>
                         <field label="Pourcentage de l'IR sur revenus nets (après CS)">
                             {{ctrl.result.IR.impot/(ctrl.result.dividendes.net+ctrl.result.remuneration.net)*100 | number:2}} %
                         </field>
                     </div>
 
-                    <div class="alert alert-info">
-                        <h3>Résultat</h3>
-                        <field label="Revenu brut" doc="revenuBrut">{{ctrl.result.brut | currency:'€':2}} </field>
-                        <field label="Revenu net" doc="revenuNet">{{ctrl.result.net | currency:'€':2}} (mensuel : {{ctrl.result.net/12 | currency:'€':2}}) </field>
-                        <field label="Pourcentage de prélèvements" doc="pourcentagePrelevements">{{(ctrl.result.brut - ctrl.result.net) / ctrl.result.brut * 100 | number:2}} % </field>
-                    </div>
                 </div>
             </div>
         </div>

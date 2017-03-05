@@ -1,6 +1,7 @@
 import 'angular';
-import 'angular-i18n/fr'
-import 'angular-ui-bootstrap'
+import 'angular-i18n/fr';
+import 'angular-ui-bootstrap';
+import 'angular-cookies';
 import Exercice from './exercice';
 import { doc } from './doc';
 import 'angular-sanitize';
@@ -19,10 +20,16 @@ class AppCtrl {
     public resteSemainesParMois: number;
     public resteJoursParSemaine: number;
     public result;
-    public accre: boolean;
-    public sa: boolean;
+    public newStateName: string;
+ 
+    public states: Array<{ name: string, params: any }> = [];
+    public currentState: any;
 
-    constructor(private $uibModal, private $sce, private exercice: Exercice) {
+    constructor(
+        private $uibModal,
+        private $sce,
+        private exercice: Exercice,
+        private $cookies) {
         this.params = {
             capital: { name: 'capital', min: 0, max: 100000, step: 100, value: 0 },
             charges: { name: 'charges', min: 0, max: 100000, step: 1000, value: 0 },
@@ -30,19 +37,49 @@ class AppCtrl {
             nbJours: { name: 'nbJours', min: 0, max: 365, step: 1, value: 0 },
             remuneration: { name: 'remuneration', min: 0, max: 150000, step: 1000, value: 0 },
             dividendes: { name: 'dividendes', min: 0, max: 150000, step: 1000, value: 0 },
-            autresRevenus: { name: 'autresRevenus', min: 0, max: 50000, step: 1000, value: 0 }
+            autresRevenus: { name: 'autresRevenus', min: 0, max: 50000, step: 1000, value: 0 },
+            accre: { name: 'ACCRE', notSlider: true, value: false },
+            sa: { name: 'SASU', notSlider: true, value: false }
         };
+
+        let cookieString = $cookies.get('states');
+        this.states = cookieString ? JSON.parse(cookieString) : new Array<any>();
+        if (this.states.length > 0) {
+            this.currentState = this.states[0];
+            this.loadState();
+        }
 
         // this.params['capital'].value = 2000;
         // this.params['charges'].value = 10000;
         // this.params['tj'].value = 500;
         // this.params['nbJours'].value = 180;
-        // this.accre = true;
-        // this.sa = true;
+        // this.params['accre'].value = true;
+        // this.params['sa'].value = true;
         // this.params['remuneration'].value = 28000;
         // this.params['dividendes'].value = 39000;
         // this.params['autresRevenus'].value = 9000;
         // this.onChange();
+    }
+
+    pushState() {
+        this.states.push({
+            name: this.newStateName,
+            params: JSON.parse(JSON.stringify(this.params))
+        });
+        this.$cookies.put('states', JSON.stringify(this.states));
+    }
+
+    loadState() {
+        this.params = this.currentState.params;
+        this.onChange();
+    }
+
+    clearStates() {
+        if ( !confirm('Certain ?')) {
+            return;
+        }
+        this.states = new Array<any>();
+        this.$cookies.put(this.states, '[]');
     }
 
     onChange() {
@@ -57,19 +94,25 @@ class AppCtrl {
         this.exercice.charges = this.params.charges.value;
         this.exercice.remuneration = this.params.remuneration.value;
         this.exercice.dividendes = this.params.dividendes.value;
-        this.exercice.accre2017 = this.accre;
+        this.exercice.accre2017 = this.params.accre.value;
         this.exercice.autresRevenus = this.params.autresRevenus.value
-        this.exercice.sa = this.sa;
+        this.exercice.sa = this.params.sa.value;
         this.result = this.exercice.exercice();
     }
 }
 
-angular.module('app', ['ngLocale', 'ui.bootstrap', 'ngSanitize'])
+angular.module('app', ['ngLocale', 'ui.bootstrap', 'ngSanitize', 'ngCookies'])
     .service('cotisationsSociales', [() => new CotisationsSociales()])
     .service('impotSociete', [() => new ImpotSociete()])
     .service('impotRevenu', [() => new ImpotRevenu()])
-    .service('exercice', ['impotSociete', 'cotisationsSociales', 'impotRevenu',(impotSociete, cotisationsSociales, impotRevenu) => new Exercice(impotSociete, cotisationsSociales, impotRevenu)])
-    .controller('appCtrl', ['$uibModal', '$sce', 'exercice', ($uibModal, $sce, exercice) => new AppCtrl($uibModal, $sce, exercice)])
+    .service('exercice', [
+        'impotSociete', 'cotisationsSociales', 'impotRevenu',
+        (impotSociete, cotisationsSociales, impotRevenu) => new Exercice(impotSociete, cotisationsSociales, impotRevenu)
+    ])
+    .controller('appCtrl', [
+        '$uibModal', '$sce', 'exercice', '$cookies',
+        ($uibModal, $sce, exercice, $cookies) => new AppCtrl($uibModal, $sce, exercice, $cookies)
+    ])
     .component('field', {
         bindings: {
             label: '@',
