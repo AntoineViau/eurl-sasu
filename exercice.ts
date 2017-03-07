@@ -57,7 +57,6 @@ export default class Exercice {
         // Rémunération
         res.remuneration.brut = this.remuneration;
         if (!this.sa) {
-            //let cs = new CotisationsSociales(res.remuneration.brut, 0, this.accre2017);
             this.cotisations.remuneration = res.remuneration.brut;
             this.cotisations.accre2017 = this.accre2017;
             res.remuneration.cs = this.cotisations;
@@ -88,7 +87,6 @@ export default class Exercice {
         res.societe.charges = this.charges;
         res.societe.brut = res.societe.ca - res.societe.charges - this.remuneration; // base IS
         res.IS.assiette = res.societe.brut;
-        //        let is = new ImpotSociete(res.IS.assiette);
         this.impotSociete.benefice = res.IS.assiette;
         res.IS.impot = this.impotSociete.getImpot();
         res.societe.reste = res.societe.brut - res.IS.impot - res.dividendes.brut;
@@ -122,7 +120,6 @@ export default class Exercice {
             res.IR.assiette += res.dividendes.assietteIR;
         }
         // IR
-        // let ir = new ImpotRevenu(res.IR.assiette);
         res.IR.assiette += this.autresRevenus * 0.9;
         this.impotRevenu.revenu = res.IR.assiette;
         res.IR.impot = this.impotRevenu.getImpot();
