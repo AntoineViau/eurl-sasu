@@ -3,7 +3,7 @@ export default class CotisationsSociales {
     remuneration: number = 0;
     accre: number = 0;
     accre2017: boolean;
-    PASS: number = 38616
+    PASS: number = 39228
 
     _revenuPro() {
         return this.remuneration;
@@ -65,28 +65,28 @@ export default class CotisationsSociales {
         var assiette = this._revenuPro();
         var montant;
         if (assiette <= 26580) {
-            montant = 1214;
+            montant = 1277;
         }
         if (assiette > 26580 && assiette <= 49280) {
-            montant = 2427;
+            montant = 2553;
         }
         if (assiette > 49280 && assiette <= 57850) {
-            montant = 3641;
+            montant = 3830;
         }
         if (assiette > 57850 && assiette <= 66400) {
-            montant = 6068;
+            montant = 6384;
         }
         if (assiette > 66400 && assiette <= 83060) {
-            montant = 8495;
+            montant = 8937;
         }
         if (assiette > 83060 && assiette <= 103180) {
-            montant = 13349;
+            montant = 14044;
         }
         if (assiette > 103180 && assiette <= 123300) {
-            montant = 14563;
+            montant = 15320;
         }
         if (assiette > 123300) {
-            montant = 15776;
+            montant = 16597;
         }
         return montant;
     }
