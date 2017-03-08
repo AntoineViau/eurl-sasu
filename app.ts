@@ -108,7 +108,11 @@ class AppCtrl {
         //     this.params.dividendes.value = this.result.societe.reste;
         //     this.onChange();
         // }
-        this.url = this.$location.absUrl() + '?' + Object.keys(this.params).map(k => k + '=' + this.params[k].value).join('&');
+        this.url = this.$location.protocol() + '://' +
+            this.$location.host() + ':' +
+            this.$location.port() +
+            this.$location.path() +
+            '?' + Object.keys(this.params).map(k => k + '=' + this.params[k].value).join('&');
     }
 }
 
