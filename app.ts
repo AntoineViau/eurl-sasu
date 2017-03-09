@@ -2,6 +2,7 @@ import 'angular';
 import 'angular-i18n/fr';
 import 'angular-ui-bootstrap';
 import 'angular-cookies';
+import 'ngclipboard/dist/ngclipboard';
 import Exercice from './exercice';
 import { doc } from './doc';
 import 'angular-sanitize';
@@ -116,7 +117,7 @@ class AppCtrl {
     }
 }
 
-angular.module('app', ['ngLocale', 'ui.bootstrap', 'ngSanitize', 'ngCookies'])
+angular.module('app', ['ngLocale', 'ui.bootstrap', 'ngSanitize', 'ngCookies', 'ngclipboard'])
     .config(['$locationProvider', ($locationProvider) => {
         $locationProvider.html5Mode(true);
     }])
