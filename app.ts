@@ -41,6 +41,7 @@ class AppCtrl {
             remuneration: { name: 'remuneration', min: 0, max: 150000, step: 1000, value: 0 },
             dividendes: { name: 'dividendes', min: 0, max: 150000, step: 1000, value: 0 },
             autresRevenus: { name: 'autresRevenus', min: 0, max: 50000, step: 1000, value: 0 },
+            nbParts: { name: 'nbParts', min: 1, max: 10, step: 0.5, value: 1 },
             accre: { name: 'ACCRE', notSlider: true, value: false },
             sa: { name: 'SASU', notSlider: true, value: false }
         };
@@ -102,7 +103,8 @@ class AppCtrl {
         this.exercice.remuneration = this.params.remuneration.value;
         this.exercice.dividendes = this.params.dividendes.value;
         this.exercice.accre2017 = this.params.accre.value;
-        this.exercice.autresRevenus = this.params.autresRevenus.value
+        this.exercice.autresRevenus = this.params.autresRevenus.value;
+        this.exercice.nbParts = this.params.nbParts.value;
         this.exercice.sa = this.params.sa.value;
         this.result = this.exercice.exercice();
         // if (param && param.name === 'remuneration') {

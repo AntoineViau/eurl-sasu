@@ -11,6 +11,7 @@ export default class Exercice {
     dividendes: number;
     accre2017: boolean = false;
     autresRevenus: number = 0;
+    nbParts: number = 1;
     sa: boolean = false;
 
     constructor(
@@ -122,6 +123,7 @@ export default class Exercice {
         // IR
         res.IR.assiette += this.autresRevenus * 0.9;
         this.impotRevenu.revenu = res.IR.assiette;
+        this.impotRevenu.nbParts = this.nbParts;
         res.IR.impot = this.impotRevenu.getImpot();
         res.IR.tranches = this.impotRevenu.getTranches();
 

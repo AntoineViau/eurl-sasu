@@ -30,6 +30,7 @@ export default class ImpotRevenu {
 
     tranches: Tranche[];
     revenu: number;
+    nbParts: number;
 
     constructor() {
         this.tranches = [
@@ -41,12 +42,8 @@ export default class ImpotRevenu {
         ];
     }
 
-    setRevenu(revenu) {
-        this.revenu = revenu;
-    }
-
     getImpot(): number {
-        let baseIR = this.revenu;
+        let baseIR = this.revenu / this.nbParts;
         let total = 0;
         this.tranches.forEach((tranche) => {
             total += tranche.getImpot(baseIR);
