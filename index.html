@@ -68,8 +68,8 @@
                                 <label for="accre">ACCRE</label>
                             </div>
                             <div class="col-md-2">
-                                <input type="checkbox" id="sa" ng-model="ctrl.params.sa.value" ng-change="ctrl.onChange()" />
-                                <label for="sa">SASU</label>
+                                <select ng-model="ctrl.params.forme.value" class="form-control" ng-options="forme as forme for forme in ctrl.formes" ng-change="ctrl.onChange()">
+                                </select>
                             </div>
                             <div class="col-md-8">
 

@@ -23,6 +23,7 @@ class AppCtrl {
     public result;
     public newStateName: string;
     public url;
+    public formes = ['EURL', 'SASU'];
 
     public states: Array<{ name: string, params: any }> = [];
     public currentState: any;
@@ -43,7 +44,7 @@ class AppCtrl {
             autresRevenus: { name: 'autresRevenus', min: 0, max: 50000, step: 1000, value: 0 },
             nbParts: { name: 'nbParts', min: 1, max: 10, step: 0.5, value: 1 },
             accre: { name: 'ACCRE', notSlider: true, value: false },
-            sa: { name: 'SASU', notSlider: true, value: false }
+            forme: { name: 'Forme', notSlider: true, value: 'EURL' }
         };
 
         let cookieString = $cookies.get('states');
@@ -53,7 +54,7 @@ class AppCtrl {
             this.loadState();
         }
 
-        Object.keys(this.params).forEach(attr => this.params[attr].value = parseInt(this.$location.search()[attr]) || 0);
+        Object.keys(this.params).forEach(attr => this.params[attr].value = (typeof this.params[attr].value === 'number' ? parseInt(this.$location.search()[attr]) : this.$location.search()[attr]) || this.params[attr].value);
 
         // this.params['capital'].value = 2000;
         // this.params['charges'].value = 10000;
@@ -105,7 +106,7 @@ class AppCtrl {
         this.exercice.accre2017 = this.params.accre.value;
         this.exercice.autresRevenus = this.params.autresRevenus.value;
         this.exercice.nbParts = this.params.nbParts.value;
-        this.exercice.sa = this.params.sa.value;
+        this.exercice.forme = this.params.forme.value;
         this.result = this.exercice.exercice();
         // if (param && param.name === 'remuneration') {
         //     this.params.dividendes.value = this.result.societe.reste;

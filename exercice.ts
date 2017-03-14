@@ -12,7 +12,7 @@ export default class Exercice {
     accre2017: boolean = false;
     autresRevenus: number = 0;
     nbParts: number = 1;
-    sa: boolean = false;
+    forme: string = 'EURL';
 
     constructor(
         private impotSociete: ImpotSociete,
@@ -57,13 +57,14 @@ export default class Exercice {
         res.autresRevenus = this.autresRevenus;
         // Rémunération
         res.remuneration.brut = this.remuneration;
-        if (!this.sa) {
+        if (this.forme === 'EURL') {
             this.cotisations.remuneration = res.remuneration.brut;
             this.cotisations.accre2017 = this.accre2017;
             res.remuneration.cs = this.cotisations;
             res.remuneration.cotisationsSociales = this.cotisations.getCotisations();
             res.remuneration.net = res.remuneration.brut - res.remuneration.cotisationsSociales;
-        } else {
+        } 
+        if ( this.forme === 'SASU') {
             res.remuneration.cs = undefined;
             // https://www.zefyr.net/blog/sasu-ou-eurl-comparaison-des-revenus-apres-charges-et-ir/
             // http://www.lecoindesentrepreneurs.fr/accre-president-de-sasu-ou-de-sas/
@@ -93,7 +94,7 @@ export default class Exercice {
         res.societe.reste = res.societe.brut - res.IS.impot - res.dividendes.brut;
         // Dividendes
         if (this.dividendes > 0) {
-            if (this.sa) {
+            if (this.forme === 'SASU') {
                 // Pour les dividendes en SA
                 res.dividendes.cotisationsSociales = res.dividendes.brut * 0.155;
                 res.dividendes.net = res.dividendes.brut - res.dividendes.cotisationsSociales;
