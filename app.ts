@@ -54,17 +54,13 @@ class AppCtrl {
             this.loadState();
         }
 
-        Object.keys(this.params).forEach(attr => this.params[attr].value = (typeof this.params[attr].value === 'number' ? parseInt(this.$location.search()[attr]) : this.$location.search()[attr]) || this.params[attr].value);
+        Object.keys(this.params).forEach(
+            attr => this.params[attr].value =
+                (typeof this.params[attr].value === 'number'
+                    ? parseInt(this.$location.search()[attr])
+                    : this.$location.search()[attr] === 'true')
+                || this.params[attr].value);
 
-        // this.params['capital'].value = 2000;
-        // this.params['charges'].value = 10000;
-        // this.params['tj'].value = 500;
-        // this.params['nbJours'].value = 200;
-        // this.params['accre'].value = false;
-        // this.params['sa'].value = false;
-        // this.params['remuneration'].value = 87000;
-        // this.params['dividendes'].value = 0;
-        // this.params['autresRevenus'].value = 0;
         this.onChange();
     }
 
@@ -95,23 +91,17 @@ class AppCtrl {
         this.resteJoursParMois = nbJours % 21;
         this.resteSemainesParMois = Math.floor(this.resteJoursParMois / 5);
         this.resteJoursParSemaine = this.resteJoursParMois % 5;
-        // if (param && param.name === 'remuneration') {
-        //     this.params.dividendes.value = 0;
-        // }
         this.exercice.capital = this.params.capital.value;
         this.exercice.ca = this.params.tj.value * this.params.nbJours.value;
         this.exercice.charges = this.params.charges.value;
         this.exercice.remuneration = this.params.remuneration.value;
         this.exercice.dividendes = this.params.dividendes.value;
-        this.exercice.accre2017 = this.params.accre.value;
+        this.exercice.accre2017 = this.params.accre.value;// === 'true';
         this.exercice.autresRevenus = this.params.autresRevenus.value;
         this.exercice.nbParts = this.params.nbParts.value;
         this.exercice.forme = this.params.forme.value;
         this.result = this.exercice.exercice();
-        // if (param && param.name === 'remuneration') {
-        //     this.params.dividendes.value = this.result.societe.reste;
-        //     this.onChange();
-        // }
+
         this.url = this.$location.protocol() + '://' +
             this.$location.host() + ':' +
             this.$location.port() +
