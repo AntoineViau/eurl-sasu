@@ -56,13 +56,13 @@ export default class Exercice {
         res.dividendes.brut = this.dividendes;
         res.autresRevenus = this.autresRevenus;
         // Rémunération
-        res.remuneration.brut = this.remuneration;
+        res.remuneration.net = this.remuneration;
         if (this.forme === 'EURL') {
-            this.cotisations.remuneration = res.remuneration.brut;
+            this.cotisations.remuneration = res.remuneration.net;
             this.cotisations.accre2017 = this.accre2017;
             res.remuneration.cs = this.cotisations;
             res.remuneration.cotisationsSociales = this.cotisations.getCotisations();
-            res.remuneration.net = res.remuneration.brut - res.remuneration.cotisationsSociales;
+            res.remuneration.brut = res.remuneration.net + res.remuneration.cotisationsSociales;
         } 
         if ( this.forme === 'SASU') {
             res.remuneration.cs = undefined;
@@ -72,9 +72,12 @@ export default class Exercice {
             // cs = net * 0.89
             // brut = net + cs = net + net*0.89 = net*1.89
             // net = brut / 1.89
-            let taux = this.accre2017 && res.remuneration.brut < 39228 * 0.75 ? 1.35 : 1.89;
-            res.remuneration.net = res.remuneration.brut / taux;
-            res.remuneration.cotisationsSociales = res.remuneration.brut - res.remuneration.net;
+            // let taux = this.accre2017 && res.remuneration.brut < 39228 * 0.75 ? 1.35 : 1.89;
+            // res.remuneration.net = res.remuneration.brut / taux;
+            // res.remuneration.cotisationsSociales = res.remuneration.brut - res.remuneration.net;
+            let taux = this.accre2017 && res.remuneration.net < 39228 * 0.75 ? 0.35 : 0.89;
+            res.remuneration.cotisationsSociales = res.remuneration.net * taux;
+            res.remuneration.brut = res.remuneration.net + res.remuneration.cotisationsSociales;
         }
         res.remuneration.assietteIR = res.remuneration.net * 0.9;
         res.IR.assiette += res.remuneration.assietteIR; // https://captaincontrat.com/guide/regime-fiscal-dirigeant/
@@ -87,7 +90,7 @@ export default class Exercice {
         // https://www.service-public.fr/professionnels-entreprises/vosdroits/F32963    
         res.societe.ca = this.ca;
         res.societe.charges = this.charges;
-        res.societe.brut = res.societe.ca - res.societe.charges - this.remuneration; // base IS
+        res.societe.brut = res.societe.ca - res.societe.charges - res.remuneration.brut; // base IS
         res.IS.assiette = res.societe.brut;
         this.impotSociete.benefice = res.IS.assiette;
         res.IS.impot = this.impotSociete.getImpot();

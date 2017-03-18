@@ -120,6 +120,7 @@
             <div class="col-md-6">
                 <div class="alert alert-info">
                     <h3>Rémunération</h3>
+                    <field label="Rémunération nette">{{ctrl.result.remuneration.net | currency:'€':2}}</field>
                     <field label="Cotisations sociales sur rémunération" doc="cotisationsRemu">{{ctrl.result.remuneration.cotisationsSociales | currency:'€':2}}</field>
                     <div ng-if="ctrl.result.remuneration.cs">
                         <field label=" dont Maladie">{{ctrl.result.remuneration.cs.getMaladie() | currency:'€':2}}</field>
@@ -131,7 +132,13 @@
                         <field label=" dont CSG/CRDS">{{ctrl.result.remuneration.cs.getCsgCrds() | currency:'€':2}}</field>
                     </div>
                     <field ng-if="ctrl.params.remuneration.value > 0" label="Pourcentage des CS sur rémunération">
+                        <!-- 
                         {{ctrl.result.remuneration.cotisationsSociales / ctrl.params.remuneration.value * 100 | number:2}} %
+                        -->                        
+                        {{ctrl.result.remuneration.cotisationsSociales / ctrl.result.remuneration.net * 100 | number:2}} %
+                    </field>
+                    <field label="Rémunération brute">                        
+                        {{ctrl.result.remuneration.brut | currency:'€':2}}
                     </field>
                 </div>
 
