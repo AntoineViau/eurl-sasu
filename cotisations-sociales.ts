@@ -13,7 +13,7 @@ export default class CotisationsSociales {
         if (this.accre2017 && this._revenuPro() < 28962) {
             return 0;
         }
-        var assiette = this._revenuPro() < this.accre ? 0 : this._revenuPro() - this.accre;
+        let assiette = this._revenuPro();
         return assiette * 0.065;
     }
 
@@ -21,7 +21,7 @@ export default class CotisationsSociales {
         if (this.accre2017 && this._revenuPro() < 28962) {
             return 0;
         }
-        var assiette = this._revenuPro() < this.accre ? 0 : this._revenuPro() - this.accre;
+        var assiette = this._revenuPro();
         var taux: number;
         if (assiette < this.PASS * 1.1) {
             taux = 0.0215;
@@ -47,23 +47,22 @@ export default class CotisationsSociales {
         if (this.accre2017 && this._revenuPro() < 28962) {
             return 0;
         }
-        var assiette = this._revenuPro() < this.accre ? 0 : this._revenuPro() - this.accre;
         if (this._revenuPro() < 4441) {
             return 448;
         }
-        return assiette > this.PASS ? this.PASS * 0.0823 + (assiette - this.PASS) * 0.0187 : assiette * 0.0823;
+        let assiette = this._revenuPro();
+        if (assiette < this.PASS) {
+            return assiette * 0.0823 + assiette * 0.0187;
+        }
+        return this.PASS * 0.0823 + assiette * 0.0187;
     }
 
     getRetraiteComplementaire(): number {
         if (this.accre2017 && this._revenuPro() < 28962) {
             return 0;
         }
-        // http://service.cipav-retraite.fr/cipav/article-16-pour-les-beneficiaires-de-laccre-100.htm
-        if (this.accre) {
-            return 0;
-        }
-        var assiette = this._revenuPro();
-        var montant;
+        let assiette = this._revenuPro();
+        let montant;
         if (assiette <= 26580) {
             montant = 1277;
         }
@@ -95,15 +94,14 @@ export default class CotisationsSociales {
         if (this.accre2017 && this._revenuPro() < 28962) {
             return 0;
         }
-        // http://service.cipav-retraite.fr/cipav/article-16-pour-les-beneficiaires-de-laccre-100.htm
-        if (this.accre) {
-            return 0;
-        }
         return 380;
     }
 
     getCsgCrds(): number {
-        var cotisationsObligatoires = this.getMaladie() + this.getAllocationsFamiliales() + this.getRetraiteBase();
+        var cotisationsObligatoires = 
+        this.getMaladie() + 
+        this.getAllocationsFamiliales() + 
+        this.getRetraiteBase();
         return (this._revenuPro() + cotisationsObligatoires) * 0.08;
     }
 
