@@ -89,21 +89,22 @@
             <div class="col-md-4">
                 <div class="alert alert-info">
                     <h3>Récapitulatif</h3>
-                    <field label="Forme">{{ctrl.params.sa.value ? 'SASU' : 'EURL'}} {{ctrl.params.accre.value ? 'avec ACCRE' : ''}}</field>                    
+                    <field label="Forme">{{ctrl.params.forme.value === 'SASU' ? 'SASU' : 'EURL'}} {{ctrl.params.accre.value ? 'avec ACCRE' : ''}}</field>                    
                     <field label="Durée">{{ctrl.nbMois | number:0}} mois, {{ctrl.resteSemainesParMois}} semaines</field>
                     <field label="CA">{{ctrl.result.societe.ca | currency:'€':2}}</field>
                     <field label="Charges">{{ctrl.result.societe.charges | currency:'€':2}}</field>
-                    <field label="Rémunération">{{ctrl.params.remuneration.value | currency:'€':2}}</field>
+                    <field label="Rémunération nette">{{ctrl.params.remuneration.value | currency:'€':2}}</field>
                     <field label="Dividendes">{{ctrl.params.dividendes.value | currency:'€':2}}</field>
                     <field label="Autres revenus">{{ctrl.params.autresRevenus.value | currency:'€':2}}</field>
                 </div>
                 <div class="alert alert-success">
                     <h3>Résultat</h3>
                     <field label="Reste en société">{{ctrl.result.societe.reste | currency:'€':2}} </field>
-                    <field label="Revenu brut" doc="revenuBrut">{{ctrl.result.brut | currency:'€':2}} </field>
-                    <field label="Cotisations sociales sur rémunération" doc="cotisationsRemu">{{ctrl.result.remuneration.cotisationsSociales | currency:'€':2}}</field>                    
+                    <field label="Revenu brut perso" doc="revenuBrut">{{ctrl.result.brut | currency:'€':2}} </field>
+                    <field label="Cotisations rémunération" doc="cotisationsRemu">{{ctrl.result.remuneration.cotisationsSociales | currency:'€':2}}</field>                    
+                    <field label="Impôt revenu">{{ctrl.result.IR.impot | currency:'€':2}}</field>                    
                     <strong><field label="Revenu net" doc="revenuNet">{{ctrl.result.net | currency:'€':2}} (mensuel : {{ctrl.result.net/12 | currency:'€':2}})</field></strong>
-                    <field label="Pourcentage de prélèvements" doc="pourcentagePrelevements">{{(ctrl.result.brut - ctrl.result.net) / ctrl.result.brut * 100 | number:2}} % </field>
+                    <field label="Pourcent. de prélèvements perso" doc="pourcentagePrelevements">{{(ctrl.result.brut - ctrl.result.net) / ctrl.result.brut * 100 | number:2}} % </field>
                 </div>
             </div>
         </div>
@@ -132,9 +133,6 @@
                         <field label=" dont CSG/CRDS">{{ctrl.result.remuneration.cs.getCsgCrds() | currency:'€':2}}</field>
                     </div>
                     <field ng-if="ctrl.params.remuneration.value > 0" label="Pourcentage des CS sur rémunération">
-                        <!-- 
-                        {{ctrl.result.remuneration.cotisationsSociales / ctrl.params.remuneration.value * 100 | number:2}} %
-                        -->                        
                         {{ctrl.result.remuneration.cotisationsSociales / ctrl.result.remuneration.net * 100 | number:2}} %
                     </field>
                     <field label="Rémunération brute">                        

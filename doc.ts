@@ -41,7 +41,7 @@ Par ailleurs, au moment où les dividendes sont distribués, il y a un acompte d
     },
     revenuBrut: {
         title: 'Revenu brut',
-        content: ``
+        content: `Le revenu brut correspond à l'argent à destination personnelle avant tous les prélèvements.`
     },
     revenuNet: {
         title: 'Revenu net',

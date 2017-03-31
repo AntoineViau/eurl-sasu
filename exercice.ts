@@ -63,8 +63,10 @@ export default class Exercice {
             res.remuneration.cs = this.cotisations;
             res.remuneration.cotisationsSociales = this.cotisations.getCotisations();
             res.remuneration.brut = res.remuneration.net + res.remuneration.cotisationsSociales;
-        } 
-        if ( this.forme === 'SASU') {
+            // https://www.urssaf.fr/portail/home/independant/mes-cotisations/quelles-cotisations/les-contributions-csg-crds/taux-de-la-csg-crds.html
+            res.IR.assiette -= this.cotisations.getCsgCrds() * 0.051;
+        }
+        if (this.forme === 'SASU') {
             res.remuneration.cs = undefined;
             // https://www.zefyr.net/blog/sasu-ou-eurl-comparaison-des-revenus-apres-charges-et-ir/
             // http://www.lecoindesentrepreneurs.fr/accre-president-de-sasu-ou-de-sas/
@@ -132,7 +134,7 @@ export default class Exercice {
         res.IR.tranches = this.impotRevenu.getTranches();
 
         // Brut, net
-        res.brut = res.societe.ca - res.societe.charges + res.autresRevenus - res.societe.reste;
+        res.brut = res.societe.ca - res.societe.charges + res.autresRevenus - res.societe.reste - res.IS.impot;
         res.net = res.remuneration.net + res.dividendes.net + res.autresRevenus - res.IR.impot;
         return res;
     }
