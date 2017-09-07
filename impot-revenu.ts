@@ -48,7 +48,7 @@ export default class ImpotRevenu {
         this.tranches.forEach((tranche) => {
             total += tranche.getImpot(baseIR);
         });
-        return total;
+        return total * this.nbParts;
     }
 
     getTranches() {
