@@ -37,8 +37,7 @@ class AppCtrl {
         this.params = {
             capital: { name: 'capital', min: 0, max: 100000, step: 100, value: 0 },
             charges: { name: 'charges', min: 0, max: 100000, step: 1000, value: 0 },
-            tj: { name: 'tj', min: 0, max: 1000, step: 10, value: 0 },
-            nbJours: { name: 'nbJours', min: 0, max: 365, step: 1, value: 0 },
+            ca: { name: 'ca', min: 0, max: 200000, step: 500, value: 0 },
             remuneration: { name: 'remuneration', min: 0, max: 150000, step: 1000, value: 0 },
             dividendes: { name: 'dividendes', min: 0, max: 150000, step: 1000, value: 0 },
             autresRevenus: { name: 'autresRevenus', min: 0, max: 50000, step: 1000, value: 0 },
@@ -60,6 +59,8 @@ class AppCtrl {
                     ? parseInt(this.$location.search()[attr])
                     : this.$location.search()[attr] === 'true')
                 || this.params[attr].value);
+
+        this.params.forme.value = this.$location.search()['forme'] || this.params.forme.value
 
         this.onChange();
     }
@@ -86,13 +87,8 @@ class AppCtrl {
     }
 
     onChange(param = undefined) {
-        let nbJours = this.params.nbJours.value;
-        this.nbMois = Math.floor(nbJours / 21);
-        this.resteJoursParMois = nbJours % 21;
-        this.resteSemainesParMois = Math.floor(this.resteJoursParMois / 5);
-        this.resteJoursParSemaine = this.resteJoursParMois % 5;
         this.exercice.capital = this.params.capital.value;
-        this.exercice.ca = this.params.tj.value * this.params.nbJours.value;
+        this.exercice.ca = this.params.ca.value;
         this.exercice.charges = this.params.charges.value;
         this.exercice.remuneration = this.params.remuneration.value;
         this.exercice.dividendes = this.params.dividendes.value;
@@ -106,7 +102,7 @@ class AppCtrl {
             this.$location.host() + ':' +
             this.$location.port() +
             this.$location.path() +
-            '?' + Object.keys(this.params).map(k => k + '=' + this.params[k].value).join('&');
+            '?' + Object.keys(this.params).map(k => k + '=' + this.params[k].value).join('&')
     }
 }
 
