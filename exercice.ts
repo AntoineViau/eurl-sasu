@@ -134,7 +134,7 @@ export default class Exercice {
         res.IR.tranches = this.impotRevenu.getTranches();
 
         // Brut perso
-        res.brut = res.societe.ca + res.autresRevenus - res.societe.charges - res.societe.reste;
+        res.brut = res.societe.ca - res.societe.charges - res.societe.reste + res.autresRevenus;
         // Net perso
         res.net = res.remuneration.net + res.dividendes.net + res.autresRevenus - res.IR.impot;
         return res;
