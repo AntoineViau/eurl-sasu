@@ -36,11 +36,12 @@ class AppCtrl {
         private $location) {
         this.params = {
             capital: { name: 'capital', min: 0, max: 100000, step: 100, value: 0 },
-            charges: { name: 'charges', min: 0, max: 100000, step: 1000, value: 0 },
+            charges: { name: 'charges', min: 0, max: 100000, step: 500, value: 0 },
             ca: { name: 'ca', min: 0, max: 200000, step: 500, value: 0 },
-            remuneration: { name: 'remuneration', min: 0, max: 150000, step: 1000, value: 0 },
-            dividendes: { name: 'dividendes', min: 0, max: 150000, step: 1000, value: 0 },
-            autresRevenus: { name: 'autresRevenus', min: 0, max: 50000, step: 1000, value: 0 },
+            nbMois: { name: 'nbMois', min: 0.25, max: 12, step: 0.25, value: 0.25 },
+            remuneration: { name: 'remuneration', min: 0, max: 150000, step: 500, value: 0 },
+            dividendes: { name: 'dividendes', min: 0, max: 150000, step: 500, value: 0 },
+            autresRevenus: { name: 'autresRevenus', min: 0, max: 50000, step: 500, value: 0 },
             nbParts: { name: 'nbParts', min: 1, max: 10, step: 0.5, value: 1 },
             accre: { name: 'ACCRE', notSlider: true, value: false },
             forme: { name: 'Forme', notSlider: true, value: 'EURL' }
