@@ -11,6 +11,7 @@ export default class Exercice {
     dividendes: number;
     accre2017: boolean = false;
     autresRevenus: number = 0;
+    bnc: number = 0;
     nbParts: number = 1;
     forme: string = 'EURL';
 
@@ -55,6 +56,7 @@ export default class Exercice {
         res.IS.assiette = 0;
         res.dividendes.brut = this.dividendes;
         res.autresRevenus = this.autresRevenus;
+        res.bnc = this.bnc;
         // Rémunération
         res.remuneration.net = this.remuneration;
         if (this.forme === 'EURL') {
@@ -128,15 +130,16 @@ export default class Exercice {
         }
         // IR
         res.IR.assiette += this.autresRevenus * 0.9;
+        res.IR.assiette += this.bnc * 0.66;
         this.impotRevenu.revenu = res.IR.assiette;
         this.impotRevenu.nbParts = this.nbParts;
         res.IR.impot = this.impotRevenu.getImpot();
         res.IR.tranches = this.impotRevenu.getTranches();
 
         // Brut perso
-        res.brut = res.societe.ca - res.societe.charges - res.societe.reste + res.autresRevenus;
+        res.brut = res.societe.ca - res.societe.charges - res.societe.reste + res.autresRevenus + res.bnc;
         // Net perso
-        res.net = res.remuneration.net + res.dividendes.net + res.autresRevenus - res.IR.impot;
+        res.net = res.remuneration.net + res.dividendes.net + res.autresRevenus + res.bnc - res.IR.impot;
         return res;
     }
 }
