@@ -26,7 +26,7 @@ Cliquez ici : [http://www.antoineviau.com/eurl-sasu](http://www.antoineviau.com/
 Après clone ou download : 
 
     npm install
-    npm run buid
+    npm run build
     npm run serve
 
 Pour produire une version minifiée (environ 350 Kb au lieu de 1,5 Mb) : 
