@@ -1,8 +1,12 @@
 {
-  "name": "eurl",
+  "name": "eurl-sasu",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AntoineViau/eurl-sasu.git"
+  },
   "scripts": {
     "build": "./node_modules/.bin/webpack --watch",
     "serve": "./node_modules/.bin/static",
