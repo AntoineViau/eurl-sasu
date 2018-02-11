@@ -9,8 +9,8 @@
   },
   "scripts": {
     "build": "./node_modules/.bin/webpack --watch",
-    "serve": "./node_modules/.bin/static",
     "build:prod": "./node_modules/.bin/webpack -p",
+    "serve": "./node_modules/.bin/static",
     "test": "jest"
   },
   "author": "",
