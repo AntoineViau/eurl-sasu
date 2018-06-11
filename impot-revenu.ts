@@ -32,13 +32,14 @@ export default class ImpotRevenu {
     revenu: number;
     nbParts: number;
 
+    //Source : https://www.impots.gouv.fr/portail/particulier/calcul-de-limpot-sur-le-revenu
     constructor() {
         this.tranches = [
-            new Tranche(0, 9700, 0),
-            new Tranche(9701, 26818, 0.14),
-            new Tranche(26819, 71898, 0.3),
-            new Tranche(71899, 152260, 0.41),
-            new Tranche(152261, 99999999, 0.45),
+            new Tranche(0, 9807, 0),
+            new Tranche(9808, 27086, 0.14),
+            new Tranche(27087, 72617, 0.3),
+            new Tranche(72618, 153783, 0.41),
+            new Tranche(153784, 99999999, 0.45),
         ];
     }
 
