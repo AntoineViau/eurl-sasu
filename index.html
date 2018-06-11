@@ -42,7 +42,7 @@
 
     <div class="container">
 
-        <div class="row alert alert-warning">
+        <div class="alert alert-warning">
             Ce calculateur est essentiellement à destination des freelances qui vendent leurs prestations à la journée.<br
             /> Il fonctionne pour les EURL et les SASU, avec prise en compte de l'ACCRE ou non (modalités 2017, <strong>mais sans la partie dégressive</strong>).<br
             /> Toutes les valeurs sont hors TVA.<br />
@@ -104,7 +104,7 @@
                     <field label="Cotisations rémunération" doc="cotisationsRemu">{{ctrl.result.remuneration.cotisationsSociales | currency:'€':2}}</field>
                     <field label="Impôt revenu">{{ctrl.result.IR.impot | currency:'€':2}}</field>
                     <strong><field label="Revenu net" doc="revenuNet">
-                        {{ctrl.result.net | currency:'€':2}} 
+                        {{ctrl.result.net | currency:'€':2}}
                         (période : {{ctrl.result.net/ctrl.params.nbMois.value | currency:'€':2}})
                     </field></strong>
                     <field label="Pourcent. de prélèvements perso" doc="pourcentagePrelevements">{{(ctrl.result.brut - ctrl.result.net) / ctrl.result.brut * 100 | number:2}} % </field>
@@ -112,7 +112,7 @@
             </div>
         </div>
 
-        <div class="row alert">
+        <div class="alert">
             <div class="input-group">
                 <span class="input-group-btn"><button class="btn">URL de partage :</button></span>
                 <input type="text" class="form-control" readonly ng-value="ctrl.url" id="url" />
