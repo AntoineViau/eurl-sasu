@@ -1,12 +1,17 @@
 {
-  "name": "eurl",
+  "name": "eurl-sasu",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AntoineViau/eurl-sasu.git"
+  },
   "scripts": {
     "build": "./node_modules/.bin/webpack --watch",
+    "build:prod": "./node_modules/.bin/webpack -p",
     "serve": "./node_modules/.bin/static",
-    "build:prod": "./node_modules/.bin/webpack -p"
+    "test": "jest"
   },
   "author": "",
   "license": "ISC",
@@ -23,7 +28,10 @@
     "showdown": "^1.6.4"
   },
   "devDependencies": {
+    "@types/jest": "^22.1.2",
+    "jest": "^22.2.2",
     "node-static": "^0.7.9",
+    "ts-jest": "^22.0.3",
     "ts-loader": "^2.0.0",
     "typescript": "^2.1.6",
     "webpack": "^2.2.1"
