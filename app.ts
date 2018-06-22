@@ -110,7 +110,10 @@ class AppCtrl {
 
 angular.module('app', ['ngLocale', 'ui.bootstrap', 'ngSanitize', 'ngCookies', 'ngclipboard'])
     .config(['$locationProvider', ($locationProvider) => {
-        $locationProvider.html5Mode(true);
+        $locationProvider.html5Mode({
+          enabled: true,
+          requireBase: false
+        });
     }])
     .service('cotisationsSociales', [() => new CotisationsSociales()])
     .service('impotSociete', [() => new ImpotSociete()])
@@ -130,7 +133,7 @@ angular.module('app', ['ngLocale', 'ui.bootstrap', 'ngSanitize', 'ngCookies', 'n
         },
         template: `
         <div class="value">
-            <b>{{$ctrl.label}}<sup ng-if="$ctrl.doc" ng-click="$ctrl.openDoc($ctrl.doc)">?</sup></b> : <span ng-transclude></span> 
+            <b>{{$ctrl.label}}<sup ng-if="$ctrl.doc" ng-click="$ctrl.openDoc($ctrl.doc)">?</sup></b> : <span ng-transclude></span>
         </div>`,
         transclude: true,
         controller: ['$uibModal', '$sce', function ($uibModal, $sce) {
