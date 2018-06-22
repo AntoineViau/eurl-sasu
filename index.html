@@ -26,10 +26,6 @@
             font-weight: bold;
         }
 
-        .param input {
-            width: 100%;
-        }
-
         .card {
             margin-bottom: 1rem;
         }
@@ -70,9 +66,9 @@
                 <div class="card">
                     <div class="card-body">
                         <div ng-repeat="(name, param) in ctrl.params" class="row param" ng-if="!param.notSlider">
-                            <div class="col-md-2 text-right">{{param.name | uppercase}}</div>
-                            <div class="col-md-8">
-                                <input type="range" min="{{param.min}}" max="{{param.max}}" step="{{param.step}}" ng-model="param.value" ng-change="ctrl.onChange(param)" />
+                            <label for="param-{{ name }}" class="col-md-3 col-form-label text-right">{{param.name | uppercase}}</label>
+                            <div class="col-md-7">
+                                <input id="param-{{ name }}" type="range" class="form-control-range" min="{{param.min}}" max="{{param.max}}" step="{{param.step}}" ng-model="param.value" ng-change="ctrl.onChange(param)" />
                             </div>
                             <div class="col-md-2">
                                 <input type="text" class="form-control" ng-model="param.value" readonly />
@@ -81,7 +77,7 @@
                     </div>
                     <div class="card-footer">
                         <div class="row">
-                            <div class="col-md-2">
+                            <div class="col-md-3">
                                 <input type="checkbox" id="accre" ng-model="ctrl.params.accre.value" ng-change="ctrl.onChange()" />
                                 <label for="accre">ACCRE</label>
                                 <br />
@@ -92,7 +88,7 @@
                                 <select ng-model="ctrl.params.forme.value" class="form-control" ng-options="forme as forme for forme in ctrl.formes" ng-change="ctrl.onChange()">
                                 </select>
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-md-7">
                                 <div class="input-group">
                                     <input type="text" class="form-control" placeholder="Nom de la sauvegarde">
                                     <span class="input-group-append"><button class="btn btn-primary" type="button">Sauvegarder</button></span>
