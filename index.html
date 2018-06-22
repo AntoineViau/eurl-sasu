@@ -1,6 +1,5 @@
 <!doctype html>
 <html>
-
 <head>
     <meta charset="utf-8">
     <title>Simulateur de charges sociales et impôt sur revenus pour EURL / SASU</title>
@@ -53,15 +52,12 @@
         }
     </style>
 </head>
-
 <body ng-app="app" ng-controller="appCtrl as ctrl">
-
-    <a href="https://github.com/AntoineViau/eurl-sasu"><img style="position: absolute; top: 0; left: 0; border: 0; z-index: 9999" src="https://camo.githubusercontent.com/121cd7cbdc3e4855075ea8b558508b91ac463ac2/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f677265656e5f3030373230302e706e67"
-            alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_green_007200.png"></a>
-
+    <a href="https://github.com/AntoineViau/eurl-sasu">
+        <img style="position: absolute; top: 0; left: 0; border: 0; z-index: 9999" src="https://camo.githubusercontent.com/121cd7cbdc3e4855075ea8b558508b91ac463ac2/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f677265656e5f3030373230302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_green_007200.png">
+    </a>
 
     <div class="container" id="app">
-
         <div class="alert alert-warning">
             Ce calculateur est essentiellement à destination des freelances qui vendent leurs prestations à la journée.<br/>
             Il fonctionne pour les EURL et les SASU, avec prise en compte de l'ACCRE ou non (modalités 2017, <strong>mais sans la partie dégressive</strong>).<br/>
@@ -76,10 +72,11 @@
                         <div ng-repeat="(name, param) in ctrl.params" class="row param" ng-if="!param.notSlider">
                             <div class="col-md-2 text-right">{{param.name | uppercase}}</div>
                             <div class="col-md-8">
-                                <input type="range" min="{{param.min}}" max="{{param.max}}" step="{{param.step}}" ng-model="param.value" ng-change="ctrl.onChange(param)"
-                                />
+                                <input type="range" min="{{param.min}}" max="{{param.max}}" step="{{param.step}}" ng-model="param.value" ng-change="ctrl.onChange(param)" />
                             </div>
-                            <div class="col-md-2"><input type="text" class="form-control" ng-model="param.value" readonly /></div>
+                            <div class="col-md-2">
+                                <input type="text" class="form-control" ng-model="param.value" readonly />
+                            </div>
                         </div>
                     </div>
                     <div class="card-footer">
@@ -227,7 +224,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 
     <script type="text/ng-template" id="myModalContent.html">
@@ -239,7 +235,5 @@
     </script>
     <script type="text/javascript" src="https://cdn.rawgit.com/showdownjs/showdown/1.6.4/dist/showdown.min.js"></script>
     <script type="text/javascript" src="bundle.js"></script>
-
 </body>
-
 </html>
