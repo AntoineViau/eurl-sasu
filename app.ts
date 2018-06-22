@@ -146,7 +146,8 @@ class AppCtrl {
         this.exercice.forme = this.params.forme.value;
         this.result = this.exercice.exercice();
 
-        this.url = window.location.protocol + '//' +
+        this.url = window.location.protocol + 
+            '//' +
             window.location.host +
             window.location.pathname +
             '?' + Object.keys(this.params).map(k => k + '=' + this.params[k].value).join('&')
