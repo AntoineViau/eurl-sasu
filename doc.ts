@@ -44,7 +44,7 @@ Le montant du dividende brut doit alors être indiqué dans la case « revenus d
     },
     impotSocietes: {
         title: 'Impôt sur les sociétés',
-        content: `15% pour la partie en dessous de 38 120 €, 28% entre 38 120 et 75 000, et 33 % au-delà.`
+        content: `15% pour la partie en dessous de 38 120 €, 28% entre 38 120 et 500 000, et 33 % au-delà.`
     },
     revenuBrut: {
         title: 'Revenu brut',
