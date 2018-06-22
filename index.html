@@ -236,6 +236,9 @@
                             Tranche {{$index+1}} ({{tranche.min | currency:'€':2}} <span ng-if="tranche.max !== null">- {{tranche.max | currency:'€':2}}</span><span ng-if="tranche.max === null">et plus</span>, {{tranche.taux*100|number}} %)
                             : {{tranche.value | currency:'€':2}}
                         </li>
+                        <li ng-if="ctrl.params.pfu.value">
+                            <field label="dont dividendes (PFU)" doc="dividendesPFUIR">{{ ctrl.result.IR.impotPFU | currency:'€':2 }}</field>
+                        </li>
                     </ul>
                     <field label="Pourcentage de l'IR sur revenus nets (après CS)">
                         {{ctrl.result.IR.impot/(ctrl.result.dividendes.net+ctrl.result.remuneration.net)*100 | number:2}} %
