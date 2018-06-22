@@ -148,6 +148,10 @@
                     <field label="Impôt société" doc="impotSocietes">
                         {{ctrl.result.IS.impot | currency:'€':2}} ({{ctrl.result.IS.impot / ctrl.result.IS.assiette * 100 | number:2}} %)
                     </field>
+                    <field label="" ng-repeat="tranche in ctrl.result.IS.tranches">
+                        Tranche {{$index+1}} ({{tranche.min | currency:'€':2}} - {{tranche.max | currency:'€':2}}, {{tranche.taux*100|number}} %)
+                        : {{tranche.value | currency:'€':2}}
+                    </field>
                     <field label="Distribuable" doc="distribuable">{{ctrl.result.IS.assiette - ctrl.result.IS.impot | currency:'€':2}}</field>
                     <field label="Dividendes bruts">{{ctrl.params['dividendes'].value | currency:'€':2}} </field>
                     <field label="Reste en société">{{ctrl.result.societe.reste | currency:'€':2}} </field>

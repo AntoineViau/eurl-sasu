@@ -93,6 +93,7 @@ export default class Exercice {
         res.IS.assiette = res.societe.brut;
         this.impotSociete.benefice = res.IS.assiette;
         res.IS.impot = this.impotSociete.getImpot();
+        res.IS.tranches = this.impotSociete.getTranches();
         res.societe.reste = res.societe.brut - res.IS.impot - res.dividendes.brut;
         // Dividendes
         if (this.dividendes > 0) {

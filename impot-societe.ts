@@ -1,23 +1,33 @@
+import Tranche from './tranche'
+
 export default class ImpotSociete {
 
     public benefice: number;
 
+    tranches: Tranche[];
+
+    constructor() {
+        this.tranches = [
+            new Tranche(0, 38120, 0.15),
+            new Tranche(38121, 500000, 0.28),
+            new Tranche(500001, 99999999, 0.33),
+        ];
+    }
+
     getImpot(): number {
-        //En dessous de 38120, les bénéfices sont imposés à 15%
-        if (this.benefice <= 38120) {
-            return this.benefice * 0.15;
-        }
-        let is = 38120 * 0.15;
+        let total = 0;
+        this.tranches.forEach((tranche) => {
+            total += tranche.getImpot(this.benefice);
+        });
+        return total;
+    }
 
-        //Entre 38120 et 500000, les bénéfices sont imposés à 28%
-        if (this.benefice <= 500000) {
-            is += (this.benefice - 38120) * 0.28;
-            return is;
-        }
-
-        //Au delà de 500000, les bénéfices sont imposés à 33.33%
-        is += (this.benefice - 500000) * 0.33;
-
-        return is;
+    getTranches() {
+        let total = 0;
+        let tranches = [];
+        this.tranches.forEach((tranche) => {
+            tranches.push({ value: tranche.getImpot(this.benefice), min: tranche.getMin(), max: tranche.getMax(), taux: tranche.getTaux() });
+        });
+        return tranches;
     }
 }
