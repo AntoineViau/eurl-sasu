@@ -90,6 +90,10 @@ class AppCtrl {
     }
 
     onChange(param = undefined) {
+        if(this.params.forme.value !== 'SASU') {
+            this.params.pfu.value = false;
+        }
+        
         this.exercice.capital = this.params.capital.value;
         this.exercice.ca = this.params.ca.value;
         this.exercice.charges = this.params.charges.value;
