@@ -188,7 +188,7 @@
                     </field>
                     <ul>
                         <li ng-repeat="tranche in ctrl.result.IS.tranches">
-                        Tranche {{$index+1}} ({{tranche.min | currency:'€':2}} - {{tranche.max | currency:'€':2}}, {{tranche.taux*100|number}} %)
+                        Tranche {{$index+1}} ({{tranche.min | currency:'€':2}} <span ng-if="tranche.max !== null">- {{tranche.max | currency:'€':2}}</span><span ng-if="tranche.max === null">et plus</span>, {{tranche.taux*100|number}} %)
                         : {{tranche.value | currency:'€':2}}
                         </li>
                     </ul>
@@ -233,7 +233,7 @@
                     <field label="Impôt sur le revenu">{{ctrl.result.IR.impot | currency:'€':2}}</field>
                     <ul>
                         <li ng-repeat="tranche in ctrl.result.IR.tranches">
-                            Tranche {{$index+1}} ({{tranche.min | currency:'€':2}} - {{tranche.max | currency:'€':2}}, {{tranche.taux*100|number}} %)
+                            Tranche {{$index+1}} ({{tranche.min | currency:'€':2}} <span ng-if="tranche.max !== null">- {{tranche.max | currency:'€':2}}</span><span ng-if="tranche.max === null">et plus</span>, {{tranche.taux*100|number}} %)
                             : {{tranche.value | currency:'€':2}}
                         </li>
                     </ul>

@@ -10,7 +10,7 @@ export default class ImpotSociete {
         this.tranches = [
             new Tranche(0, 38119, 0.15),
             new Tranche(38120, 499999, 0.28),
-            new Tranche(500000, 99999999, 1 / 3),
+            new Tranche(500000, null, 1 / 3),
         ];
     }
 

@@ -13,7 +13,7 @@ export default class ImpotRevenu {
             new Tranche(9808, 27086, 0.14),
             new Tranche(27087, 72617, 0.3),
             new Tranche(72618, 153783, 0.41),
-            new Tranche(153784, 99999999, 0.45),
+            new Tranche(153784, null, 0.45),
         ];
     }
 
