@@ -5,30 +5,51 @@
     <meta charset="utf-8">
     <title></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
     <style type="text/css">
         body {
-            padding: 1em;
+            padding: 1rem;
         }
 
         .param {
-            padding: 5px;
-        }
-
-        .container {
-            margin: auto;
+            padding: 0.5rem;
         }
 
         sup {
             cursor: pointer;
         }
 
-        h3 {
+        #app h3 {
             margin-top: 0;
             font-size: 120%;
             border-bottom: 1px solid;
             padding-bottom: 6px;
             font-weight: bold;
+        }
+
+        .param input {
+            width: 100%;
+        }
+
+        .card {
+            margin-bottom: 1rem;
+        }
+
+        .share {
+            margin: 1.25rem 0;
+        }
+
+        .fade.in {
+            opacity: 1;
+        }
+
+        .modal.in .modal-dialog {
+            transform: translate(0, 0);
+        }
+
+        .modal-backdrop.in {
+            filter: alpha(opacity=50);
+            opacity: .5;
         }
     </style>
 </head>
@@ -39,19 +60,19 @@
             alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_green_007200.png"></a>
 
 
-    <div class="container">
+    <div class="container" id="app">
 
         <div class="alert alert-warning">
-            Ce calculateur est essentiellement à destination des freelances qui vendent leurs prestations à la journée.<br
-            /> Il fonctionne pour les EURL et les SASU, avec prise en compte de l'ACCRE ou non (modalités 2017, <strong>mais sans la partie dégressive</strong>).<br
-            /> Toutes les valeurs sont hors TVA.<br />
+            Ce calculateur est essentiellement à destination des freelances qui vendent leurs prestations à la journée.<br/>
+            Il fonctionne pour les EURL et les SASU, avec prise en compte de l'ACCRE ou non (modalités 2017, <strong>mais sans la partie dégressive</strong>).<br/>
+            Toutes les valeurs sont hors TVA.<br />
             <strong>Attention ! Il n'est pas source de vérité ! Vérifiez avec un professionnel le résultat des calculs !</strong>
         </div>
 
         <div class="row">
             <div class="col-md-8">
-                <div class="panel panel-info">
-                    <div class="panel-body">
+                <div class="card">
+                    <div class="card-body">
                         <div ng-repeat="(name, param) in ctrl.params" class="row param" ng-if="!param.notSlider">
                             <div class="col-md-2 text-right">{{param.name | uppercase}}</div>
                             <div class="col-md-8">
@@ -60,7 +81,8 @@
                             </div>
                             <div class="col-md-2"><input type="text" class="form-control" ng-model="param.value" readonly /></div>
                         </div>
-                        <hr />
+                    </div>
+                    <div class="card-footer">
                         <div class="row">
                             <div class="col-md-2">
                                 <input type="checkbox" id="accre" ng-model="ctrl.params.accre.value" ng-change="ctrl.onChange()" />
@@ -74,13 +96,11 @@
                                 </select>
                             </div>
                             <div class="col-md-8">
-
                                 <div class="input-group">
                                     <input type="text" class="form-control" placeholder="Nom de la sauvegarde">
-                                    <span class="input-group-btn"><button class="btn btn-primary" type="button">Sauvegarder</button></span>
+                                    <span class="input-group-append"><button class="btn btn-primary" type="button">Sauvegarder</button></span>
                                 </div>
-                                <select ng-if="ctrl.states.length > 0" ng-model="ctrl.currentState" ng-options="state.name for state in ctrl.states" ng-change="ctrl.loadState()">
-                            </select>
+                                <select ng-if="ctrl.states.length > 0" ng-model="ctrl.currentState" ng-options="state.name for state in ctrl.states" ng-change="ctrl.loadState()"></select>
                                 <button ng-if="ctrl.states.length > 0" type="button" class="btn btn-primary btn-sm" ng-click="ctrl.clearStates()">Tout effacer</button>
                             </div>
                         </div>
@@ -114,11 +134,15 @@
             </div>
         </div>
 
-        <div class="alert">
+        <div class="share">
             <div class="input-group">
-                <span class="input-group-btn"><button class="btn">URL de partage :</button></span>
+                <div class="input-group-prepend">
+                    <span class="input-group-text" >URL de partage :</span>
+                </div>
                 <input type="text" class="form-control" readonly ng-value="ctrl.url" id="url" />
-                <span class="input-group-btn"><button class="btn btn-primary" ngclipboard data-clipboard-target="#url">Copier dans le presse-papier</button></span>
+                <div class="input-group-append">
+                    <button class="btn btn-primary" ngclipboard data-clipboard-target="#url">Copier dans le presse-papier</button>
+                </div>
             </div>
         </div>
 
