@@ -33,7 +33,8 @@ class AppCtrl {
         private $sce,
         private exercice: Exercice,
         private $cookies,
-        private $location) {
+        private $location,
+        private $filter) {
         this.params = {
             capital: { name: 'capital', min: 0, max: 100000, step: 100, value: 0 },
             charges: { name: 'charges', min: 0, max: 100000, step: 500, value: 0 },
@@ -68,32 +69,70 @@ class AppCtrl {
         this.onChange();
     }
 
-    pushState() {
-        this.states.push({
+    pushState(event) {
+        let filteredStates = this.$filter('filter')(this.states, {name: this.newStateName});
+
+        let state = {
             name: this.newStateName,
             params: JSON.parse(JSON.stringify(this.params))
-        });
+        };
+
+        //Add new a new save
+        if(filteredStates.length === 0) {
+            this.states.push(state);
+        } else {
+            //Merge with existing save
+            state = angular.extend(filteredStates[0], {params: this.params});
+        }
+        
         this.$cookies.put('states', JSON.stringify(this.states));
+        this.currentState = state;
+
+        event.preventDefault();
+        return false;
     }
 
     loadState() {
+        if(this.currentState === null) {
+            this.newStateName = "";
+            return;
+        }
+
         this.params = this.currentState.params;
+        this.newStateName = this.currentState.name;
         this.onChange();
     }
 
+    clearState() {
+        if (!this.currentState) {
+            return;
+        }
+
+        var index = this.states.indexOf(this.currentState);
+
+        if(-1 === index) {
+            return;
+        }
+
+        this.states.splice(index, 1);
+        this.$cookies.put('states', JSON.stringify(this.states));
+        this.newStateName = "";
+    }
+
     clearStates() {
-        if (!confirm('Certain ?')) {
+        if (!confirm('Êtes-vous certain de vouloir supprimer toutes vos sauvegardes ?')) {
             return;
         }
         this.states = new Array<any>();
-        this.$cookies.put(this.states, '[]');
+        this.$cookies.put('states', JSON.stringify(this.states));
+        this.newStateName = "";
     }
 
     onChange(param = undefined) {
         if(this.params.forme.value !== 'SASU') {
             this.params.pfu.value = false;
         }
-        
+
         this.exercice.capital = this.params.capital.value;
         this.exercice.ca = this.params.ca.value;
         this.exercice.charges = this.params.charges.value;
@@ -129,8 +168,8 @@ angular.module('app', ['ngLocale', 'ui.bootstrap', 'ngSanitize', 'ngCookies', 'n
         (impotSociete, cotisationsSociales, impotRevenu) => new Exercice(impotSociete, cotisationsSociales, impotRevenu)
     ])
     .controller('appCtrl', [
-        '$uibModal', '$sce', 'exercice', '$cookies', '$location',
-        ($uibModal, $sce, exercice, $cookies, $location) => new AppCtrl($uibModal, $sce, exercice, $cookies, $location)
+        '$uibModal', '$sce', 'exercice', '$cookies', '$location', '$filter',
+        ($uibModal, $sce, exercice, $cookies, $location, $filter) => new AppCtrl($uibModal, $sce, exercice, $cookies, $location, $filter)
     ])
     .component('field', {
         bindings: {
