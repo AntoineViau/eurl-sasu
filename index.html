@@ -65,6 +65,9 @@
                             <div class="col-md-2">
                                 <input type="checkbox" id="accre" ng-model="ctrl.params.accre.value" ng-change="ctrl.onChange()" />
                                 <label for="accre">ACCRE</label>
+                                <br />
+                                <input type="checkbox" id="pfu" ng-model="ctrl.params.pfu.value" ng-change="ctrl.onChange()" ng-disabled="ctrl.params.forme.value !== 'SASU'"/>
+                                <label for="pfu"><abbr title="Prélèvement Forfaitaire Unique (ou Flat Tax)">PFU</abbr></label>
                             </div>
                             <div class="col-md-2">
                                 <select ng-model="ctrl.params.forme.value" class="form-control" ng-options="forme as forme for forme in ctrl.formes" ng-change="ctrl.onChange()">
@@ -160,11 +163,16 @@
 
             <div class="col-md-6">
                 <div class="alert alert-info">
-                    <h3>Dividendes</h3>
+                    <h3>Dividendes<span ng-if="ctrl.params.pfu.value"> (avec PFU)</span></h3>
                     <field label="Dividendes bruts">{{ctrl.params['dividendes'].value | currency:'€':2}}</field>
                     <field label="Cotisations sociales sur dividendes">{{ctrl.result.dividendes.cotisationsSociales | currency:'€':2}}</field>
-                    <field label="Dividendes nets">{{ctrl.result.dividendes.net | currency:'€':2}} </field>
-                    <field label="Assiette IR sur dividendes" doc="assietteDividendesIR">{{ctrl.result.dividendes.assietteIR | currency:'€':2}} </field>
+                    <div ng-if="!ctrl.params.pfu.value">
+                        <field label="Dividendes nets">{{ctrl.result.dividendes.net | currency:'€':2}} </field>
+                        <field label="Assiette IR sur dividendes" doc="assietteDividendesIR">{{ctrl.result.dividendes.assietteIR | currency:'€':2}} </field>
+                    </div>
+                    <div ng-if="ctrl.params.pfu.value">
+                        <field label="Dividendes nets (après IR)">{{ctrl.result.dividendes.net | currency:'€':2}} </field>
+                    </div>
                     <div ng-if="ctrl.result.dividendes.dividendes10">
                         <hr />
                         <div>Part sur 10% du capital :</div>

@@ -10,6 +10,7 @@ export default class Exercice {
     remuneration: number;
     dividendes: number;
     accre2017: boolean = false;
+    pfu: boolean = false;
     autresRevenus: number = 0;
     bnc: number = 0;
     nbParts: number = 1;
@@ -44,7 +45,6 @@ export default class Exercice {
                 brut: 0,
                 assietteIR: 0,
                 net: 0
-
             },
             societe: {
                 ca: 0,
@@ -95,15 +95,26 @@ export default class Exercice {
         res.IS.impot = this.impotSociete.getImpot();
         res.IS.tranches = this.impotSociete.getTranches();
         res.societe.reste = res.societe.brut - res.IS.impot - res.dividendes.brut;
+        res.dividendes.supernet = 0; //Utilisé pour la SASU et Flat Tax
+        res.IR.impotPFU = 0;
+
         // Dividendes
         if (this.dividendes > 0) {
             if (this.forme === 'SASU') {
-                // Pour les dividendes en SA
-                res.dividendes.cotisationsSociales = res.dividendes.brut * 0.155;
-                res.dividendes.net = res.dividendes.brut - res.dividendes.cotisationsSociales;
-                // L'assiette de l'IR pour les dividendes : dividendes brut - 40% - csg (5,1%)
-                // https://www.service-public.fr/professionnels-entreprises/vosdroits/F32963
-                res.dividendes.assietteIR = res.dividendes.brut * 0.6 - res.dividendes.brut * 0.051;
+                if(! this.pfu) {
+                    // Pour les dividendes en SA (sans flat tax)
+                    res.dividendes.cotisationsSociales = res.dividendes.brut * 0.155;
+                    res.dividendes.net = res.dividendes.brut - res.dividendes.cotisationsSociales;
+                    // L'assiette de l'IR pour les dividendes : dividendes brut - 40% - csg (5,1%)
+                    // https://www.service-public.fr/professionnels-entreprises/vosdroits/F32963
+                    res.dividendes.assietteIR = res.dividendes.brut * 0.6 - res.dividendes.brut * 0.051;
+                } else {
+                    // Pour les dividendes en SA (avec flat tax)
+                    res.dividendes.cotisationsSociales = res.dividendes.brut * 0.172; //17.2% de cotisations sociales
+                    res.IR.impotPFU = res.dividendes.brut * 0.128; //12.8% d'IR
+                    res.dividendes.net = res.dividendes.brut  - res.dividendes.cotisationsSociales - res.IR.impotPFU; //Soit 30% de taxes totales (CS + IR)
+                    res.dividendes.assietteIR = 0; //Pas soumis au barême progressif - prélèvement libératoire
+                }
             } else {
                 // En SARL/EURL, on distingue la part < 10% du capital
                 let dividendes10: any = {};
@@ -121,6 +132,7 @@ export default class Exercice {
                 res.dividendes.assietteIR = dividendes10.brut * 0.6 - dividendes10.brut * 0.051 + dividendes90.brut * 0.6 - dividendes90.brut * 0.051;
                 res.dividendes.cotisationsSociales = dividendes10.cotisationsSociales + dividendes90.cotisationsSociales;
                 res.dividendes.net = dividendes10.net + dividendes90.net;
+
             }
             res.IR.assiette += res.dividendes.assietteIR;
         }
@@ -129,13 +141,13 @@ export default class Exercice {
         res.IR.assiette += this.bnc * 0.66;
         this.impotRevenu.revenu = res.IR.assiette;
         this.impotRevenu.nbParts = this.nbParts;
-        res.IR.impot = this.impotRevenu.getImpot();
+        res.IR.impot = this.impotRevenu.getImpot() + res.IR.impotPFU;
         res.IR.tranches = this.impotRevenu.getTranches();
 
         // Brut perso
         res.brut = res.societe.ca - res.societe.charges - res.societe.reste + res.autresRevenus + res.bnc;
         // Net perso
-        res.net = res.remuneration.net + res.dividendes.net + res.autresRevenus + res.bnc - res.IR.impot;
+        res.net = res.remuneration.net + res.dividendes.net + res.autresRevenus + res.bnc - res.IR.impot + res.IR.impotPFU;
         return res;
     }
 }

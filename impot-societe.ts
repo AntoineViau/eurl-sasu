@@ -8,9 +8,9 @@ export default class ImpotSociete {
 
     constructor() {
         this.tranches = [
-            new Tranche(0, 38120, 0.15),
-            new Tranche(38121, 500000, 0.28),
-            new Tranche(500001, 99999999, 0.33),
+            new Tranche(0, 38119, 0.15),
+            new Tranche(38120, 499999, 0.28),
+            new Tranche(500000, 99999999, 1 / 3),
         ];
     }
 
