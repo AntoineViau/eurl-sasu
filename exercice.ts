@@ -11,6 +11,7 @@ export default class Exercice {
     dividendes: number;
     accre2017: boolean = false;
     pfu: boolean = false;
+    zfu: boolean = false;
     autresRevenus: number = 0;
     bnc: number = 0;
     nbParts: number = 1;
@@ -92,7 +93,14 @@ export default class Exercice {
         res.societe.brut = res.societe.ca - res.societe.charges - res.remuneration.brut; // base IS
         res.IS.assiette = res.societe.brut;
         this.impotSociete.benefice = res.IS.assiette;
-        res.IS.impot = this.impotSociete.getImpot();
+        if(! this.zfu) {
+            res.IS.exonerations = 0;
+            res.IS.impot = this.impotSociete.getImpot();
+        }else {
+            res.IS.exonerations = this.impotSociete.getImpot();
+            res.IS.impot = 0; //Pas d'IS sur un freelance basé en ZFU qui réalise 100% de son CA en ZFU
+        }
+        
         res.IS.tranches = this.impotSociete.getTranches();
         res.societe.reste = res.societe.brut - res.IS.impot - res.dividendes.brut;
         res.dividendes.supernet = 0; //Utilisé pour la SASU et Flat Tax

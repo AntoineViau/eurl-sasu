@@ -46,6 +46,11 @@ Le montant du dividende brut doit alors être indiqué dans la case « revenus d
         title: 'Impôt sur les sociétés',
         content: `15% pour la partie en dessous de 38 120 €, 28% entre 38 120 et 500 000, et 33 % au-delà.`
     },
+    exonerationsZFU: {
+        title: 'Exonerations liées à l\'implantation en ZFU',
+        content: `Lorsque votre entreprise en installée en Zone Franche Urbaine, celle-ci est *exonérée* d'impôt sur les sociétés durant les 5 premières années.<br />
+        **Attention** : pour un freelance (activité non sédentaire), celui-ci doit également réaliser son CA en ZFU. Les exonérations seront calculées sur la proportion de CA réalisé en ZFU (au minimum 25%).`
+    },
     revenuBrut: {
         title: 'Revenu brut',
         content: `Le revenu brut correspond à l'argent à destination personnelle avant tous les prélèvements.<br />
