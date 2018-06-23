@@ -2,7 +2,7 @@
 
 Ce bout de code est à destination des freelances qui facturent leurs prestations à la journée (mais il peut aussi être utile aux entrepreneurs en général). Il sert à déterminer vos prélèvements (cotisations sociales, impôt société, impôt sur le revenu) dans le cadre d'une EURL ou d'une SASU à l'IS, avec prise en compte éventuelle de l'ACCRE.  
 
-Les lois et règlements pris en compte sont ceux applicables en 2017. L'interface est basée sur des sliders, et permet de visualiser facilement les divers montants. De la documentation permet de comprendre le fonctionnement et les calculs : visez les petit points d'interrogation.   
+Les lois et règlements pris en compte sont ceux applicables en 2018. L'interface est basée sur des sliders, et permet de visualiser facilement les divers montants. De la documentation permet de comprendre le fonctionnement et les calculs : visez les petit points d'interrogation.   
 
 Voici les paramètres/variables que vous pouvez modifier : 
 
@@ -16,6 +16,7 @@ Voici les paramètres/variables que vous pouvez modifier :
  * Nombre de parts du foyer fiscal pour l'impôt sur le revenu
  * Application de l'ACCRE
  * EURL ou SASU
+ * Prise en compte de la PFU (Flat Tax)
 
 ## Je veux jouer tout de suite !
 
@@ -44,7 +45,7 @@ De manière générale :
 
 ## Côté code
 
-Typescript 2.1.6, Angular 1.6, Webpack 2.2.1, Bootstrap 3.  
+Typescript 2.1.6, Angular 1.6, Webpack 2.2.1, Bootstrap 4.  
 N'hésitez pas à forker, améliorer et faire des PR, je pense que ça pourra être utile à pas mal de monde.
 
 Vous trouverez dans le code les différentes références utilisées pour les calculs. La documentation est au format Markdown dans le fichier doc.ts. Elle n'attend que vous pour s'étoffer. 
