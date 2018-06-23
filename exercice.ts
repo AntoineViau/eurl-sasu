@@ -103,7 +103,7 @@ export default class Exercice {
             if (this.forme === 'SASU') {
                 if(! this.pfu) {
                     // Pour les dividendes en SA (sans flat tax)
-                    res.dividendes.cotisationsSociales = res.dividendes.brut * 0.155;
+                    res.dividendes.cotisationsSociales = res.dividendes.brut * 0.172;
                     res.dividendes.net = res.dividendes.brut - res.dividendes.cotisationsSociales;
                     // L'assiette de l'IR pour les dividendes : dividendes brut - 40% - csg (5,1%)
                     // https://www.service-public.fr/professionnels-entreprises/vosdroits/F32963
@@ -119,7 +119,7 @@ export default class Exercice {
                 // En SARL/EURL, on distingue la part < 10% du capital
                 let dividendes10: any = {};
                 dividendes10.brut = this.capital * 0.1;
-                dividendes10.cotisationsSociales = dividendes10.brut * 0.155;
+                dividendes10.cotisationsSociales = dividendes10.brut * 0.172;
                 dividendes10.net = dividendes10.brut - dividendes10.cotisationsSociales;
                 res.dividendes.dividendes10 = dividendes10;
                 // Au dela ça douille
