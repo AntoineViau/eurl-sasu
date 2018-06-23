@@ -99,7 +99,7 @@ class AppCtrl {
             return;
         }
 
-        this.params = this.currentState.params;
+        this.params = angular.extend(this.params, this.currentState.params);
         this.newStateName = this.currentState.name;
         this.onChange();
     }
