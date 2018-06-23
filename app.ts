@@ -146,8 +146,6 @@ class AppCtrl {
         this.exercice.forme = this.params.forme.value;
         this.result = this.exercice.exercice();
 
-        console.log(this.params.pfu);
-
         this.url = window.location.protocol + 
             '//' +
             window.location.host +
