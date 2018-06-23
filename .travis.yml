@@ -3,3 +3,12 @@ node_js:
   - "lts/*"
   - "8"
   - "6"
+
+sudo: false
+
+cache:
+  directories:
+    - "node_modules"
+
+script:
+  - npm run test

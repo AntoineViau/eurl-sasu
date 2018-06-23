@@ -35,9 +35,16 @@ Par ailleurs, au moment où les dividendes sont distribués, il y a un acompte d
 
 `
     },
+    dividendesPFUIR: {
+        title: 'Imposition des dividendes en PFU (Flat Tax)',
+        content: `
+Avec la [Flat Tax](https://www.service-public.fr/professionnels-entreprises/vosdroits/F32963), l'imposition sur les dividendes est calculé forfaitairement sur la base d'un taux de 12.8% pour l'IR.<br /><br />
+Le montant du dividende brut doit alors être indiqué dans la case « revenus déjà soumis aux prélèvements sociaux » de la déclaration des revenus N-1.    
+        `
+    },
     impotSocietes: {
         title: 'Impôt sur les sociétés',
-        content: `15% pour la partie en dessous de 38 120 €, 28% entre 38 120 et 75 000, et 33 % au-delà.`
+        content: `15% pour la partie en dessous de 38 120 €, 28% entre 38 120 et 500 000, et 33 % au-delà.`
     },
     revenuBrut: {
         title: 'Revenu brut',
