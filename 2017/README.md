@@ -19,7 +19,7 @@ Voici les paramètres/variables que vous pouvez modifier :
 
 ## Je veux jouer tout de suite !
 
-Cliquez ici : [http://www.antoineviau.com/eurl-sasu](http://www.antoineviau.com/eurl-sasu)
+Cliquez ici : [http://www.antoineviau.com/eurl-sasu/2017](http://www.antoineviau.com/eurl-sasu/2017)
 
 ## Installation et usage
 
