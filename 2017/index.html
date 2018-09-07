@@ -1,0 +1,329 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <base href="/" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+    >
+    <link
+        rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+    >
+    <style type="text/css">
+        body {
+            padding: 1em;
+        }
+
+        .param {
+            padding: 5px;
+        }
+
+        .container {
+            margin: auto;
+        }
+
+        sup {
+            cursor: pointer;
+        }
+
+        h3 {
+            margin-top: 0;
+            font-size: 120%;
+            border-bottom: 1px solid;
+            padding-bottom: 6px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body
+    ng-app="app"
+    ng-controller="appCtrl as ctrl"
+>
+
+    <a href="https://github.com/AntoineViau/eurl-sasu">
+        <img
+            style="position: absolute; top: 0; left: 0; border: 0; z-index: 9999"
+            src="https://camo.githubusercontent.com/121cd7cbdc3e4855075ea8b558508b91ac463ac2/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f677265656e5f3030373230302e706e67"
+    
+            alt="Fork me on GitHub"
+            data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_green_007200.png"
+        >
+    </a>
+
+
+    <div class="container">
+
+        <div class="row alert alert-warning">
+            Ce calculateur est essentiellement à destination des freelances qui vendent leurs prestations à la journée.
+            <br />
+            <strong>Il est valable pour les revenus de l'année 2017</strong>
+            <br />Il fonctionne pour les EURL et les SASU, avec prise en compte de l'ACCRE ou non (modalités 2017, mais sans la
+            partie dégressive).
+            <br /> Toutes les valeurs sont hors TVA.
+            <br />
+            <strong>
+                <u>Attention ! Il n'est pas source de vérité ! Vérifiez avec un professionnel le résultat des calculs !</u>
+            </strong>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8">
+                <div class="panel panel-info">
+                    <div class="panel-body">
+                        <div
+                            ng-repeat="(name, param) in ctrl.params"
+                            class="row param"
+                            ng-if="!param.notSlider"
+                        >
+                            <div class="col-md-2 text-right">{{param.name | uppercase}}</div>
+                            <div class="col-md-8">
+                                <input
+                                    type="range"
+                                    min="{{param.min}}"
+                                    max="{{param.max}}"
+                                    step="{{param.step}}"
+                                    ng-model="param.value"
+                                    ng-change="ctrl.onChange(param)"
+                                />
+                            </div>
+                            <div class="col-md-2">
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    ng-model="param.value"
+                                    readonly
+                                />
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <div class="col-md-2">
+                                <input
+                                    type="checkbox"
+                                    id="accre"
+                                    ng-model="ctrl.params.accre.value"
+                                    ng-change="ctrl.onChange()"
+                                />
+                                <label for="accre">ACCRE</label>
+                            </div>
+                            <div class="col-md-2">
+                                <select
+                                    ng-model="ctrl.params.forme.value"
+                                    class="form-control"
+                                    ng-options="forme as forme for forme in ctrl.formes"
+                                    ng-change="ctrl.onChange()"
+                                >
+                                </select>
+                            </div>
+                            <div class="col-md-8">
+
+                                <div class="input-group">
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        placeholder="Nom de la sauvegarde"
+                                    >
+                                    <span class="input-group-btn">
+                                        <button
+                                            class="btn btn-primary"
+                                            type="button"
+                                        >Sauvegarder</button>
+                                    </span>
+                                </div>
+                                <select ng-if="ctrl.states.length > 0"
+                                    ng-model="ctrl.currentState"
+                                    ng-options="state.name for state in ctrl.states"
+                                    ng-change="ctrl.loadState()"
+                                >
+                                </select>
+                                <button ng-if="ctrl.states.length > 0"
+                                    type="button"
+                                    class="btn btn-primary btn-sm"
+                                    ng-click="ctrl.clearStates()"
+                                >Tout effacer</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="alert alert-info">
+                    <h3>Récapitulatif</h3>
+                    <field label="Forme">{{ctrl.params.forme.value === 'SASU' ? 'SASU' : 'EURL'}} {{ctrl.params.accre.value ? 'avec ACCRE' : ''}}</field>
+                    <field label="CA">{{ctrl.result.societe.ca | currency:'€':2}}</field>
+                    <field label="Période">{{ctrl.params.nbMois.value}} mois</field>
+                    <field label="Charges">{{ctrl.result.societe.charges | currency:'€':2}}</field>
+                    <field label="Rémunération nette">{{ctrl.params.remuneration.value | currency:'€':2}}</field>
+                    <field label="Dividendes">{{ctrl.params.dividendes.value | currency:'€':2}}</field>
+                    <field label="Autres revenus">{{ctrl.params.autresRevenus.value | currency:'€':2}}</field>
+                </div>
+                <div class="alert alert-success">
+                    <h3>Résultat</h3>
+                    <field label="Reste en société">{{ctrl.result.societe.reste | currency:'€':2}} </field>
+                    <field
+                        label="Revenu brut perso"
+                        doc="revenuBrut"
+                    >{{ctrl.result.brut | currency:'€':2}} </field>
+                    <field
+                        label="Cotisations rémunération"
+                        doc="cotisationsRemu"
+                    >{{ctrl.result.remuneration.cotisationsSociales | currency:'€':2}}</field>
+                    <field label="Impôt revenu">{{ctrl.result.IR.impot | currency:'€':2}}</field>
+                    <strong>
+                        <field
+                            label="Revenu net"
+                            doc="revenuNet"
+                        >
+                            {{ctrl.result.net | currency:'€':2}} (période : {{ctrl.result.net/ctrl.params.nbMois.value | currency:'€':2}})
+                        </field>
+                    </strong>
+                    <field
+                        label="Pourcent. de prélèvements perso"
+                        doc="pourcentagePrelevements"
+                    >{{(ctrl.result.brut - ctrl.result.net) / ctrl.result.brut * 100 | number:2}} % </field>
+                </div>
+            </div>
+        </div>
+
+        <div class="row alert">
+            <div class="input-group">
+                <span class="input-group-btn">
+                    <button class="btn">URL de partage :</button>
+                </span>
+                <input
+                    type="text"
+                    class="form-control"
+                    readonly
+                    ng-value="ctrl.url"
+                    id="url"
+                />
+                <span class="input-group-btn">
+                    <button
+                        class="btn btn-primary"
+                        ngclipboard
+                        data-clipboard-target="#url"
+                    >Copier dans le presse-papier</button>
+                </span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="alert alert-info">
+                    <h3>Rémunération</h3>
+                    <field label="Rémunération nette">{{ctrl.result.remuneration.net | currency:'€':2}}</field>
+                    <field
+                        label="Cotisations sociales sur rémunération"
+                        doc="cotisationsRemu"
+                    >{{ctrl.result.remuneration.cotisationsSociales | currency:'€':2}}</field>
+                    <div ng-if="ctrl.result.remuneration.cs">
+                        <field label=" dont Maladie">{{ctrl.result.remuneration.cs.getMaladie() | currency:'€':2}}</field>
+                        <field label=" dont Allocations familiales">{{ctrl.result.remuneration.cs.getAllocationsFamiliales() | currency:'€':2}}</field>
+                        <field label=" dont Formation professionnelle">{{ctrl.result.remuneration.cs.getFormationProfessionnelle() | currency:'€':2}}</field>
+                        <field label=" dont Retraite base">{{ctrl.result.remuneration.cs.getRetraiteBase() | currency:'€':2}}</field>
+                        <field label=" dont Retraite complémentaire">{{ctrl.result.remuneration.cs.getRetraiteComplementaire() | currency:'€':2}}</field>
+                        <field label=" dont Invalidité/Décès">{{ctrl.result.remuneration.cs.getInvaliditeDeces() | currency:'€':2}}</field>
+                        <field label=" dont CSG/CRDS">{{ctrl.result.remuneration.cs.getCsgCrds() | currency:'€':2}}</field>
+                    </div>
+                    <field ng-if="ctrl.params.remuneration.value > 0"
+                        label="Pourcentage des CS sur rémunération"
+                    >
+                        {{ctrl.result.remuneration.cotisationsSociales / ctrl.result.remuneration.net * 100 | number:2}} %
+                    </field>
+                    <field label="Rémunération brute">
+                        {{ctrl.result.remuneration.brut | currency:'€':2}}
+                    </field>
+                </div>
+
+                <div class="alert alert-info">
+                    <h3>Impôt sur les sociétés</h3>
+                    <field label="Assiette impôt société">{{ctrl.result.IS.assiette | currency:'€':2}}</field>
+                    <field
+                        label="Impôt société"
+                        doc="impotSocietes"
+                    >
+                        {{ctrl.result.IS.impot | currency:'€':2}} ({{ctrl.result.IS.impot / ctrl.result.IS.assiette * 100 | number:2}} %)
+                    </field>
+                    <field
+                        label="Distribuable"
+                        doc="distribuable"
+                    >{{ctrl.result.IS.assiette - ctrl.result.IS.impot | currency:'€':2}}</field>
+                    <field label="Dividendes bruts">{{ctrl.params['dividendes'].value | currency:'€':2}} </field>
+                    <field label="Reste en société">{{ctrl.result.societe.reste | currency:'€':2}} </field>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="alert alert-info">
+                    <h3>Dividendes</h3>
+                    <field label="Dividendes bruts">{{ctrl.params['dividendes'].value | currency:'€':2}}</field>
+                    <field label="Cotisations sociales sur dividendes">{{ctrl.result.dividendes.cotisationsSociales | currency:'€':2}}</field>
+                    <field label="Dividendes nets">{{ctrl.result.dividendes.net | currency:'€':2}} </field>
+                    <field
+                        label="Assiette IR sur dividendes"
+                        doc="assietteDividendesIR"
+                    >{{ctrl.result.dividendes.assietteIR | currency:'€':2}} </field>
+                    <div ng-if="ctrl.result.dividendes.dividendes10">
+                        <hr />
+                        <div>Part sur 10% du capital :</div>
+                        <field label="Dividendes bruts">{{ctrl.result.dividendes.dividendes10.brut | currency:'€':2}}</field>
+                        <field label="Cotisations sociales">{{ctrl.result.dividendes.dividendes10.cotisationsSociales | currency:'€':2}}</field>
+                        <field label="Dividendes nets">{{ctrl.result.dividendes.dividendes10.net | currency:'€':2}}</field>
+                        <hr />
+                        <div>Part au delà :</div>
+                        <field label="Dividendes bruts">{{ctrl.result.dividendes.dividendes90.brut | currency:'€':2}}</field>
+                        <field label="Cotisations sociales">{{ctrl.result.dividendes.dividendes90.cotisationsSociales | currency:'€':2}}</field>
+                        <field label="Dividendes nets">{{ctrl.result.dividendes.dividendes90.net | currency:'€':2}}</field>
+                    </div>
+                </div>
+
+                <div class="alert alert-info">
+                    <h3>Impôt sur le revenu</h3>
+                    <field label="Assiette impôt sur le revenu">{{ctrl.result.IR.assiette | currency:'€':2}}</field>
+                    <field label=" dont rémunération">{{ctrl.result.remuneration.assietteIR | currency:'€':2}}</field>
+                    <field label=" dont dividendes">{{ctrl.result.dividendes.assietteIR | currency:'€':2}}</field>
+                    <field label="Impôt sur le revenu">{{ctrl.result.IR.impot | currency:'€':2}}</field>
+                    <field
+                        label=""
+                        ng-repeat="tranche in ctrl.result.IR.tranches"
+                    >
+                        Tranche {{$index+1}} ({{tranche.min | currency:'€':2}} - {{tranche.max | currency:'€':2}}, {{tranche.taux*100|number}} %)
+                        : {{tranche.value | currency:'€':2}}
+                    </field>
+                    <field label="Pourcentage de l'IR sur revenus nets (après CS)">
+                        {{ctrl.result.IR.impot/(ctrl.result.dividendes.net+ctrl.result.remuneration.net)*100 | number:2}} %
+                    </field>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script
+        type="text/ng-template"
+        id="myModalContent.html"
+    >
+        <div class="modal-header">
+            <h3 class="modal-title" id="modal-title">{{title}}</h3>
+        </div>
+        <div class="modal-body" id="modal-body" ng-bind-html="content">
+        </div>
+    </script>
+    <script
+        type="text/javascript"
+        src="https://cdn.rawgit.com/showdownjs/showdown/1.6.4/dist/showdown.min.js"
+    ></script>
+    <script
+        type="text/javascript"
+        src="bundle.js"
+    ></script>
+
+</body>
+
+</html>
