@@ -4,39 +4,53 @@
 <head>
     <meta charset="utf-8">
     <title></title>
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1"
-    >
-        <link
-            rel="stylesheet"
-            href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-        >
-            <style type="text/css">
-                body {
-                    padding: 1em;
-                }
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <style type="text/css">
+        body {
+            padding: 1rem;
+        }
 
-                .param {
-                    padding: 5px;
-                }
+        .param {
+            padding: 5px;
+        }
 
-                .container {
-                    margin: auto;
-                }
+        .container {
+            margin: auto;
+        }
 
-                sup {
-                    cursor: pointer;
-                }
+        sup {
+            cursor: pointer;
+        }
 
-                h3 {
-                    margin-top: 0;
-                    font-size: 120%;
-                    border-bottom: 1px solid;
-                    padding-bottom: 6px;
-                    font-weight: bold;
-                }
-            </style>
+        #app h3 {
+            margin-top: 0;
+            font-size: 120%;
+            border-bottom: 1px solid;
+            padding-bottom: 6px;
+            font-weight: bold;
+        }
+
+        .param input {
+            width: 100%;
+        }
+         .card {
+            margin-bottom: 1rem;
+        }
+         .share {
+            margin: 1.25rem 0;
+        }
+         .fade.in {
+            opacity: 1;
+        }
+         .modal.in .modal-dialog {
+            transform: translate(0, 0);
+        }
+         .modal-backdrop.in {
+            filter: alpha(opacity=50);
+            opacity: .5;
+        }
+    </style>
 </head>
 
 <body
@@ -55,7 +69,7 @@
     </a>
 
 
-    <div class="container">
+    <div class="container" id="app">
 
         <div class="alert alert-warning">
             Ce calculateur est essentiellement à destination des freelances qui vendent leurs prestations à la journée.
@@ -68,8 +82,8 @@
 
         <div class="row">
             <div class="col-md-8">
-                <div class="panel panel-info">
-                    <div class="panel-body">
+                <div class="card">
+                    <div class="card-body">
                         <div
                             ng-repeat="(name, param) in ctrl.params"
                             class="row param"
@@ -95,61 +109,81 @@
                                 />
                             </div>
                     </div>
-                    <hr />
+                </div>
+                <div class="card-footer">
                     <div class="row">
                         <div class="col-md-2">
-                            <input
-                                type="checkbox"
-                                id="accre"
-                                ng-model="ctrl.params.accre.value"
-                                ng-change="ctrl.onChange()"
-                            />
-                            <label for="accre">ACCRE</label>
+                            <div class="custom-control custom-checkbox">
+                                <input
+                                    type="checkbox"
+                                    class="custom-control-input" 
+                                    id="accre"
+                                    ng-model="ctrl.params.accre.value"
+                                    ng-change="ctrl.onChange()"
+                                />
+                                <label class="custom-control-label" for="accre">ACCRE</label>
+                            </div>
+                            <div class="custom-control custom-checkbox">
+                                <input 
+                                    type="checkbox" 
+                                    class="custom-control-input" 
+                                    id="zfu" 
+                                    ng-model="ctrl.params.zfu.value" 
+                                    ng-change="ctrl.onChange()" 
+                                />
+                                <label class="custom-control-label" for="zfu"><abbr title="Zone Franche Urbaine">ZFU</abbr></label>
+                            </div>
                         </div>
-                        <div class="col-md-3">
-                            <input
-                                type="checkbox"
-                                id="flattax"
-                                ng-model="ctrl.params.flattax.value"
-                                ng-change="ctrl.onChange()"
-                            />
-                            <label for="flattax">Flat tax</label>
-                        </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <select
                                 ng-model="ctrl.params.forme.value"
                                 class="form-control"
                                 ng-options="forme as forme for forme in ctrl.formes"
                                 ng-change="ctrl.onChange()"
                             >
-                                </select>
+                            </select>
                         </div>
-                        <div class="col-md-4">
-
-                            <div class="input-group">
-                                <input
-                                    type="text"
-                                    class="form-control"
-                                    placeholder="Nom de la sauvegarde"
-                                >
-                                    <span class="input-group-btn">
+                        <div class="col-md-8">     
+                            <form action="" ng-submit="ctrl.pushState($event)">               
+                                <div class="input-group form-group">
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        ng-model="ctrl.newStateName"
+                                        placeholder="Nom de la sauvegarde"
+                                    >
+                                    <span class="input-group-append">
                                         <button
                                             class="btn btn-primary"
-                                            type="button"
+                                            type="submit"
+                                            ng-disabled="ctrl.newStateName.length === 0"
                                         >Sauvegarder</button>
                                     </span>
+                                </div>
+                            </form>
+                            <div class="input-group" ng-if="ctrl.states.length > 0">
+                                <select 
+                                    class="form-control" 
+                                    ng-model="ctrl.currentState" 
+                                    ng-options="state.name for state in ctrl.states" 
+                                    ng-change="ctrl.loadState()"
+                                >
+                                    <option value="">Sauvegardes</option>
+                                </select>
+                                <span class="input-group-append">
+                                    <button 
+                                        type="button" 
+                                        class="btn btn-primary btn-sm" 
+                                        ng-click="ctrl.clearState()" 
+                                        ng-disabled="ctrl.currentState === null"
+                                    >Effacer</button>
+                                    <button 
+                                        type="button" 
+                                        class="btn btn-primary btn-sm" 
+                                        ng-click="ctrl.clearStates()"
+                                    >Tout effacer</button>
+                                </span>
                             </div>
-                            <select ng-if="ctrl.states.length > 0"
-                                ng-model="ctrl.currentState"
-                                ng-options="state.name for state in ctrl.states"
-                                ng-change="ctrl.loadState()"
-                            >
-                            </select>
-                            <button ng-if="ctrl.states.length > 0"
-                                type="button"
-                                class="btn btn-primary btn-sm"
-                                ng-click="ctrl.clearStates()"
-                            >Tout effacer</button>
                         </div>
                     </div>
                 </div>
@@ -195,11 +229,11 @@
         </div>
     </div>
 
-    <div class="alert">
+    <div class="share">
         <div class="input-group">
-            <span class="input-group-btn">
-                <button class="btn">URL de partage :</button>
-            </span>
+            <div class="input-group-prepend">
+                <span class="input-group-text" >URL de partage :</span>
+            </div>
             <input
                 type="text"
                 class="form-control"
@@ -207,15 +241,16 @@
                 ng-value="ctrl.url"
                 id="url"
             />
-            <span class="input-group-btn">
+            <div class="input-group-append">
                 <button
                     class="btn btn-primary"
                     ngclipboard
                     data-clipboard-target="#url"
                 >Copier dans le presse-papier</button>
-            </span>
+            </div>
         </div>
     </div>
+
 
     <div class="row">
         <div class="col-md-6">

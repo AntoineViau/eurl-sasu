@@ -21,7 +21,7 @@ class AppCtrl {
     public resteSemainesParMois: number;
     public resteJoursParSemaine: number;
     public result;
-    public newStateName: string;
+    public newStateName: string = "";
     public url;
     public formes = ['EURL', 'SASU'];
 
