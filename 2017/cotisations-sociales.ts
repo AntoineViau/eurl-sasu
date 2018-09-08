@@ -3,7 +3,7 @@ export default class CotisationsSociales {
     remuneration: number = 0;
     accre: number = 0;
     accre2017: boolean;
-    PASS: number = 39732
+    PASS: number = 39228
 
     _revenuPro() {
         return this.remuneration;

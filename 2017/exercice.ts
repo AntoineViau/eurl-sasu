@@ -16,7 +16,7 @@ export default class Exercice {
     bnc: number = 0;
     nbParts: number = 1;
     forme: string = 'EURL';
-    PASS: number = 39732;
+    PASS: number = 39228;
 
     constructor(
         private impotSociete: ImpotSociete,
