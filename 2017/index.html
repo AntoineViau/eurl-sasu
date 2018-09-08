@@ -57,12 +57,10 @@
         }
     </style>
 </head>
-
 <body
     ng-app="app"
     ng-controller="appCtrl as ctrl"
 >
-
     <a href="https://github.com/AntoineViau/eurl-sasu">
         <img
             style="position: absolute; top: 0; left: 0; border: 0; z-index: 9999"
@@ -73,9 +71,7 @@
         >
     </a>
 
-
     <div class="container" id="app">
-
         <div class="alert alert-warning">
             Ce calculateur est essentiellement à destination des freelances qui vendent leurs prestations à la journée.
             <br />
@@ -132,7 +128,10 @@
                                         ng-model="ctrl.params.accre.value"
                                         ng-change="ctrl.onChange()"
                                     />
-                                    <label class="custom-control-label" for="accre">ACCRE</label>
+                                    <label 
+                                        class="custom-control-label" 
+                                        for="accre"
+                                    >ACCRE</label>
                                 </div>
                                 <div class="custom-control custom-checkbox">
                                     <input 
@@ -142,7 +141,12 @@
                                         ng-model="ctrl.params.zfu.value" 
                                         ng-change="ctrl.onChange()" 
                                     />
-                                    <label class="custom-control-label" for="zfu"><abbr title="Zone Franche Urbaine">ZFU</abbr></label>
+                                    <label 
+                                        class="custom-control-label"
+                                        for="zfu"
+                                    >
+                                        <abbr title="Zone Franche Urbaine">ZFU</abbr>
+                                    </label>
                                 </div>
                             </div>
                             <div class="col-md-2">
@@ -155,7 +159,10 @@
                                 </select>
                             </div>
                             <div class="col-md-8">     
-                                <form action="" ng-submit="ctrl.pushState($event)">               
+                                <form 
+                                    action="" 
+                                    ng-submit="ctrl.pushState($event)"
+                                >               
                                     <div class="input-group form-group">
                                         <input
                                             type="text"
@@ -243,7 +250,7 @@
         <div class="share">
             <div class="input-group">
                 <div class="input-group-prepend">
-                    <span class="input-group-text" >URL de partage :</span>
+                    <span class="input-group-text">URL de partage :</span>
                 </div>
                 <input
                     type="text"
@@ -367,7 +374,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 
     <script
@@ -377,18 +383,16 @@
         <div class="modal-header">
             <h3 class="modal-title" id="modal-title">{{title}}</h3>
         </div>
-        <div class="modal-body" id="modal-body" ng-bind-html="content">
-        </div>
+
+        <div class="modal-body" id="modal-body" ng-bind-html="content"></div>
     </script>
     <script
         type="text/javascript"
-        src="https://cdn.rawgit.com/showdownjs/showdown/1.6.4/dist/showdown.min.js"
+        src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.8.6/showdown.min.js"
     ></script>
     <script
         type="text/javascript"
         src="bundle.js"
     ></script>
-
 </body>
-
 </html>
