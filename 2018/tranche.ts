@@ -16,7 +16,7 @@ export default class Tranche {
         if (revenu < this.min) {
             return 0;
         }
-        if (revenu > this.max) {
+        if (null !== this.max && revenu > this.max) {
             let r = (this.max - this.min) * this.taux;
             return r;
         }

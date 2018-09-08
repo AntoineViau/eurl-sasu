@@ -9,6 +9,7 @@ export default class Exercice {
     remuneration: number;
     dividendes: number;
     accre: boolean = false;
+    zfu: boolean = false;
     pfu: boolean = false;
     autresRevenus: number = 0;
     bnc: number = 0;
@@ -17,17 +18,15 @@ export default class Exercice {
 
     tauxAccreCsSalaire = 0.35;
     tauxCsSalaire = 0.85;
-    plafondAccre = 39228;
-    plancherAccreLineaire = this.plafondAccre * 0.75;
-    tauxCsgCrds = 0.155;
+    PASS: number = 39732;
+    plancherAccreLineaire = this.PASS * 0.75;
+    tauxCsgCrds = 0.172;
     tauxAbattementDividendes = 0.4;
-    tauxCsgDeductible = 0.051;
+    tauxCsgDeductible = 0.068;
     tauxAbattementBnc = 0.34;
     tauxAbattementFrais = 0.1;
     flatTax = false;
     tauxFlatTax = 0.3;
-
-    ecoute;
 
     constructor(
         public impotSociete: ImpotSociete,
@@ -124,8 +123,7 @@ export default class Exercice {
             // res.remuneration.cotisationsSociales = cs;
             // console.log(cs / n * 100, '%');
         }
-        res.remuneration.assietteIR =
-            res.remuneration.net * (1 - this.tauxAbattementFrais);
+        res.remuneration.assietteIR = res.remuneration.net * (1 - this.tauxAbattementFrais);
         res.IR.assiette += res.remuneration.assietteIR; // https://captaincontrat.com/guide/regime-fiscal-dirigeant/
         // IS
         // A la fin de l'exercice, on commence par payer l'IS
@@ -140,8 +138,17 @@ export default class Exercice {
             res.societe.ca - res.societe.charges - res.remuneration.brut; // base IS
         res.IS.assiette = res.societe.brut;
         this.impotSociete.benefice = res.IS.assiette;
-        res.IS.impot = this.impotSociete.getImpot();
+        if (!this.zfu) {
+            res.IS.exonerations = 0;
+            res.IS.impot = this.impotSociete.getImpot();
+        } else {
+            res.IS.exonerations = this.impotSociete.getImpot();
+            res.IS.impot = 0; //Pas d'IS sur un freelance basé en ZFU qui réalise 100% de son CA en ZFU
+        }
+        res.IS.tranches = this.impotSociete.getTranches();    
         res.societe.reste = res.societe.brut - res.IS.impot - res.dividendes.brut;
+
+        console.log(res.IS.tranches);
         // Dividendes
         if (this.dividendes > 0) {
             if (this.forme === "SASU") {
