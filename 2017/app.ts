@@ -46,7 +46,6 @@ class AppCtrl {
             bnc: { name: 'bnc', min: 0, max: 50000, step: 500, value: 0 },
             nbParts: { name: 'nbParts', min: 1, max: 10, step: 0.5, value: 1 },
             accre: { name: 'ACCRE', notSlider: true, value: false },
-            pfu: { name: 'PFU', notSlider: true, value: false },
             zfu: { name: 'ZFU', notSlider: true, value: false },
             forme: { name: 'Forme', notSlider: true, value: 'EURL' }
         };
@@ -130,17 +129,12 @@ class AppCtrl {
     }
 
     onChange(param = undefined) {
-        if(this.params.forme.value !== 'SASU') {
-            this.params.pfu.value = false;
-        }
-
         this.exercice.capital = this.params.capital.value;
         this.exercice.ca = this.params.ca.value;
         this.exercice.charges = this.params.charges.value;
         this.exercice.remuneration = this.params.remuneration.value;
         this.exercice.dividendes = this.params.dividendes.value;
         this.exercice.accre2017 = this.params.accre.value;// === 'true';
-        this.exercice.pfu = this.params.pfu.value;// === 'true';
         this.exercice.zfu = this.params.zfu.value;// === 'true';
         this.exercice.autresRevenus = this.params.autresRevenus.value;
         this.exercice.bnc = this.params.bnc.value;
