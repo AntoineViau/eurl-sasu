@@ -89,9 +89,11 @@
                             class="row param"
                             ng-if="!param.notSlider"
                         >
-                            <div class="col-md-2 text-right">{{param.name | uppercase}}</div>
-                            <div class="col-md-8">
-                                <input
+                        <label for="param-{{ name }}" class="col-md-3 col-form-label text-right">{{param.name | uppercase}}</label>                
+                        <div class="col-md-7">
+                            <input
+                                    id="param-{{ name }}"
+                                    class="form-control-range"
                                     type="range"
                                     min="{{param.min}}"
                                     max="{{param.max}}"
@@ -99,15 +101,15 @@
                                     ng-model="param.value"
                                     ng-change="ctrl.onChange(param)"
                                 />
-                            </div>
-                            <div class="col-md-2">
-                                <input
-                                    type="text"
-                                    class="form-control"
-                                    ng-model="param.value"
-                                    readonly
-                                />
-                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <input
+                                type="text"
+                                class="form-control"
+                                ng-model="param.value"
+                                readonly
+                            />
+                        </div>
                     </div>
                 </div>
                 <div class="card-footer">

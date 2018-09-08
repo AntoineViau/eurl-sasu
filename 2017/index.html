@@ -93,9 +93,11 @@
                             class="row param"
                             ng-if="!param.notSlider"
                         >
-                            <div class="col-md-2 text-right">{{param.name | uppercase}}</div>
-                            <div class="col-md-8">
+                            <label for="param-{{ name }}" class="col-md-3 col-form-label text-right">{{param.name | uppercase}}</label>                
+                            <div class="col-md-7">
                                 <input
+                                    id="param-{{ name }}"
+                                    class="form-control-range"
                                     type="range"
                                     min="{{param.min}}"
                                     max="{{param.max}}"
