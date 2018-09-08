@@ -1,32 +1,38 @@
-import Tranche from "./tranche";
+import Tranche from './tranche'
 
 export default class ImpotRevenu {
-  tranches: Tranche[] = [];
-  revenu: number;
-  nbParts: number;
-  constructor() {}
 
-  getImpot(): number {
-    let baseIR = this.revenu / this.nbParts;
-    let total = 0;
-    this.tranches.forEach(tranche => {
-      total += tranche.getImpot(baseIR);
-    });
-    return total * this.nbParts;
-  }
+    tranches: Tranche[];
+    revenu: number;
+    nbParts: number;
 
-  getTranches() {
-    let baseIR = this.revenu;
-    let total = 0;
-    let tranches = [];
-    this.tranches.forEach(tranche => {
-      tranches.push({
-        value: tranche.getImpot(this.revenu),
-        min: tranche.getMin(),
-        max: tranche.getMax(),
-        taux: tranche.getTaux()
-      });
-    });
-    return tranches;
-  }
+    //Source : https://www.impots.gouv.fr/portail/particulier/calcul-de-limpot-sur-le-revenu
+    constructor() {
+        this.tranches = [
+            new Tranche(0, 9807, 0),
+            new Tranche(9808, 27086, 0.14),
+            new Tranche(27087, 72617, 0.3),
+            new Tranche(72618, 153783, 0.41),
+            new Tranche(153784, null, 0.45),
+        ];
+    }
+
+    getImpot(): number {
+        let baseIR = this.revenu / this.nbParts;
+        let total = 0;
+        this.tranches.forEach((tranche) => {
+            total += tranche.getImpot(baseIR);
+        });
+        return total * this.nbParts;
+    }
+
+    getTranches() {
+        let baseIR = this.revenu;
+        let total = 0;
+        let tranches = [];
+        this.tranches.forEach((tranche) => {
+            tranches.push({ value: tranche.getImpot(this.revenu), min: tranche.getMin(), max: tranche.getMax(), taux: tranche.getTaux() });
+        });
+        return tranches;
+    }
 }
