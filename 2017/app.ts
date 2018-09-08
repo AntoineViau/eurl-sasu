@@ -157,12 +157,6 @@ class AppCtrl {
 }
 
 angular.module('app', ['ngLocale', 'ui.bootstrap', 'ngSanitize', 'ngCookies', 'ngclipboard'])
-    .config(['$locationProvider', ($locationProvider) => {
-        $locationProvider.html5Mode({
-          enabled: true,
-          requireBase: false
-        });
-    }])
     .service('cotisationsSociales', [() => new CotisationsSociales()])
     .service('impotSociete', [() => new ImpotSociete()])
     .service('impotRevenu', [() => new ImpotRevenu()])
