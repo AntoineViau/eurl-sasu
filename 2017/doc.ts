@@ -29,7 +29,7 @@ De manière générale, l'idée de se rémunérer sur les dividendes signifie qu
         content: `
 Un des gros avantages des dividendes est qu'ils sont taxés à l'IR sur 60% de leur valeur, et on peut aussi déduire la CSG de l'assiette (5,1%).  
 Exemple donné par [www.service-public.fr](https://www.service-public.fr/professionnels-entreprises/vosdroits/F32963) :  
-*Par exemple, un actionnaire ou associé qui perçoit 1 000 € de dividendes doit acquitter 17,9 % de prélèvements sociaux, soit 179 €, déductibles à hauteur de 5,1 %, soit 51 €. Le montant imposable des revenus distribués, soumis au barème progressif de l'impôt sur le revenu, est égal à 600 € (1 000 - 1 000 x 40 %) - 51 € (CSG déductible) = 549 €.*  
+*Par exemple, un actionnaire ou associé qui perçoit 1 000 € de dividendes doit acquitter 15,5 % de prélèvements sociaux, soit 155 €, déductibles à hauteur de 5,1 %, soit 51 €. Le montant imposable des revenus distribués, soumis au barème progressif de l'impôt sur le revenu, est égal à 600 € (1 000 - 1 000 x 40 %) - 51 € (CSG déductible) = 549 €.*  
 
 Par ailleurs, au moment où les dividendes sont distribués, il y a un acompte de 21% qui est prélevé à la source. Il faudra donc l'indiquer sur sa feuille d'impôt pour qu'il soit déduit.  
 
