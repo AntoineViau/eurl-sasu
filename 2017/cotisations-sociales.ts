@@ -98,10 +98,10 @@ export default class CotisationsSociales {
     }
 
     getCsgCrds(): number {
-        var assiette  = this._revenuPro() +
-        this.getMaladie() + 
-        this.getAllocationsFamiliales() + 
-        this.getRetraiteBase();
+        var assiette = this._revenuPro() +
+            this.getMaladie() +
+            this.getAllocationsFamiliales() +
+            this.getRetraiteBase();
         return assiette * 0.08;
     }
 

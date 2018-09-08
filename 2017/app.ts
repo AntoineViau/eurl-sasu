@@ -71,7 +71,7 @@ class AppCtrl {
     }
 
     pushState(event) {
-        let filteredStates = this.$filter('filter')(this.states, {name: this.newStateName});
+        let filteredStates = this.$filter('filter')(this.states, { name: this.newStateName });
 
         let state = {
             name: this.newStateName,
@@ -79,13 +79,13 @@ class AppCtrl {
         };
 
         //Add new a new save
-        if(filteredStates.length === 0) {
+        if (filteredStates.length === 0) {
             this.states.push(state);
         } else {
             //Merge with existing save
-            state = angular.extend(filteredStates[0], {params: this.params});
+            state = angular.extend(filteredStates[0], { params: this.params });
         }
-        
+
         this.$cookies.put('states', JSON.stringify(this.states));
         this.currentState = state;
 
@@ -94,7 +94,7 @@ class AppCtrl {
     }
 
     loadState() {
-        if(this.currentState === null) {
+        if (this.currentState === null) {
             this.newStateName = "";
             return;
         }
@@ -111,7 +111,7 @@ class AppCtrl {
 
         var index = this.states.indexOf(this.currentState);
 
-        if(-1 === index) {
+        if (-1 === index) {
             return;
         }
 
@@ -148,7 +148,7 @@ class AppCtrl {
         this.exercice.forme = this.params.forme.value;
         this.result = this.exercice.exercice();
 
-        this.url = window.location.protocol + 
+        this.url = window.location.protocol +
             '//' +
             window.location.host +
             window.location.pathname +

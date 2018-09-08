@@ -93,14 +93,14 @@ export default class Exercice {
         res.societe.brut = res.societe.ca - res.societe.charges - res.remuneration.brut; // base IS
         res.IS.assiette = res.societe.brut;
         this.impotSociete.benefice = res.IS.assiette;
-        if(! this.zfu) {
+        if (!this.zfu) {
             res.IS.exonerations = 0;
             res.IS.impot = this.impotSociete.getImpot();
-        }else {
+        } else {
             res.IS.exonerations = this.impotSociete.getImpot();
             res.IS.impot = 0; //Pas d'IS sur un freelance basé en ZFU qui réalise 100% de son CA en ZFU
         }
-        
+
         res.IS.tranches = this.impotSociete.getTranches();
         res.societe.reste = res.societe.brut - res.IS.impot - res.dividendes.brut;
         res.dividendes.supernet = 0; //Utilisé pour la SASU et Flat Tax
@@ -109,7 +109,7 @@ export default class Exercice {
         // Dividendes
         if (this.dividendes > 0) {
             if (this.forme === 'SASU') {
-                if(! this.pfu) {
+                if (!this.pfu) {
                     // Pour les dividendes en SA (sans flat tax)
                     res.dividendes.cotisationsSociales = res.dividendes.brut * 0.172;
                     res.dividendes.net = res.dividendes.brut - res.dividendes.cotisationsSociales;
@@ -120,7 +120,7 @@ export default class Exercice {
                     // Pour les dividendes en SA (avec flat tax)
                     res.dividendes.cotisationsSociales = res.dividendes.brut * 0.172; //17.2% de cotisations sociales
                     res.IR.impotPFU = res.dividendes.brut * 0.128; //12.8% d'IR
-                    res.dividendes.net = res.dividendes.brut  - res.dividendes.cotisationsSociales - res.IR.impotPFU; //Soit 30% de taxes totales (CS + IR)
+                    res.dividendes.net = res.dividendes.brut - res.dividendes.cotisationsSociales - res.IR.impotPFU; //Soit 30% de taxes totales (CS + IR)
                     res.dividendes.assietteIR = 0; //Pas soumis au barême progressif - prélèvement libératoire
                 }
             } else {

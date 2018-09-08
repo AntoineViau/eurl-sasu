@@ -129,7 +129,7 @@ class AppCtrl {
 
         this.result = this.exercice.exercice();
 
-        this.url = window.location.protocol + 
+        this.url = window.location.protocol +
             '//' +
             window.location.host +
             window.location.pathname +
