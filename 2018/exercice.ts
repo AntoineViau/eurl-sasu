@@ -15,10 +15,10 @@ export default class Exercice {
   forme: string = "EURL";
 
   tauxAccreCsSalaire = 0.35;
-  tauxCsSalaire = 0.85;
+  tauxCsSalaire = 0.84;
   plafondAccre = 39228;
   plancherAccreLineaire = this.plafondAccre * 0.75;
-  tauxCsgCrds = 0.155;
+  tauxCsgCrds = 0.172;
   tauxAbattementDividendes = 0.4;
   tauxCsgDeductible = 0.051;
   tauxAbattementBnc = 0.34;
