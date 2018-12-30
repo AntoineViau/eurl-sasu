@@ -93,15 +93,15 @@ class AppCtrl {
     this.params.forme.value =
       this.$location.search()["forme"] || this.params.forme.value;
 
-    for (let d = 0; d < 100000; d += 1000) {
-      this.params.dividendes.value = d;
-      this.onChange();
-      console.log(this.result.net);
-      if (this.result.societe.reste <= 0) {
-        break;
-      }
-    }
-    //this.onChange();
+    // for (let d = 0; d < 100000; d += 1000) {
+    //   this.params.dividendes.value = d;
+    //   this.onChange();
+    //   //console.log(this.result.net);
+    //   if (this.result.societe.reste <= 0) {
+    //     break;
+    //   }
+    // }
+    this.onChange();
   }
 
   pushState() {
@@ -141,15 +141,15 @@ class AppCtrl {
     this.exercice.tauxCsgDeductible = 0.068;
     this.exercice.impotSociete.tranches = [
       new Tranche(0, 38120, 0.15),
-      new Tranche(38121, 500000, 0.28),
-      new Tranche(500000, 99999999, 0.3333)
+      new Tranche(38121, 75000, 0.28),
+      new Tranche(75001, 99999999, 0.3333)
     ];
     this.exercice.impotRevenu.tranches = [
-      new Tranche(0, 9807, 0),
-      new Tranche(9808, 27086, 0.14),
-      new Tranche(27087, 72617, 0.3),
-      new Tranche(72618, 153783, 0.41),
-      new Tranche(153784, 99999999, 0.45)
+      new Tranche(0, 9964, 0),
+      new Tranche(9965, 27519, 0.14),
+      new Tranche(27520, 73779, 0.3),
+      new Tranche(73780, 156244, 0.41),
+      new Tranche(156245, 99999999, 0.45)
     ];
 
     //console.log(this.exercice);
