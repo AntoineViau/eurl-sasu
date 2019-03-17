@@ -10,12 +10,10 @@ export default class Exercice {
     remuneration: number;
     dividendes: number;
     accre2017: boolean = false;
-    zfu: boolean = false;
     autresRevenus: number = 0;
     bnc: number = 0;
     nbParts: number = 1;
     forme: string = 'EURL';
-    PASS: number = 39228;
 
     constructor(
         private impotSociete: ImpotSociete,
@@ -45,6 +43,7 @@ export default class Exercice {
                 brut: 0,
                 assietteIR: 0,
                 net: 0
+
             },
             societe: {
                 ca: 0,
@@ -74,7 +73,13 @@ export default class Exercice {
             // https://www.zefyr.net/blog/sasu-ou-eurl-comparaison-des-revenus-apres-charges-et-ir/
             // http://www.lecoindesentrepreneurs.fr/accre-president-de-sasu-ou-de-sas/
             // Calcul approximatif et pessimiste de cotisations en SASU : 89% du net (35% avec ACCRE)
-            let taux = this.accre2017 && res.remuneration.net < this.PASS * 0.75 ? 0.35 : 0.89;
+            // cs = net * 0.89
+            // brut = net + cs = net + net*0.89 = net*1.89
+            // net = brut / 1.89
+            // let taux = this.accre2017 && res.remuneration.brut < 39228 * 0.75 ? 1.35 : 1.89;
+            // res.remuneration.net = res.remuneration.brut / taux;
+            // res.remuneration.cotisationsSociales = res.remuneration.brut - res.remuneration.net;
+            let taux = this.accre2017 && res.remuneration.net < 39228 * 0.75 ? 0.35 : 0.89;
             res.remuneration.cotisationsSociales = res.remuneration.net * taux;
             res.remuneration.brut = res.remuneration.net + res.remuneration.cotisationsSociales;
         }
@@ -86,34 +91,25 @@ export default class Exercice {
         // http://www.lecoindesentrepreneurs.fr/sarl-imposition-des-benefices/
         // Principe : un acompte de 21% d'IR. Il sera donc à déduire de l'IR.
         // http://www.leblogdudirigeant.com/dividendes-imposition-fiscalite/
-        // https://www.service-public.fr/professionnels-entreprises/vosdroits/F32963
+        // https://www.service-public.fr/professionnels-entreprises/vosdroits/F32963    
         res.societe.ca = this.ca;
         res.societe.charges = this.charges;
         res.societe.brut = res.societe.ca - res.societe.charges - res.remuneration.brut; // base IS
         res.IS.assiette = res.societe.brut;
         this.impotSociete.benefice = res.IS.assiette;
-        if (!this.zfu) {
-            res.IS.exonerations = 0;
-            res.IS.impot = this.impotSociete.getImpot();
-        } else {
-            res.IS.exonerations = this.impotSociete.getImpot();
-            res.IS.impot = 0; //Pas d'IS sur un freelance basé en ZFU qui réalise 100% de son CA en ZFU
-        }
-
-        res.IS.tranches = this.impotSociete.getTranches();
+        res.IS.impot = this.impotSociete.getImpot();
         res.societe.reste = res.societe.brut - res.IS.impot - res.dividendes.brut;
-
         // Dividendes
         if (this.dividendes > 0) {
             if (this.forme === 'SASU') {
-                // Pour les dividendes en SAS
+                // Pour les dividendes en SA
                 res.dividendes.cotisationsSociales = res.dividendes.brut * 0.155;
                 res.dividendes.net = res.dividendes.brut - res.dividendes.cotisationsSociales;
                 // L'assiette de l'IR pour les dividendes : dividendes brut - 40% - csg (5,1%)
                 // https://www.service-public.fr/professionnels-entreprises/vosdroits/F32963
-                res.dividendes.assietteIR = res.dividendes.brut * 0.6 - res.dividendes.brut * 0.051;                
+                res.dividendes.assietteIR = res.dividendes.brut * 0.6 - res.dividendes.brut * 0.051;
             } else {
-                // En SARL/EURL, on distingue la part < 10% du capital
+                // En SARL/EURL, on distingue la part < 10% du capital 
                 let dividendes10: any = {};
                 dividendes10.brut = this.capital * 0.1;
                 dividendes10.cotisationsSociales = dividendes10.brut * 0.155;
@@ -129,7 +125,6 @@ export default class Exercice {
                 res.dividendes.assietteIR = dividendes10.brut * 0.6 - dividendes10.brut * 0.051 + dividendes90.brut * 0.6 - dividendes90.brut * 0.051;
                 res.dividendes.cotisationsSociales = dividendes10.cotisationsSociales + dividendes90.cotisationsSociales;
                 res.dividendes.net = dividendes10.net + dividendes90.net;
-
             }
             res.IR.assiette += res.dividendes.assietteIR;
         }

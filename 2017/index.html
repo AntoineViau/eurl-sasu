@@ -3,17 +3,19 @@
 
 <head>
     <meta charset="utf-8">
-    <title>[2017] Simulateur de charges sociales et impôt sur revenus pour EURL / SASU</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Simulez le montant de vos cotisations sociales, impôt sur société et impôt sur revenus de votre EURL ou SASU pour l'année 2017.">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <title></title>
+    <base href="/" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+    >
+    <link
+        rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+    >
     <style type="text/css">
-        html {
-            font-size: 15px;
-        }
-
         body {
-            padding: 1rem;
+            padding: 1em;
         }
 
         .param {
@@ -28,39 +30,21 @@
             cursor: pointer;
         }
 
-        #app h3 {
+        h3 {
             margin-top: 0;
             font-size: 120%;
             border-bottom: 1px solid;
             padding-bottom: 6px;
             font-weight: bold;
         }
-
-        .param input {
-            width: 100%;
-        }
-         .card {
-            margin-bottom: 1rem;
-        }
-         .share {
-            margin: 1.25rem 0;
-        }
-         .fade.in {
-            opacity: 1;
-        }
-         .modal.in .modal-dialog {
-            transform: translate(0, 0);
-        }
-         .modal-backdrop.in {
-            filter: alpha(opacity=50);
-            opacity: .5;
-        }
     </style>
 </head>
+
 <body
     ng-app="app"
     ng-controller="appCtrl as ctrl"
 >
+
     <a href="https://github.com/AntoineViau/eurl-sasu">
         <img
             style="position: absolute; top: 0; left: 0; border: 0; z-index: 9999"
@@ -71,8 +55,10 @@
         >
     </a>
 
-    <div class="container" id="app">
-        <div class="alert alert-warning">
+
+    <div class="container">
+
+        <div class="row alert alert-warning">
             Ce calculateur est essentiellement à destination des freelances qui vendent leurs prestations à la journée.
             <br />
             <strong>Il est valable pour les revenus de l'année 2017</strong>
@@ -87,18 +73,16 @@
 
         <div class="row">
             <div class="col-md-8">
-                <div class="card">
-                    <div class="card-body">
+                <div class="panel panel-info">
+                    <div class="panel-body">
                         <div
                             ng-repeat="(name, param) in ctrl.params"
                             class="row param"
                             ng-if="!param.notSlider"
                         >
-                            <label for="param-{{ name }}" class="col-md-3 col-form-label text-right">{{param.name | uppercase}}</label>                
-                            <div class="col-md-7">
+                            <div class="col-md-2 text-right">{{param.name | uppercase}}</div>
+                            <div class="col-md-8">
                                 <input
-                                    id="param-{{ name }}"
-                                    class="form-control-range"
                                     type="range"
                                     min="{{param.min}}"
                                     max="{{param.max}}"
@@ -116,38 +100,16 @@
                                 />
                             </div>
                         </div>
-                    </div>
-                    <div class="card-footer">
+                        <hr />
                         <div class="row">
                             <div class="col-md-2">
-                                <div class="custom-control custom-checkbox">
-                                    <input
-                                        type="checkbox"
-                                        class="custom-control-input" 
-                                        id="accre"
-                                        ng-model="ctrl.params.accre.value"
-                                        ng-change="ctrl.onChange()"
-                                    />
-                                    <label 
-                                        class="custom-control-label" 
-                                        for="accre"
-                                    >ACCRE</label>
-                                </div>
-                                <div class="custom-control custom-checkbox">
-                                    <input 
-                                        type="checkbox" 
-                                        class="custom-control-input" 
-                                        id="zfu" 
-                                        ng-model="ctrl.params.zfu.value" 
-                                        ng-change="ctrl.onChange()" 
-                                    />
-                                    <label 
-                                        class="custom-control-label"
-                                        for="zfu"
-                                    >
-                                        <abbr title="Zone Franche Urbaine">ZFU</abbr>
-                                    </label>
-                                </div>
+                                <input
+                                    type="checkbox"
+                                    id="accre"
+                                    ng-model="ctrl.params.accre.value"
+                                    ng-change="ctrl.onChange()"
+                                />
+                                <label for="accre">ACCRE</label>
                             </div>
                             <div class="col-md-2">
                                 <select
@@ -158,50 +120,32 @@
                                 >
                                 </select>
                             </div>
-                            <div class="col-md-8">     
-                                <form 
-                                    action="" 
-                                    ng-submit="ctrl.pushState($event)"
-                                >               
-                                    <div class="input-group form-group">
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            ng-model="ctrl.newStateName"
-                                            placeholder="Nom de la sauvegarde"
-                                        >
-                                        <span class="input-group-append">
-                                            <button
-                                                class="btn btn-primary"
-                                                type="submit"
-                                                ng-disabled="ctrl.newStateName.length === 0"
-                                            >Sauvegarder</button>
-                                        </span>
-                                    </div>
-                                </form>
-                                <div class="input-group" ng-if="ctrl.states.length > 0">
-                                    <select 
-                                        class="form-control" 
-                                        ng-model="ctrl.currentState" 
-                                        ng-options="state.name for state in ctrl.states" 
-                                        ng-change="ctrl.loadState()"
+                            <div class="col-md-8">
+
+                                <div class="input-group">
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        placeholder="Nom de la sauvegarde"
                                     >
-                                        <option value="">Sauvegardes</option>
-                                    </select>
-                                    <span class="input-group-append">
-                                        <button 
-                                            type="button" 
-                                            class="btn btn-primary btn-sm" 
-                                            ng-click="ctrl.clearState()" 
-                                            ng-disabled="ctrl.currentState === null"
-                                        >Effacer</button>
-                                        <button 
-                                            type="button" 
-                                            class="btn btn-primary btn-sm" 
-                                            ng-click="ctrl.clearStates()"
-                                        >Tout effacer</button>
+                                    <span class="input-group-btn">
+                                        <button
+                                            class="btn btn-primary"
+                                            type="button"
+                                        >Sauvegarder</button>
                                     </span>
                                 </div>
+                                <select ng-if="ctrl.states.length > 0"
+                                    ng-model="ctrl.currentState"
+                                    ng-options="state.name for state in ctrl.states"
+                                    ng-change="ctrl.loadState()"
+                                >
+                                </select>
+                                <button ng-if="ctrl.states.length > 0"
+                                    type="button"
+                                    class="btn btn-primary btn-sm"
+                                    ng-click="ctrl.clearStates()"
+                                >Tout effacer</button>
                             </div>
                         </div>
                     </div>
@@ -247,11 +191,11 @@
             </div>
         </div>
 
-        <div class="share">
+        <div class="row alert">
             <div class="input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text">URL de partage :</span>
-                </div>
+                <span class="input-group-btn">
+                    <button class="btn">URL de partage :</button>
+                </span>
                 <input
                     type="text"
                     class="form-control"
@@ -259,13 +203,13 @@
                     ng-value="ctrl.url"
                     id="url"
                 />
-                <div class="input-group-append">
+                <span class="input-group-btn">
                     <button
                         class="btn btn-primary"
                         ngclipboard
                         data-clipboard-target="#url"
                     >Copier dans le presse-papier</button>
-                </div>
+                </span>
             </div>
         </div>
 
@@ -306,20 +250,6 @@
                     >
                         {{ctrl.result.IS.impot | currency:'€':2}} ({{ctrl.result.IS.impot / ctrl.result.IS.assiette * 100 | number:2}} %)
                     </field>
-                    <ul>
-                        <li ng-repeat="tranche in ctrl.result.IS.tranches">
-                        Tranche {{$index+1}} ({{tranche.min | currency:'€':2}} <span ng-if="tranche.max !== null">- {{tranche.max | currency:'€':2}}</span><span ng-if="tranche.max === null">et plus</span>, {{tranche.taux*100|number}} %)
-                        : {{tranche.value | currency:'€':2}}
-                        </li>
-                    </ul>
-                    </field>
-                    <field 
-                        label="Exonérations sur impôt société" 
-                        ng-if="ctrl.params.zfu.value" 
-                        doc="exonerationsZFU"
-                    >
-                        {{ctrl.result.IS.exonerations | currency:'€':2}} ({{ctrl.result.IS.exonerations / ctrl.result.IS.assiette * 100 | number:2}} %)
-                    </field>
                     <field
                         label="Distribuable"
                         doc="distribuable"
@@ -359,21 +289,20 @@
                     <field label=" dont rémunération">{{ctrl.result.remuneration.assietteIR | currency:'€':2}}</field>
                     <field label=" dont dividendes">{{ctrl.result.dividendes.assietteIR | currency:'€':2}}</field>
                     <field label="Impôt sur le revenu">{{ctrl.result.IR.impot | currency:'€':2}}</field>
-                    <ul>
-                        <li ng-repeat="tranche in ctrl.result.IR.tranches">
-                            Tranche {{$index+1}} ({{tranche.min | currency:'€':2}} <span ng-if="tranche.max !== null">- {{tranche.max | currency:'€':2}}</span><span ng-if="tranche.max === null">et plus</span>, {{tranche.taux*100|number}} %)
-                            : {{tranche.value | currency:'€':2}}
-                        </li>
-                        <li ng-if="ctrl.params.pfu.value">
-                            <field label="dont dividendes (PFU)" doc="dividendesPFUIR">{{ ctrl.result.IR.impotPFU | currency:'€':2 }}</field>
-                        </li>
-                    </ul>
+                    <field
+                        label=""
+                        ng-repeat="tranche in ctrl.result.IR.tranches"
+                    >
+                        Tranche {{$index+1}} ({{tranche.min | currency:'€':2}} - {{tranche.max | currency:'€':2}}, {{tranche.taux*100|number}} %)
+                        : {{tranche.value | currency:'€':2}}
+                    </field>
                     <field label="Pourcentage de l'IR sur revenus nets (après CS)">
                         {{ctrl.result.IR.impot/(ctrl.result.dividendes.net+ctrl.result.remuneration.net)*100 | number:2}} %
                     </field>
                 </div>
             </div>
         </div>
+
     </div>
 
     <script
@@ -383,16 +312,18 @@
         <div class="modal-header">
             <h3 class="modal-title" id="modal-title">{{title}}</h3>
         </div>
-
-        <div class="modal-body" id="modal-body" ng-bind-html="content"></div>
+        <div class="modal-body" id="modal-body" ng-bind-html="content">
+        </div>
     </script>
     <script
         type="text/javascript"
-        src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.8.6/showdown.min.js"
+        src="https://cdn.rawgit.com/showdownjs/showdown/1.6.4/dist/showdown.min.js"
     ></script>
     <script
         type="text/javascript"
         src="bundle.js"
     ></script>
+
 </body>
+
 </html>

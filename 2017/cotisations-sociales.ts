@@ -10,7 +10,7 @@ export default class CotisationsSociales {
     }
 
     getMaladie(): number {
-        if (this.accre2017 && this._revenuPro() < 0.75 * this.PASS) {
+        if (this.accre2017 && this._revenuPro() < 28962) {
             return 0;
         }
         let assiette = this._revenuPro();
@@ -18,7 +18,7 @@ export default class CotisationsSociales {
     }
 
     getAllocationsFamiliales() {
-        if (this.accre2017 && this._revenuPro() < 0.75 * this.PASS) {
+        if (this.accre2017 && this._revenuPro() < 28962) {
             return 0;
         }
         var assiette = this._revenuPro();
@@ -44,7 +44,7 @@ export default class CotisationsSociales {
     }
 
     getRetraiteBase(): number {
-        if (this.accre2017 && this._revenuPro() < 0.75 * this.PASS) {
+        if (this.accre2017 && this._revenuPro() < 28962) {
             return 0;
         }
         if (this._revenuPro() < 4441) {
@@ -58,7 +58,7 @@ export default class CotisationsSociales {
     }
 
     getRetraiteComplementaire(): number {
-        if (this.accre2017 && this._revenuPro() < 0.75 * this.PASS) {
+        if (this.accre2017 && this._revenuPro() < 28962) {
             return 0;
         }
         let assiette = this._revenuPro();
@@ -91,17 +91,17 @@ export default class CotisationsSociales {
     }
 
     getInvaliditeDeces(classe = 'C'): number {
-        if (this.accre2017 && this._revenuPro() < 0.75 * this.PASS) {
+        if (this.accre2017 && this._revenuPro() < 28962) {
             return 0;
         }
         return 380;
     }
 
     getCsgCrds(): number {
-        var assiette = this._revenuPro() +
-            this.getMaladie() +
-            this.getAllocationsFamiliales() +
-            this.getRetraiteBase();
+        var assiette  = this._revenuPro() +
+        this.getMaladie() + 
+        this.getAllocationsFamiliales() + 
+        this.getRetraiteBase();
         return assiette * 0.08;
     }
 

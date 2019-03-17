@@ -2,5 +2,3 @@ node_modules/
 bundle.js
 debug.log
 .vs
-*hot-update.js
-*hot-update.json

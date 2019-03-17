@@ -21,7 +21,7 @@ class AppCtrl {
     public resteSemainesParMois: number;
     public resteJoursParSemaine: number;
     public result;
-    public newStateName: string = "";
+    public newStateName: string;
     public url;
     public formes = ['EURL', 'SASU'];
 
@@ -33,8 +33,7 @@ class AppCtrl {
         private $sce,
         private exercice: Exercice,
         private $cookies,
-        private $location,
-        private $filter) {
+        private $location) {
         this.params = {
             capital: { name: 'capital', min: 0, max: 100000, step: 100, value: 0 },
             charges: { name: 'charges', min: 0, max: 100000, step: 500, value: 0 },
@@ -46,7 +45,6 @@ class AppCtrl {
             bnc: { name: 'bnc', min: 0, max: 50000, step: 500, value: 0 },
             nbParts: { name: 'nbParts', min: 1, max: 10, step: 0.5, value: 1 },
             accre: { name: 'ACCRE', notSlider: true, value: false },
-            zfu: { name: 'ZFU', notSlider: true, value: false },
             forme: { name: 'Forme', notSlider: true, value: 'EURL' }
         };
 
@@ -69,63 +67,25 @@ class AppCtrl {
         this.onChange();
     }
 
-    pushState(event) {
-        let filteredStates = this.$filter('filter')(this.states, { name: this.newStateName });
-
-        let state = {
+    pushState() {
+        this.states.push({
             name: this.newStateName,
             params: JSON.parse(JSON.stringify(this.params))
-        };
-
-        //Add new a new save
-        if (filteredStates.length === 0) {
-            this.states.push(state);
-        } else {
-            //Merge with existing save
-            state = angular.extend(filteredStates[0], { params: this.params });
-        }
-
+        });
         this.$cookies.put('states', JSON.stringify(this.states));
-        this.currentState = state;
-
-        event.preventDefault();
-        return false;
     }
 
     loadState() {
-        if (this.currentState === null) {
-            this.newStateName = "";
-            return;
-        }
-
-        this.params = angular.extend(this.params, this.currentState.params);
-        this.newStateName = this.currentState.name;
+        this.params = this.currentState.params;
         this.onChange();
     }
 
-    clearState() {
-        if (!this.currentState) {
-            return;
-        }
-
-        var index = this.states.indexOf(this.currentState);
-
-        if (-1 === index) {
-            return;
-        }
-
-        this.states.splice(index, 1);
-        this.$cookies.put('states', JSON.stringify(this.states));
-        this.newStateName = "";
-    }
-
     clearStates() {
-        if (!confirm('Êtes-vous certain de vouloir supprimer toutes vos sauvegardes ?')) {
+        if (!confirm('Certain ?')) {
             return;
         }
         this.states = new Array<any>();
-        this.$cookies.put('states', JSON.stringify(this.states));
-        this.newStateName = "";
+        this.$cookies.put(this.states, '[]');
     }
 
     onChange(param = undefined) {
@@ -135,22 +95,24 @@ class AppCtrl {
         this.exercice.remuneration = this.params.remuneration.value;
         this.exercice.dividendes = this.params.dividendes.value;
         this.exercice.accre2017 = this.params.accre.value;// === 'true';
-        this.exercice.zfu = this.params.zfu.value;// === 'true';
         this.exercice.autresRevenus = this.params.autresRevenus.value;
         this.exercice.bnc = this.params.bnc.value;
         this.exercice.nbParts = this.params.nbParts.value;
         this.exercice.forme = this.params.forme.value;
         this.result = this.exercice.exercice();
 
-        this.url = window.location.protocol +
-            '//' +
-            window.location.host +
-            window.location.pathname +
+        this.url = this.$location.protocol() + '://' +
+            this.$location.host() + ':' +
+            this.$location.port() +
+            this.$location.path() +
             '?' + Object.keys(this.params).map(k => k + '=' + this.params[k].value).join('&')
     }
 }
 
 angular.module('app', ['ngLocale', 'ui.bootstrap', 'ngSanitize', 'ngCookies', 'ngclipboard'])
+    .config(['$locationProvider', ($locationProvider) => {
+        $locationProvider.html5Mode(true);
+    }])
     .service('cotisationsSociales', [() => new CotisationsSociales()])
     .service('impotSociete', [() => new ImpotSociete()])
     .service('impotRevenu', [() => new ImpotRevenu()])
@@ -159,8 +121,8 @@ angular.module('app', ['ngLocale', 'ui.bootstrap', 'ngSanitize', 'ngCookies', 'n
         (impotSociete, cotisationsSociales, impotRevenu) => new Exercice(impotSociete, cotisationsSociales, impotRevenu)
     ])
     .controller('appCtrl', [
-        '$uibModal', '$sce', 'exercice', '$cookies', '$location', '$filter',
-        ($uibModal, $sce, exercice, $cookies, $location, $filter) => new AppCtrl($uibModal, $sce, exercice, $cookies, $location, $filter)
+        '$uibModal', '$sce', 'exercice', '$cookies', '$location',
+        ($uibModal, $sce, exercice, $cookies, $location) => new AppCtrl($uibModal, $sce, exercice, $cookies, $location)
     ])
     .component('field', {
         bindings: {
@@ -169,7 +131,7 @@ angular.module('app', ['ngLocale', 'ui.bootstrap', 'ngSanitize', 'ngCookies', 'n
         },
         template: `
         <div class="value">
-            <b>{{$ctrl.label}}<sup ng-if="$ctrl.doc" ng-click="$ctrl.openDoc($ctrl.doc)">?</sup></b> : <span ng-transclude></span>
+            <b>{{$ctrl.label}}<sup ng-if="$ctrl.doc" ng-click="$ctrl.openDoc($ctrl.doc)">?</sup></b> : <span ng-transclude></span> 
         </div>`,
         transclude: true,
         controller: ['$uibModal', '$sce', function ($uibModal, $sce) {

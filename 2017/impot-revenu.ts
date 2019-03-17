@@ -1,4 +1,30 @@
-import Tranche from './tranche'
+class Tranche {
+
+    constructor(private min: number, private max: number, private taux: number) { }
+
+    getMin(): number { return this.min; };
+
+    getMax(): number { return this.max; };
+
+    getTaux(): number { return this.taux };
+
+    getImpot(revenu) {
+        return this.compute(revenu);
+    }
+
+    compute(revenu) {
+        if (revenu < this.min) {
+            return 0;
+        }
+        if (revenu > this.max) {
+            let r = (this.max - this.min) * this.taux;
+            return r;
+        }
+        let r = (revenu - this.min) * this.taux;
+        return r;
+    }
+
+}
 
 export default class ImpotRevenu {
 
@@ -6,14 +32,13 @@ export default class ImpotRevenu {
     revenu: number;
     nbParts: number;
 
-    //Source : https://www.impots.gouv.fr/portail/particulier/calcul-de-limpot-sur-le-revenu
     constructor() {
         this.tranches = [
             new Tranche(0, 9700, 0),
             new Tranche(9701, 26818, 0.14),
             new Tranche(26819, 71898, 0.3),
             new Tranche(71899, 152260, 0.41),
-            new Tranche(152261, null, 0.45),
+            new Tranche(152261, 99999999, 0.45),
         ];
     }
 
