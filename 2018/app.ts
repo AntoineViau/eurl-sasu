@@ -32,8 +32,8 @@ class AppCtrl {
     private $uibModal,
     private $sce,
     private exercice: Exercice,
-    private $location,
-    private $filter
+    private $cookies,
+    private $location
   ) {
     this.params = {
       capital: { name: "capital", min: 0, max: 100000, step: 100, value: 0 },
@@ -74,7 +74,12 @@ class AppCtrl {
       forme: { name: "Forme", notSlider: true, value: "SASU" }
     };
 
-    this.loadStates();
+    let cookieString = $cookies.get("states");
+    this.states = cookieString ? JSON.parse(cookieString) : new Array<any>();
+    if (this.states.length > 0) {
+      this.currentState = this.states[0];
+      this.loadState();
+    }
 
     Object.keys(this.params).forEach(
       attr =>
@@ -88,96 +93,36 @@ class AppCtrl {
     this.params.forme.value =
       this.$location.search()["forme"] || this.params.forme.value;
 
+    // for (let d = 0; d < 100000; d += 1000) {
+    //   this.params.dividendes.value = d;
+    //   this.onChange();
+    //   //console.log(this.result.net);
+    //   if (this.result.societe.reste <= 0) {
+    //     break;
+    //   }
+    // }
     this.onChange();
   }
 
-  hasLocalStorage(){
-    var test = '_test-local-storage';
-
-    try {
-        localStorage.setItem(test, test);
-        localStorage.removeItem(test);
-        return true;
-    } catch(e) {
-        return false;
-    }
-  }
-
-  saveStates() {
-    if(this.hasLocalStorage()) {
-      localStorage.setItem('states', JSON.stringify(this.states));
-    }
-  }
-
-  pushState(event) {
-    let filteredStates = this.$filter('filter')(this.states, {name: this.newStateName});
-
-    let state = {
-        name: this.newStateName,
-        params: JSON.parse(JSON.stringify(this.params))
-    };
-
-    //Add new a new save
-    if(filteredStates.length === 0) {
-        this.states.push(state);
-    } else {
-        //Merge with existing save
-        state = angular.extend(filteredStates[0], {params: this.params});
-    }
-    
-    this.saveStates();
-    this.currentState = state;
-
-    event.preventDefault();
-    return false;
-  }
-
-  loadStates() {
-    this.states = new Array<any>();
-
-    if(this.hasLocalStorage() && localStorage.getItem('states') !== null) {
-      this.states = JSON.parse(localStorage.getItem('states'));
-      if(this.states.length > 0) {
-        this.currentState = this.states[0];
-        this.loadState();
-      }
-    }
+  pushState() {
+    this.states.push({
+      name: this.newStateName,
+      params: JSON.parse(JSON.stringify(this.params))
+    });
+    this.$cookies.put("states", JSON.stringify(this.states));
   }
 
   loadState() {
-    if(this.currentState === null) {
-        this.newStateName = "";
-        return;
-    }
-
-    this.params = angular.extend(this.params, this.currentState.params);
-    this.newStateName = this.currentState.name;
+    this.params = this.currentState.params;
     this.onChange();
   }
 
-  clearState() {
-    if (!this.currentState) {
+  clearStates() {
+    if (!confirm("Certain ?")) {
       return;
     }
-
-    var index = this.states.indexOf(this.currentState);
-
-    if(-1 === index) {
-        return;
-    }
-
-    this.states.splice(index, 1);
-    this.saveStates();
-    this.newStateName = "";
-  }
-
-  clearStates() {
-    if (!confirm('Êtes-vous certain de vouloir supprimer toutes vos sauvegardes ?')) {
-        return;
-    }
     this.states = new Array<any>();
-    this.saveStates();
-    this.newStateName = "";
+    this.$cookies.put(this.states, "[]");
   }
 
   onChange(param = undefined) {
@@ -194,15 +139,34 @@ class AppCtrl {
     this.exercice.flatTax = this.params.flattax.value;
     this.exercice.tauxCsgCrds = 0.172;
     this.exercice.tauxCsgDeductible = 0.068;
+    this.exercice.impotSociete.tranches = [
+      new Tranche(0, 38120, 0.15),
+      new Tranche(38121, 75000, 0.28),
+      new Tranche(75001, 99999999, 0.3333)
+    ];
+    this.exercice.impotRevenu.tranches = [
+      new Tranche(0, 9964, 0),
+      new Tranche(9965, 27519, 0.14),
+      new Tranche(27520, 73779, 0.3),
+      new Tranche(73780, 156244, 0.41),
+      new Tranche(156245, 99999999, 0.45)
+    ];
+
+    //console.log(this.exercice);
 
     this.result = this.exercice.exercice();
 
-    this.url = 
-      window.location.protocol + 
-      '//' +
-      window.location.host +
-      window.location.pathname +
-      '?' + Object.keys(this.params).map(k => k + '=' + this.params[k].value).join('&');
+    this.url =
+      this.$location.protocol() +
+      "://" +
+      this.$location.host() +
+      ":" +
+      this.$location.port() +
+      this.$location.path() +
+      "?" +
+      Object.keys(this.params)
+        .map(k => k + "=" + this.params[k].value)
+        .join("&");
   }
 }
 
@@ -213,6 +177,12 @@ angular
     "ngSanitize",
     "ngCookies",
     "ngclipboard"
+  ])
+  .config([
+    "$locationProvider",
+    $locationProvider => {
+      $locationProvider.html5Mode(true);
+    }
   ])
   .service("cotisationsSociales", [() => new CotisationsSociales()])
   .service("impotSociete", [() => new ImpotSociete()])
@@ -228,10 +198,10 @@ angular
     "$uibModal",
     "$sce",
     "exercice",
+    "$cookies",
     "$location",
-    "$filter",
-    ($uibModal, $sce, exercice, $location, $filter) =>
-      new AppCtrl($uibModal, $sce, exercice, $location, $filter)
+    ($uibModal, $sce, exercice, $cookies, $location) =>
+      new AppCtrl($uibModal, $sce, exercice, $cookies, $location)
   ])
   .component("field", {
     bindings: {
@@ -271,9 +241,11 @@ angular
       require: "ngModel",
       link: function(scope, element, attrs, ngModel) {
         ngModel.$parsers.push(function(value) {
+          //debugger;
           return parseInt(value);
         });
         ngModel.$formatters.push(function(value) {
+          //debugger;
           return parseFloat(value);
         });
       }

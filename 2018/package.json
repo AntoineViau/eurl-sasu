@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "./node_modules/.bin/webpack --watch",
+    "build": "./node_modules/.bin/webpack --watch --hot",
     "serve": "./node_modules/.bin/static",
     "build:prod": "./node_modules/.bin/webpack -p"
   },
