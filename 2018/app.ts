@@ -88,14 +88,6 @@ class AppCtrl {
     this.params.forme.value =
       this.$location.search()["forme"] || this.params.forme.value;
 
-    // for (let d = 0; d < 100000; d += 1000) {
-    //   this.params.dividendes.value = d;
-    //   this.onChange();
-    //   //console.log(this.result.net);
-    //   if (this.result.societe.reste <= 0) {
-    //     break;
-    //   }
-    // }
     this.onChange();
   }
 
@@ -203,8 +195,6 @@ class AppCtrl {
     this.exercice.tauxCsgCrds = 0.172;
     this.exercice.tauxCsgDeductible = 0.068;
 
-    //console.log(this.exercice);
-
     this.result = this.exercice.exercice();
 
     this.url = 
@@ -281,11 +271,9 @@ angular
       require: "ngModel",
       link: function(scope, element, attrs, ngModel) {
         ngModel.$parsers.push(function(value) {
-          //debugger;
           return parseInt(value);
         });
         ngModel.$formatters.push(function(value) {
-          //debugger;
           return parseFloat(value);
         });
       }
