@@ -144,17 +144,12 @@ class AppCtrl {
 
     this.result = this.exercice.exercice();
 
-    this.url =
-      this.$location.protocol() +
-      "://" +
-      this.$location.host() +
-      ":" +
-      this.$location.port() +
-      this.$location.path() +
-      "?" +
-      Object.keys(this.params)
-        .map(k => k + "=" + this.params[k].value)
-        .join("&");
+    this.url = 
+      window.location.protocol + 
+      '//' +
+      window.location.host +
+      window.location.pathname +
+      '?' + Object.keys(this.params).map(k => k + '=' + this.params[k].value).join('&');
   }
 }
 
