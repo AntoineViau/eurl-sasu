@@ -139,18 +139,6 @@ class AppCtrl {
     this.exercice.flatTax = this.params.flattax.value;
     this.exercice.tauxCsgCrds = 0.172;
     this.exercice.tauxCsgDeductible = 0.068;
-    this.exercice.impotSociete.tranches = [
-      new Tranche(0, 38120, 0.15),
-      new Tranche(38121, 75000, 0.28),
-      new Tranche(75001, 99999999, 0.3333)
-    ];
-    this.exercice.impotRevenu.tranches = [
-      new Tranche(0, 9964, 0),
-      new Tranche(9965, 27519, 0.14),
-      new Tranche(27520, 73779, 0.3),
-      new Tranche(73780, 156244, 0.41),
-      new Tranche(156245, 99999999, 0.45)
-    ];
 
     //console.log(this.exercice);
 

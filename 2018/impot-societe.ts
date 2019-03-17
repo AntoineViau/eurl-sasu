@@ -33,17 +33,16 @@ export default class ImpotSociete {
 
   constructor() {
     this.tranches = [
-      //   new Tranche(0, 38120, 0.15),
-      //   new Tranche(38121, 75000, 0.28),
-      //   new Tranche(75001, 99999999, 0.3333)
+      new Tranche(0, 38120, 0.15),
+      new Tranche(38120, 500000, 0.28),
+      new Tranche(500000, null, 0.33)
     ];
   }
 
   getImpot(): number {
-    let baseIS = this.benefice;
     let total = 0;
     this.tranches.forEach(tranche => {
-      total += tranche.getImpot(baseIS);
+      total += tranche.getImpot(this.benefice);
     });
     return total;
   }
@@ -54,7 +53,7 @@ export default class ImpotSociete {
     let tranches = [];
     this.tranches.forEach(tranche => {
       tranches.push({
-        value: tranche.getImpot(this.revenu),
+        value: tranche.getImpot(this.benefice),
         min: tranche.getMin(),
         max: tranche.getMax(),
         taux: tranche.getTaux()
