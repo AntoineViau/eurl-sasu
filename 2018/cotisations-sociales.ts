@@ -1,140 +1,110 @@
-// https://www.urssaf.fr/portail/home/taux-et-baremes/taux-de-cotisations/les-professions-liberales/bases-de-calcul-et-taux-des-coti.html
 export default class CotisationsSociales {
 
     remuneration: number = 0;
     accre: boolean;
-    PASS: number = 39732;
+    PASS: number = 39228; // 2018 = 39732  
 
     _revenuPro() {
         return this.remuneration;
     }
 
     getMaladie(): number {
-        if (this._revenuPro() > 1.10 * this.PASS / 100) {
-            return this._revenuPro() * 6.5 / 100;
+        if (this._revenuPro() < 43705) {
+            let pc = this._revenuPro() / 43705;
+            let taux = 1.5 + pc * (6.5 - 1.5);
+            return this._revenuPro() * taux;
         }
-
-        // Taux progressif : entre 1,50 % et 6,50 %
-        let pc = this._revenuPro() / 1.10 * this.PASS / 100;
-        let taux = 1.5 + pc * (6.5 - 1.5);
-
-        return this._revenuPro() * taux / 100;
+        return this._revenuPro() * 0.065;
     }
 
     getAllocationsFamiliales() {
-        if (this._revenuPro() < 1.10 * this.PASS / 100) {
+        if (this._revenuPro() < 43705) {
             return 0;
         }
-
-        if(this._revenuPro() > 56734) {
-            return this._revenuPro() * 3.10 / 100;
+        if (this._revenuPro() > 55625) {
+            return this._revenuPro() * 0.0310;
         }
-
-        //taux progressif : entre 0 % et 3,10 %
-        let pc = this._revenuPro() / 1.10 * this.PASS / 100;
-        let taux = pc * 3.10;
-        return this._revenuPro() * taux / 100;
+        let pc = (this._revenuPro() - 43705) / (55625 - 43705);
+        let taux = pc * 3.1;
+        return this._revenuPro() * taux;
     }
 
     getFormationProfessionnelle(): number {
-        return this.PASS * 0.25 / 100;
+        return 38616 * 0.0025;
     }
 
     getRetraiteBase(): number {
-        let montant = 0;
-
-        // https://www.lecoindesentrepreneurs.fr/affiliation-et-cotisations-a-la-cipav/
-
-        //< à 4 569€
-        if (this._revenuPro() < 11.50 * this.PASS / 100) {
-            montant = 461;
+        if (this._revenuPro() < 28962) {
+            return 0;
         }
-
-        // entre 4 569€ et 39 732€
-        if(this._revenuPro() >= 11.50 * this.PASS / 100 && this._revenuPro() < this.PASS) {
-            montant = 8.23 * this._revenuPro() / 100;
+        if (this._revenuPro() < 4441) {
+            return 448;
         }
-
-        // de 39 732€ à 198 660€
-        if(this._revenuPro() >= this.PASS && this._revenuPro() < 5 * this.PASS) {
-            montant = (8.23 * this.PASS + 1.87 * this._revenuPro()) / 100;
+        let assiette = this._revenuPro();
+        if (assiette < this.PASS) {
+            return assiette * 0.0823 + assiette * 0.0187;
         }
-
-        // > à 198 660€
-        if(this._revenuPro() >= 5 * this.PASS) {
-            montant = (8.23 * this.PASS + 1.87 * 5 * this.PASS) / 100;
-        }
-
-        return montant;
+        return this.PASS * 0.0823 + assiette * 0.0187;
     }
 
     getRetraiteComplementaire(): number {
-        //https://www.lecoindesentrepreneurs.fr/affiliation-et-cotisations-a-la-cipav/
+        if (this.accre && this._revenuPro() < 28962) {
+            return 0;
+        }
         let assiette = this._revenuPro();
-
-        let montant = 0;
+        let montant;
         if (assiette <= 26580) {
-            montant = 1315;
+            montant = 1277;
         }
         if (assiette > 26580 && assiette <= 49280) {
-            montant = 2630;
+            montant = 2553;
         }
         if (assiette > 49280 && assiette <= 57850) {
-            montant = 3945;
+            montant = 3830;
         }
         if (assiette > 57850 && assiette <= 66400) {
-            montant = 6575;
+            montant = 6384;
         }
         if (assiette > 66400 && assiette <= 83060) {
-            montant = 9205;
+            montant = 8937;
         }
         if (assiette > 83060 && assiette <= 103180) {
-            montant = 14465;
+            montant = 14044;
         }
         if (assiette > 103180 && assiette <= 123300) {
-            montant = 15780;
+            montant = 15320;
         }
         if (assiette > 123300) {
-            montant = 17095;
+            montant = 16597;
         }
         return montant;
     }
 
     getInvaliditeDeces(classe = 'C'): number {
-        let montant = 0;
-        switch(classe) {
-            case 'A':
-                montant = 76;
-            break;
-            case 'B':
-                montant = 228;
-            break;
-            case 'C':
-                montant = 380;
-            break;
+        if (this.accre && this._revenuPro() < 28962) {
+            return 0;
         }
-
-        return montant;
+        return 380;
     }
 
     getCsgCrds(): number {
-        // Totalité du revenu de l’activité non salariée + cotisations sociales obligatoires
         var assiette = this._revenuPro() +
             this.getMaladie() +
             this.getAllocationsFamiliales() +
             this.getRetraiteBase();
-
-        return assiette * 9.7 / 100;
+        return assiette * 0.097;
     }
 
     getCotisations(): number {
-        return this.getMaladie()
-            + this.getAllocationsFamiliales()
-            + this.getFormationProfessionnelle()
-            + this.getRetraiteBase()
-            + this.getRetraiteComplementaire()
-            + this.getInvaliditeDeces()
-            + this.getCsgCrds();
+        var total = 0;
+        total += this.getMaladie();
+        total += this.getAllocationsFamiliales();
+        total += this.getFormationProfessionnelle();
+        total += this.getRetraiteBase();
+        total += this.getRetraiteComplementaire();
+        total += this.getInvaliditeDeces();
+        total += this.getCsgCrds();
+        return total;
     }
 }
 
