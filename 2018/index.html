@@ -156,32 +156,52 @@
                                 </select>
                             </div>
                             <div class="col-md-8">
-                                <div class="input-group">
-                                    <input
-                                        type="text"
-                                        class="form-control"
-                                        placeholder="Nom de la sauvegarde"
+                                <form 
+                                    action="" 
+                                    ng-submit="ctrl.pushState($event)"
+                                >
+                                    <div class="input-group form-group">
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            ng-model="ctrl.newStateName"
+                                            placeholder="{{ ctrl.hasLocalStorage() ? 'Nom de la sauvegarde' : 'Impossible de gérer les sauvegardes' }}"
+                                        >
+                                        <span class="input-group-append">
+                                            <button
+                                                class="btn btn-primary"
+                                                type="submit"
+                                                ng-disabled="!ctrl.hasLocalStorage()"
+                                            >Sauvegarder</button>
+                                        </span>
+                                    </div>
+                                </form>
+                                <div 
+                                    class="input-group"
+                                    ng-if="ctrl.states.length > 0"
+                                >
+                                    <select 
+                                        class="custom-select" 
+                                        ng-model="ctrl.currentState" 
+                                        ng-options="state.name for state in ctrl.states" 
+                                        ng-change="ctrl.loadState()"
                                     >
+                                        <option value="">Sauvegardes</option>
+                                    </select>
                                     <span class="input-group-append">
-                                        <button
-                                            class="btn btn-primary"
-                                            type="button"
-                                        >Sauvegarder</button>
+                                        <button 
+                                            type="button" 
+                                            class="btn btn-primary btn-sm" 
+                                            ng-click="ctrl.clearState()" 
+                                            ng-disabled="ctrl.currentState === null"
+                                        >Effacer</button>
+                                        <button 
+                                            type="button" 
+                                            class="btn btn-primary btn-sm" 
+                                            ng-click="ctrl.clearStates()"
+                                        >Tout effacer</button>
                                     </span>
                                 </div>
-                                <select
-                                    ng-if="ctrl.states.length > 0"
-                                    ng-model="ctrl.currentState"
-                                    ng-options="state.name for state in ctrl.states"
-                                    ng-change="ctrl.loadState()"
-                                >
-                                </select>
-                                <button
-                                    ng-if="ctrl.states.length > 0"
-                                    type="button"
-                                    class="btn btn-primary btn-sm"
-                                    ng-click="ctrl.clearStates()"
-                                >Tout effacer</button>
                             </div>
                         </div>
                     </div>

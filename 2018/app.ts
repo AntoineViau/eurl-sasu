@@ -32,8 +32,8 @@ class AppCtrl {
     private $uibModal,
     private $sce,
     private exercice: Exercice,
-    private $cookies,
-    private $location
+    private $location,
+    private $filter
   ) {
     this.params = {
       capital: { name: "capital", min: 0, max: 100000, step: 100, value: 0 },
@@ -74,12 +74,7 @@ class AppCtrl {
       forme: { name: "Forme", notSlider: true, value: "SASU" }
     };
 
-    let cookieString = $cookies.get("states");
-    this.states = cookieString ? JSON.parse(cookieString) : new Array<any>();
-    if (this.states.length > 0) {
-      this.currentState = this.states[0];
-      this.loadState();
-    }
+    this.loadStates();
 
     Object.keys(this.params).forEach(
       attr =>
@@ -104,25 +99,93 @@ class AppCtrl {
     this.onChange();
   }
 
-  pushState() {
-    this.states.push({
-      name: this.newStateName,
-      params: JSON.parse(JSON.stringify(this.params))
-    });
-    this.$cookies.put("states", JSON.stringify(this.states));
+  hasLocalStorage(){
+    var test = '_test-local-storage';
+
+    try {
+        localStorage.setItem(test, test);
+        localStorage.removeItem(test);
+        return true;
+    } catch(e) {
+        return false;
+    }
+  }
+
+  saveStates() {
+    if(this.hasLocalStorage()) {
+      localStorage.setItem('states', JSON.stringify(this.states));
+    }
+  }
+
+  pushState(event) {
+    let filteredStates = this.$filter('filter')(this.states, {name: this.newStateName});
+
+    let state = {
+        name: this.newStateName,
+        params: JSON.parse(JSON.stringify(this.params))
+    };
+
+    //Add new a new save
+    if(filteredStates.length === 0) {
+        this.states.push(state);
+    } else {
+        //Merge with existing save
+        state = angular.extend(filteredStates[0], {params: this.params});
+    }
+    
+    this.saveStates();
+    this.currentState = state;
+
+    event.preventDefault();
+    return false;
+  }
+
+  loadStates() {
+    this.states = new Array<any>();
+
+    if(this.hasLocalStorage() && localStorage.getItem('states') !== null) {
+      this.states = JSON.parse(localStorage.getItem('states'));
+      if(this.states.length > 0) {
+        this.currentState = this.states[0];
+        this.loadState();
+      }
+    }
   }
 
   loadState() {
-    this.params = this.currentState.params;
+    if(this.currentState === null) {
+        this.newStateName = "";
+        return;
+    }
+
+    this.params = angular.extend(this.params, this.currentState.params);
+    this.newStateName = this.currentState.name;
     this.onChange();
   }
 
-  clearStates() {
-    if (!confirm("Certain ?")) {
+  clearState() {
+    if (!this.currentState) {
       return;
     }
+
+    var index = this.states.indexOf(this.currentState);
+
+    if(-1 === index) {
+        return;
+    }
+
+    this.states.splice(index, 1);
+    this.saveStates();
+    this.newStateName = "";
+  }
+
+  clearStates() {
+    if (!confirm('Êtes-vous certain de vouloir supprimer toutes vos sauvegardes ?')) {
+        return;
+    }
     this.states = new Array<any>();
-    this.$cookies.put(this.states, "[]");
+    this.saveStates();
+    this.newStateName = "";
   }
 
   onChange(param = undefined) {
@@ -175,10 +238,10 @@ angular
     "$uibModal",
     "$sce",
     "exercice",
-    "$cookies",
     "$location",
-    ($uibModal, $sce, exercice, $cookies, $location) =>
-      new AppCtrl($uibModal, $sce, exercice, $cookies, $location)
+    "$filter",
+    ($uibModal, $sce, exercice, $location, $filter) =>
+      new AppCtrl($uibModal, $sce, exercice, $location, $filter)
   ])
   .component("field", {
     bindings: {
