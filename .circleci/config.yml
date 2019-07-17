@@ -22,12 +22,12 @@ jobs:
           paths:
               - 2018
 
-
   build-2018:
     <<: *configure_base
+    working_directory: ~/repo
     steps:
       - attach_workspace:
-          at: 2018
+          at: ./2018
       - restore_cache:
           keys:
             - 2018-dependencies-{{ checksum "yarn.lock" }}
