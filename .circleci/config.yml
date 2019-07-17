@@ -39,8 +39,8 @@ jobs:
               - ./index.html
               - ./build.js
   docs-deploy:
-    docker:
-      <<: *configure_base
+    <<: *configure_base
+
     steps:
       - checkout
       - attach_workspace:
