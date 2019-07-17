@@ -87,7 +87,7 @@ jobs:
           name: Install and configure dependencies
           command: |
             npm install -g --silent gh-pages@2.0.1
-            git config user.email "ci-build@domain.tld"
+            git config user.email "ci-build@antoineviau.com"
             git config user.name "ci-build"
       - add_ssh_keys:
           fingerprints:
@@ -104,7 +104,7 @@ jobs:
 
             touch dist/.nojekyll
 
-            gh-pages --dotfiles --message "[skip ci] Updates" --dist dist
+            gh-pages --dotfiles --message "[skip ci] Update gh-pages" --dist dist
 
 workflows:
   version: 2
