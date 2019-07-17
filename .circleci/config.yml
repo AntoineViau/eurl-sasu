@@ -46,9 +46,9 @@ jobs:
             - node_modules
           key: 2018-dependencies-{{ checksum "yarn.lock" }}
       - persist_to_workspace:
-          root: ./2018
+          root: ./
           paths:
-              - ./bundle.js
+              - ./2018/bundle.js
   docs-deploy:
     <<: *configure_base
     working_directory: ~/repo
