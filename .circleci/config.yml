@@ -27,7 +27,7 @@ jobs:
     working_directory: ~/repo/2O18
     steps:
       - attach_workspace:
-          at: .
+          at: ..
       - run: pwd && ls -al
       - run: pwd && ls -al ../
       - run: pwd && ls -al 2018
