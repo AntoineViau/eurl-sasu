@@ -25,10 +25,10 @@ jobs:
             - 2018-dependencies-
 
       - run: 
-        name: Install and build app
-        command: |
-            yarn install
-            yarn build:prod
+          name: Install and build app
+          command: |
+              yarn install
+              yarn build:prod
 
       - save_cache:
           paths:
