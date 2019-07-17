@@ -14,10 +14,11 @@ version: 2
 jobs:
   build-2018:
     <<: *configure_base
-    working_directory: ~/2018
+    working_directory: ~/repo/2018
 
     steps:
-      - checkout
+      - checkout:
+        path: ~/repo
       - restore_cache:
           keys:
             - 2018-dependencies-{{ checksum "yarn.lock" }}
