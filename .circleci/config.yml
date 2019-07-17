@@ -24,7 +24,7 @@ jobs:
 
   build-2018:
     <<: *configure_base
-    working_directory: ~/repo/2O18
+    working_directory: ~/repo/2018
     steps:
       - attach_workspace:
           at: ..
