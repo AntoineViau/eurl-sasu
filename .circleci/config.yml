@@ -49,7 +49,7 @@ jobs:
           root: ./
           paths:
               - ./index.html
-              - ./build.js
+              - ./bundle.js
   docs-deploy:
     <<: *configure_base
     working_directory: ~/repo
