@@ -28,6 +28,8 @@ jobs:
     steps:
       - attach_workspace:
           at: ./2018
+      - run: pwd && ls -al
+      - run: pwd && ls -al ../
       - restore_cache:
           keys:
             - 2018-dependencies-{{ checksum "yarn.lock" }}
