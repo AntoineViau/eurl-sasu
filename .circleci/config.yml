@@ -27,9 +27,7 @@ jobs:
     working_directory: ~/repo/2018
     steps:
       - attach_workspace:
-          at: ..
-      - run: pwd && ls -al
-      - run: pwd && ls -al ../
+          at: ~/repo
       - restore_cache:
           keys:
             - 2018-dependencies-{{ checksum "yarn.lock" }}
@@ -40,15 +38,19 @@ jobs:
           command: |
               yarn install
               yarn build:prod
+              mkdir 2018
+              mv bundle.js 2018/
 
       - save_cache:
           paths:
             - node_modules
           key: 2018-dependencies-{{ checksum "yarn.lock" }}
+
       - persist_to_workspace:
-          root: ./
+          root: ./2018
           paths:
-              - ./2018/bundle.js
+              - ./bundle.js
+
   docs-deploy:
     <<: *configure_base
     working_directory: ~/repo
