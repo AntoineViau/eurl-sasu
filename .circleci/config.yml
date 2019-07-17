@@ -12,13 +12,21 @@ references:
 
 version: 2
 jobs:
-  build-2018:
-    <<: *configure_base
-    working_directory: ~/repo/2018
-
+  checkout:
+    working_directory: ~/repo
     steps:
       - checkout:
-          path: ~/repo
+      - persist_to_workspace:
+          root: .
+          paths:
+              - 2018
+
+
+  build-2018:
+    <<: *configure_base
+    steps:
+      - attach_workspace:
+          at: 2018
       - restore_cache:
           keys:
             - 2018-dependencies-{{ checksum "yarn.lock" }}
@@ -35,7 +43,7 @@ jobs:
             - node_modules
           key: 2018-dependencies-{{ checksum "yarn.lock" }}
       - persist_to_workspace:
-          root: ./_build/2018
+          root: ./
           paths:
               - ./index.html
               - ./build.js
@@ -63,7 +71,11 @@ workflows:
   version: 2
   deploy:
     jobs:
-      - build-2018
+      - checkout
+      - build-2018:
+          requires:
+            - checkout
+
       - docs-deploy:
           requires:
             - build-2018
