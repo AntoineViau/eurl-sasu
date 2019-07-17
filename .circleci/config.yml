@@ -22,6 +22,33 @@ jobs:
           paths:
               - 2018
 
+  build-2017:
+    <<: *configure_base
+    working_directory: ~/repo/2017
+    steps:
+      - attach_workspace:
+          at: ~/repo
+      - restore_cache:
+          keys:
+            - 2017-dependencies-{{ checksum "yarn.lock" }}
+            - 2017-dependencies-
+
+      - run: 
+          name: Install and build app
+          command: |
+              yarn install
+              yarn test
+              yarn build:prod
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: 2017-dependencies-{{ checksum "yarn.lock" }}
+
+      - persist_to_workspace:
+          root: ~/repo
+          paths:
+              - ./2017/bundle.js
   build-2018:
     <<: *configure_base
     working_directory: ~/repo/2018
@@ -38,7 +65,6 @@ jobs:
           command: |
               yarn install
               yarn build:prod
-              mkdir 2018
 
       - save_cache:
           paths:
@@ -69,20 +95,41 @@ jobs:
       - run:
           name: Deploy docs to gh-pages branch
           command: |
-            mkdir -p dist/2018
+            mkdir -p dist/2017 dist/2018
+            cp 2017/index.html dist/2017/
+            cp builds/2017/bundle.js dist/2017/
+
             cp 2018/index.html dist/2018/
             cp builds/2018/bundle.js dist/2018/
+
+            touch dist/.nojekyll
+
             gh-pages --dotfiles --message "[skip ci] Updates" --dist dist
 
 workflows:
   version: 2
   deploy:
     jobs:
-      - checkout
+      - checkout:
+          filters:
+            branches:
+              ignore: /gh-pages/
       - build-2018:
           requires:
             - checkout
-
+          filters:
+            branches:
+              ignore: /gh-pages/
+      - build-2017:
+          requires:
+            - checkout
+          filters:
+            branches:
+              ignore: /gh-pages/
       - docs-deploy:
           requires:
+            - build-2017
             - build-2018
+          filters:
+            branches:
+              ignore: /gh-pages/
