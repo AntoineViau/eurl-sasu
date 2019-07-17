@@ -21,6 +21,7 @@ jobs:
           root: .
           paths:
               - 2018
+              - 2017
 
   build-2017:
     <<: *configure_base
