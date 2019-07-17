@@ -1,0 +1,66 @@
+references:
+  working_directory: &working_directory
+    working_directory: ~/app
+
+  attach_workspace: &attach_workspace
+    attach_workspace:
+      at: ~/app
+
+  configure_base: &configure_base
+    docker:
+      - image: node:8
+
+version: 2
+jobs:
+  build-2018:
+    <<: *configure_base
+    working_directory: ~/2018
+
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - 2018-dependencies-{{ checksum "yarn.lock" }}
+            - 2018-dependencies-
+
+      - run: 
+        name: Install and build app
+        command: |
+            yarn install
+            yarn build:prod
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: 2018-dependencies-{{ checksum "yarn.lock" }}
+      - persist_to_workspace:
+          root: ./_build/2018
+          paths:
+              - ./index.html
+              - ./build.js
+  docs-deploy:
+    docker:
+      <<: *configure_base
+    steps:
+      - checkout
+      - attach_workspace:
+          at: _build
+      - run:
+          name: Install and configure dependencies
+          command: |
+            npm install -g --silent gh-pages@2.0.1
+            git config user.email "ci-build@domain.tld"
+            git config user.name "ci-build"
+      - add_ssh_keys:
+          fingerprints:
+            - "51:2c:bf:10:3d:c0:16:08:6f:23:ae:79:8e:cb:82:9b"
+      - run:
+          name: Deploy docs to gh-pages branch
+          command: gh-pages --dotfiles --message "[skip ci] Updates" --dist _build
+
+workflows:
+  version: 2
+  deploy:
+    jobs:
+      - build-2018
+      - docs-deploy
