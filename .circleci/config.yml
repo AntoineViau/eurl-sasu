@@ -30,7 +30,6 @@ jobs:
           at: ..
       - run: pwd && ls -al
       - run: pwd && ls -al ../
-      - run: pwd && ls -al 2018
       - restore_cache:
           keys:
             - 2018-dependencies-{{ checksum "yarn.lock" }}
