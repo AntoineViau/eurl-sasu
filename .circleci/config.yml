@@ -63,4 +63,6 @@ workflows:
   deploy:
     jobs:
       - build-2018
-      - docs-deploy
+      - docs-deploy:
+        requires:
+          - build-2018
