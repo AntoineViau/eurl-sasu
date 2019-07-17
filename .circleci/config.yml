@@ -18,7 +18,7 @@ jobs:
 
     steps:
       - checkout:
-        path: ~/repo
+          path: ~/repo
       - restore_cache:
           keys:
             - 2018-dependencies-{{ checksum "yarn.lock" }}
