@@ -8,13 +8,49 @@ export default class CotisationsSociales {
         return this.remuneration;
     }
 
+    _tauxProgressif(montantMin, tauxMin, montantMax, tauxMax, montant) {
+        let pc = montant / montantMax;
+        return tauxMin + ((tauxMax - tauxMin) * (montant - montantMin) / (montantMax - montantMin));
+    }
+
     getMaladie(): number {
-        if (this._revenuPro() < 43705) {
-            let pc = this._revenuPro() / 43705;
-            let taux = 1.5 + pc * (6.5 - 1.5);
-            return this._revenuPro() * taux;
+        let revenus = Math.max(40 * this.PASS / 100, this._revenuPro());
+
+        // https://www.secu-independants.fr/baremes/cotisations-et-contributions/?reg=agence-professions-liberales
+        if (revenus > 110 * this.PASS / 100) {
+            return revenus * 6.5 / 100;
         }
-        return this._revenuPro() * 0.065;
+
+        // Taux progressif : entre 1,50 % et 6,50 %
+        let tauxMin = 1.5;
+        let tauxMax = 6.5;
+        let montantMin = 0;
+        let montantMax = 110 * this.PASS / 100;
+
+        let taux = this._tauxProgressif(montantMin, tauxMin, montantMax, tauxMax, revenus);
+        return revenus * taux / 100;    
+    }
+
+    getAllocationsFamiliales() {
+        let revenus = Math.max(19 * this.PASS / 100, this._revenuPro());
+
+        // https://www.secu-independants.fr/baremes/cotisations-et-contributions/?reg=agence-professions-liberales
+        if (revenus < 110 * this.PASS / 100) {
+            return 0;
+        }
+
+        if(revenus > 140 * this.PASS / 100) {
+            return revenus * 3.10 / 100;
+        }
+
+        //taux progressif : entre 0 % et 3,10 %
+        let tauxMin = 0;
+        let tauxMax = 3.10;
+        let montantMin = 110 * this.PASS / 100;
+        let montantMax = 140 * this.PASS / 100;
+
+        let taux = this._tauxProgressif(montantMin, tauxMin, montantMax, tauxMax, revenus);
+        return revenus * taux / 100;
     }
 
     getAllocationsFamiliales() {
@@ -34,8 +70,14 @@ export default class CotisationsSociales {
     }
 
     getRetraiteBase(): number {
-        if (this._revenuPro() < 28962) {
-            return 0;
+        // https://www.secu-independants.fr/baremes/cotisations-et-contributions/?reg=agence-professions-liberales
+        let montant = 0;
+
+        // https://www.lecoindesentrepreneurs.fr/affiliation-et-cotisations-a-la-cipav/
+
+        //< à 4 569€
+        if (this._revenuPro() < 11.50 * this.PASS / 100) {
+            montant = 461;
         }
         if (this._revenuPro() < 4441) {
             return 448;
@@ -88,11 +130,15 @@ export default class CotisationsSociales {
     }
 
     getCsgCrds(): number {
-        var assiette = this._revenuPro() +
+        // Totalité du revenu de l’activité non salariée + cotisations sociales obligatoires
+        var assiette = Math.max(19 * this.PASS / 100, 
+            this._revenuPro() +
             this.getMaladie() +
             this.getAllocationsFamiliales() +
-            this.getRetraiteBase();
-        return assiette * 0.097;
+            this.getRetraiteBase()
+        );
+
+        return assiette * 9.7 / 100;
     }
 
     getCotisations(): number {
