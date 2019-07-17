@@ -190,7 +190,6 @@ class AppCtrl {
     this.exercice.autresRevenus = this.params.autresRevenus.value;
     this.exercice.bnc = this.params.bnc.value;
     this.exercice.nbParts = this.params.nbParts.value;
-    this.exercice.nbMois = this.params.nbMois.value;
     this.exercice.forme = this.params.forme.value;
     this.exercice.flatTax = this.params.flattax.value;
     this.exercice.tauxCsgCrds = 0.172;

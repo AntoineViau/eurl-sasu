@@ -31,11 +31,13 @@ Un des gros avantages des dividendes est qu'ils sont taxés à l'IR sur 60% de l
 Exemple donné par [www.service-public.fr](https://www.service-public.fr/professionnels-entreprises/vosdroits/F32963) :  
 *Par exemple, un actionnaire ou associé qui perçoit 1 000 € de dividendes doit acquitter 15,5 % de prélèvements sociaux, soit 155 €, déductibles à hauteur de 5,1 %, soit 51 €. Le montant imposable des revenus distribués, soumis au barème progressif de l'impôt sur le revenu, est égal à 600 € (1 000 - 1 000 x 40 %) - 51 € (CSG déductible) = 549 €.*  
 
-Par ailleurs, au moment où les dividendes sont distribués, il y a un acompte de 21% qui est prélevé à la source. Il faudra donc l'indiquer sur sa feuille d'impôt pour qu'il soit déduit.`
+Par ailleurs, au moment où les dividendes sont distribués, il y a un acompte de 21% qui est prélevé à la source. Il faudra donc l'indiquer sur sa feuille d'impôt pour qu'il soit déduit.  
+
+`
   },
   impotSocietes: {
     title: "Impôt sur les sociétés",
-    content: `15% pour la partie des bénéfices en dessous de 38 120 €, 28% entre 38 120 et 500 000, et 33 % au-delà.`
+    content: `15% pour la partie en dessous de 38 120 €, 28% entre 38 120 et 75 000, et 33 % au-delà.`
   },
   revenuBrut: {
     title: "Revenu brut",
@@ -53,6 +55,7 @@ Par ailleurs, au moment où les dividendes sont distribués, il y a un acompte d
         Exemple : 100K de CA, 10K de charges, 5K reste en société, 30K de prélèvements (impôt sur le revenu et cotisations sociales).<br />
         100 - 10 - 5 = 85K de revenu brut perso.<br />
         85 - 30 = 55K de revenu net perso.<br />
-        Taux de prélèvement : 30 / 85 * 100 = 35,29 %`
+        Taux de prélèvement : 30 / 85 * 100 = 35,29 %
+        `
   }
 };

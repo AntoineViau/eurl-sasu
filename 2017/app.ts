@@ -101,15 +101,18 @@ class AppCtrl {
         this.exercice.forme = this.params.forme.value;
         this.result = this.exercice.exercice();
 
-        this.url = window.location.protocol + 
-            '//' +
-            window.location.host +
-            window.location.pathname +
-            '?' + Object.keys(this.params).map(k => k + '=' + this.params[k].value).join('&');
+        this.url = this.$location.protocol() + '://' +
+            this.$location.host() + ':' +
+            this.$location.port() +
+            this.$location.path() +
+            '?' + Object.keys(this.params).map(k => k + '=' + this.params[k].value).join('&')
     }
 }
 
 angular.module('app', ['ngLocale', 'ui.bootstrap', 'ngSanitize', 'ngCookies', 'ngclipboard'])
+    .config(['$locationProvider', ($locationProvider) => {
+        $locationProvider.html5Mode(true);
+    }])
     .service('cotisationsSociales', [() => new CotisationsSociales()])
     .service('impotSociete', [() => new ImpotSociete()])
     .service('impotRevenu', [() => new ImpotRevenu()])

@@ -12,7 +12,6 @@ export default class Exercice {
   autresRevenus: number = 0;
   bnc: number = 0;
   nbParts: number = 1;
-  nbMois: number = 12;
   forme: string = "EURL";
 
   tauxAccreCsSalaire = 0.35;
@@ -139,7 +138,6 @@ export default class Exercice {
       res.societe.ca - res.societe.charges - res.remuneration.brut; // base IS
     res.IS.assiette = res.societe.brut;
     this.impotSociete.benefice = res.IS.assiette;
-    this.impotSociete.prorata = this.nbMois / 12; //Proratisation du palier à 38 120 € 
     res.IS.impot = this.impotSociete.getImpot();
     res.IS.tranches = this.impotSociete.getTranches();
     res.societe.reste = res.societe.brut - res.IS.impot - res.dividendes.brut;
