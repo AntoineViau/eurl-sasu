@@ -79,6 +79,13 @@
             filter: alpha(opacity=50);
             opacity: .5;
         }
+
+        [ng-cloak].splash {
+            display: block !important;
+        }
+        .splash,[ng-cloak] {
+            display: none;
+        }
     </style>
 </head>
 
@@ -95,317 +102,324 @@
             <strong>CECI EST UNE VERSION NON TERMINÉE ! NE VOUS FIEZ PAS AUX CALCULS !</strong>
         </div>
 
-        <div class="row">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-body">
-                        <div
-                            ng-repeat="(name, param) in ctrl.params"
-                            class="row form-group"
-                            ng-if="!param.notSlider"
-                        >
-                            <label for="{{ name}}" class="col-sm-2 col-form-label text-right">{{param.name | uppercase}}</label>
-                            <div class="col-md-8">
-                                <input
-                                    type="range"
-                                    id="{{ name }}"
-                                    class="form-control-range"  
-                                    min="{{param.min}}"
-                                    max="{{param.max}}"
-                                    step="{{param.step}}"
-                                    ng-model="param.value"
-                                    ng-change="ctrl.onChange(param)"
-                                />
-                            </div>
-                            <div class="col-md-2">
-                                <input
-                                    type="text"
-                                    class="form-control"
-                                    ng-model="param.value"
-                                    readonly
-                                />
+        <div class="d-flex justify-content-center">
+            <div class="spinner-grow splash" role="status" ng-cloak>
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+
+        <div ng-cloak>
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-body">
+                            <div
+                                ng-repeat="(name, param) in ctrl.params"
+                                class="row form-group"
+                                ng-if="!param.notSlider"
+                            >
+                                <label for="{{ name}}" class="col-sm-2 col-form-label text-right">{{param.name | uppercase}}</label>
+                                <div class="col-md-8">
+                                    <input
+                                        type="range"
+                                        id="{{ name }}"
+                                        class="form-control-range"  
+                                        min="{{param.min}}"
+                                        max="{{param.max}}"
+                                        step="{{param.step}}"
+                                        ng-model="param.value"
+                                        ng-change="ctrl.onChange(param)"
+                                    />
+                                </div>
+                                <div class="col-md-2">
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        ng-model="param.value"
+                                        readonly
+                                    />
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="card-footer">
-                        <div class="row">
-                            <div class="col-md-2">
-                                <div class="custom-control custom-checkbox">
-                                    <input
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <div class="custom-control custom-checkbox">
+                                        <input
+                                            type="checkbox"
+                                            class="custom-control-input"
+                                            id="accre"
+                                            ng-model="ctrl.params.accre.value"
+                                            ng-change="ctrl.onChange()"
+                                        />
+                                        <label class="custom-control-label" for="accre">ACCRE</label>
+                                    </div>
+                                    <div class="custom-control custom-checkbox">
+                                        <input
                                         type="checkbox"
                                         class="custom-control-input"
-                                        id="accre"
-                                        ng-model="ctrl.params.accre.value"
+                                        id="pfu"
+                                        ng-model="ctrl.params.pfu.value"
                                         ng-change="ctrl.onChange()"
                                     />
-                                    <label class="custom-control-label" for="accre">ACCRE</label>
-                                </div>
-                                <div class="custom-control custom-checkbox">
-                                    <input
-                                    type="checkbox"
-                                    class="custom-control-input"
-                                    id="pfu"
-                                    ng-model="ctrl.params.pfu.value"
-                                    ng-change="ctrl.onChange()"
-                                />
-                                    <label class="custom-control-label" for="pfu">Flat tax</label>
-                                </div>
-                                <div class="custom-control custom-checkbox">
-                                    <input
-                                    type="checkbox"
-                                    class="custom-control-input"
-                                    id="zfu"
-                                    ng-model="ctrl.params.zfu.value"
-                                    ng-change="ctrl.onChange()"
-                                />
-                                    <label class="custom-control-label" for="zfu" doc="zfu">
-                                        <abbr title="Zone Franche Urbaine">ZFU</abbr>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <select
-                                    ng-model="ctrl.params.forme.value"
-                                    class="form-control"
-                                    ng-options="forme as forme for forme in ctrl.formes"
-                                    ng-change="ctrl.onChange()"
-                                >
-                                </select>
-                            </div>
-                            <div class="col-md-8">
-                                <form 
-                                    action="" 
-                                    ng-submit="ctrl.pushState($event)"
-                                >
-                                    <div class="input-group form-group">
+                                        <label class="custom-control-label" for="pfu">Flat tax</label>
+                                    </div>
+                                    <div class="custom-control custom-checkbox">
                                         <input
-                                            type="text"
-                                            class="form-control"
-                                            ng-model="ctrl.newStateName"
-                                            placeholder="{{ ctrl.hasLocalStorage() ? 'Nom de la sauvegarde' : 'Impossible de gérer les sauvegardes' }}"
+                                        type="checkbox"
+                                        class="custom-control-input"
+                                        id="zfu"
+                                        ng-model="ctrl.params.zfu.value"
+                                        ng-change="ctrl.onChange()"
+                                    />
+                                        <label class="custom-control-label" for="zfu" doc="zfu">
+                                            <abbr title="Zone Franche Urbaine">ZFU</abbr>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <select
+                                        ng-model="ctrl.params.forme.value"
+                                        class="form-control"
+                                        ng-options="forme as forme for forme in ctrl.formes"
+                                        ng-change="ctrl.onChange()"
+                                    >
+                                    </select>
+                                </div>
+                                <div class="col-md-8" ng-if="ctrl.hasLocalStorage()">
+                                    <form 
+                                        action="" 
+                                        ng-submit="ctrl.pushState($event)"
+                                    >
+                                        <div class="input-group form-group">
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                                ng-model="ctrl.newStateName"
+                                                placeholder="Nom de la sauvegarde"
+                                            >
+                                            <span class="input-group-append">
+                                                <button
+                                                    class="btn btn-primary"
+                                                    type="submit"
+                                                    ng-disabled="!ctrl.hasLocalStorage()"
+                                                >Sauvegarder</button>
+                                            </span>
+                                        </div>
+                                    </form>
+                                    <div 
+                                        class="input-group"
+                                        ng-if="ctrl.states.length > 0"
+                                    >
+                                        <select 
+                                            class="custom-select" 
+                                            ng-model="ctrl.currentState" 
+                                            ng-options="state.name for state in ctrl.states" 
+                                            ng-change="ctrl.loadState()"
                                         >
+                                            <option value="">Sauvegardes</option>
+                                        </select>
                                         <span class="input-group-append">
-                                            <button
-                                                class="btn btn-primary"
-                                                type="submit"
-                                                ng-disabled="!ctrl.hasLocalStorage()"
-                                            >Sauvegarder</button>
+                                            <button 
+                                                type="button" 
+                                                class="btn btn-primary btn-sm" 
+                                                ng-click="ctrl.clearState()" 
+                                                ng-disabled="ctrl.currentState === null"
+                                            >Effacer</button>
+                                            <button 
+                                                type="button" 
+                                                class="btn btn-primary btn-sm" 
+                                                ng-click="ctrl.clearStates()"
+                                            >Tout effacer</button>
                                         </span>
                                     </div>
-                                </form>
-                                <div 
-                                    class="input-group"
-                                    ng-if="ctrl.states.length > 0"
-                                >
-                                    <select 
-                                        class="custom-select" 
-                                        ng-model="ctrl.currentState" 
-                                        ng-options="state.name for state in ctrl.states" 
-                                        ng-change="ctrl.loadState()"
-                                    >
-                                        <option value="">Sauvegardes</option>
-                                    </select>
-                                    <span class="input-group-append">
-                                        <button 
-                                            type="button" 
-                                            class="btn btn-primary btn-sm" 
-                                            ng-click="ctrl.clearState()" 
-                                            ng-disabled="ctrl.currentState === null"
-                                        >Effacer</button>
-                                        <button 
-                                            type="button" 
-                                            class="btn btn-primary btn-sm" 
-                                            ng-click="ctrl.clearStates()"
-                                        >Tout effacer</button>
-                                    </span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="col-md-4">
-                <div class="alert alert-info">
-                    <h3>Récapitulatif</h3>
-                    <field label="Forme">{{ctrl.params.forme.value === 'SASU' ? 'SASU' : 'EURL'}}
-                        {{ctrl.params.accre.value ? 'avec ACCRE' : ''}}</field>
-                    <field label="CA">{{ctrl.result.societe.ca | currency:'€':2}}</field>
-                    <field label="Période">{{ctrl.params.nbMois.value}} mois</field>
-                    <field label="Charges">{{ctrl.result.societe.charges | currency:'€':2}}</field>
-                    <field label="Rémunération nette">{{ctrl.params.remuneration.value | currency:'€':2}}</field>
-                    <field label="Dividendes">{{ctrl.params.dividendes.value | currency:'€':2}}</field>
-                    <field label="Autres revenus">{{ctrl.params.autresRevenus.value | currency:'€':2}}</field>
-                </div>
-                <div class="alert alert-success">
-                    <h3>Résultat</h3>
-                    <field label="Reste en société" doc="resteSociete">{{ctrl.result.societe.reste | currency:'€':2}} </field>
-                    <field
-                        label="Revenu brut perso"
-                        doc="revenuBrut"
-                    >{{ctrl.result.brut | currency:'€':2}} </field>
-                    <field
-                        label="Cotisations rémunération"
-                        doc="cotisationsRemu"
-                    >{{ctrl.result.remuneration.cotisationsSociales | currency:'€':2}}</field>
-                    <field label="Impôt revenu">{{ctrl.result.IR.impot | currency:'€':2}}</field>
-                    <strong>
+                <div class="col-md-4">
+                    <div class="alert alert-info">
+                        <h3>Récapitulatif</h3>
+                        <field label="Forme">{{ctrl.params.forme.value === 'SASU' ? 'SASU' : 'EURL'}}
+                            {{ctrl.params.accre.value ? 'avec ACCRE' : ''}}</field>
+                        <field label="CA">{{ctrl.result.societe.ca | currency:'€':2}}</field>
+                        <field label="Période">{{ctrl.params.nbMois.value}} mois</field>
+                        <field label="Charges">{{ctrl.result.societe.charges | currency:'€':2}}</field>
+                        <field label="Rémunération nette">{{ctrl.params.remuneration.value | currency:'€':2}}</field>
+                        <field label="Dividendes">{{ctrl.params.dividendes.value | currency:'€':2}}</field>
+                        <field label="Autres revenus">{{ctrl.params.autresRevenus.value | currency:'€':2}}</field>
+                    </div>
+                    <div class="alert alert-success">
+                        <h3>Résultat</h3>
+                        <field label="Reste en société" doc="resteSociete">{{ctrl.result.societe.reste | currency:'€':2}} </field>
                         <field
-                            label="Revenu net"
-                            doc="revenuNet"
-                        >
-                            {{ctrl.result.net | currency:'€':2}} (période : {{ctrl.result.net/ctrl.params.nbMois.value
-                            | currency:'€':2}})
+                            label="Revenu brut perso"
+                            doc="revenuBrut"
+                        >{{ctrl.result.brut | currency:'€':2}} </field>
+                        <field
+                            label="Cotisations rémunération"
+                            doc="cotisationsRemu"
+                        >{{ctrl.result.remuneration.cotisationsSociales | currency:'€':2}}</field>
+                        <field label="Impôt revenu">{{ctrl.result.IR.impot | currency:'€':2}}</field>
+                        <strong>
+                            <field
+                                label="Revenu net"
+                                doc="revenuNet"
+                            >
+                                {{ctrl.result.net | currency:'€':2}} (période : {{ctrl.result.net/ctrl.params.nbMois.value
+                                | currency:'€':2}})
+                            </field>
+                        </strong>
+                        <field
+                            label="Pourcent. de prélèvements perso"
+                            doc="pourcentagePrelevements"
+                        >{{(ctrl.result.brut - ctrl.result.net) / ctrl.result.brut * 100 | number:2}} % </field>
+                    </div>
+                </div>
+            </div>
+
+            <div class="share">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">URL de partage :</span>
+                    </div>
+                    <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        ng-value="ctrl.url"
+                        id="url"
+                    />
+                    <div class="input-group-append">
+                        <button
+                            class="btn btn-primary"
+                            ngclipboard
+                            data-clipboard-target="#url"
+                        >Copier dans le presse-papier</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="alert alert-info">
+                        <h3>Rémunération</h3>
+                        <field label="Rémunération brute" doc="remunerationBrute">
+                            {{ctrl.result.remuneration.brut | currency:'€':2}}
                         </field>
-                    </strong>
-                    <field
-                        label="Pourcent. de prélèvements perso"
-                        doc="pourcentagePrelevements"
-                    >{{(ctrl.result.brut - ctrl.result.net) / ctrl.result.brut * 100 | number:2}} % </field>
+                        <field label="Rémunération nette" doc="remunerationNette">{{ctrl.result.remuneration.net | currency:'€':2}}</field>
+                        <field
+                            label="Cotisations sociales sur rémunération"
+                            doc="cotisationsRemu"
+                        >{{ctrl.result.remuneration.cotisationsSociales | currency:'€':2}}</field>
+                        <div ng-if="ctrl.result.remuneration.cs">
+                            <field label=" dont Maladie">{{ctrl.result.remuneration.cs.getMaladie() | currency:'€':2}}</field>
+                            <field label=" dont Allocations familiales">{{ctrl.result.remuneration.cs.getAllocationsFamiliales()
+                                | currency:'€':2}}</field>
+                            <field label=" dont Formation professionnelle">{{ctrl.result.remuneration.cs.getFormationProfessionnelle()
+                                | currency:'€':2}}</field>
+                            <field label=" dont Retraite base">{{ctrl.result.remuneration.cs.getRetraiteBase() |
+                                currency:'€':2}}</field>
+                            <field label=" dont Retraite complémentaire">{{ctrl.result.remuneration.cs.getRetraiteComplementaire()
+                                | currency:'€':2}}</field>
+                            <field label=" dont Invalidité/Décès">{{ctrl.result.remuneration.cs.getInvaliditeDeces() |
+                                currency:'€':2}}</field>
+                            <field label=" dont CSG/CRDS">{{ctrl.result.remuneration.cs.getCsgCrds() | currency:'€':2}}</field>
+                        </div>
+                        <field
+                            ng-if="ctrl.params.remuneration.value > 0"
+                            label="Pourcentage des CS sur rémunération"
+                            doc="cotisationsRemu"
+                        >
+                            {{ctrl.result.remuneration.cotisationsSociales / ctrl.result.remuneration.net * 100 |
+                            number:2}} %
+                        </field>
+                    </div>
+
+                    <div class="alert alert-info">
+                        <h3>Impôt sur les sociétés</h3>
+                        <field label="Assiette impôt société" doc="assietteIS">{{ctrl.result.IS.assiette | currency:'€':2}}</field>
+                        <field
+                            label="Impôt société"
+                            doc="impotSocietes"
+                        >
+                            {{ctrl.result.IS.impot | currency:'€':2}} ({{ctrl.result.IS.impot / ctrl.result.IS.assiette *
+                            100 | number:2}} %)
+                        </field>
+                        <ul>
+                            <li ng-repeat="tranche in ctrl.result.IS.tranches">
+                                Tranche {{$index+1}} ({{tranche.min | currency:'€':2}} 
+                                <span ng-if="tranche.max !== null">- {{tranche.max | currency:'€':2}},</span>
+                                <span ng-if="tranche.max === null">et plus,</span>
+                                {{tranche.taux*100|number:0}} %) : {{tranche.value | currency:'€':2}}
+                            </li>
+                        </ul>
+                        <field label="Exonérations sur impôt société" ng-if="ctrl.params.zfu.value" doc="exonerationsZFU">
+                            {{ctrl.result.IS.exonerations | currency:'€':2}} ({{ctrl.result.IS.exonerations / ctrl.result.IS.assiette * 100 | number:2}} %)
+                        </field>
+                        <field
+                            label="Distribuable"
+                            doc="distribuable"
+                        >{{ctrl.result.IS.assiette - ctrl.result.IS.impot | currency:'€':2}}</field>
+                        <field label="Dividendes bruts">{{ctrl.params['dividendes'].value | currency:'€':2}} </field>
+                        <field label="Reste en société" doc="resteSociete">{{ctrl.result.societe.reste | currency:'€':2}} </field>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="alert alert-info" ng-if="ctrl.params.dividendes.value > 0">
+                        <h3>Dividendes<span ng-if="ctrl.params.pfu.value"> (avec PFU)</span></h3>
+                        <field label="Dividendes bruts">{{ctrl.params['dividendes'].value | currency:'€':2}}</field>
+                        <div ng-if="!ctrl.params.pfu.value">
+                            <field label="Dividendes nets (avant IR)">{{ctrl.result.dividendes.net | currency:'€':2}} </field>
+                            <field label="Assiette IR sur dividendes" doc="assietteDividendesIR">{{ctrl.result.dividendes.assietteIR | currency:'€':2}} </field>
+                        </div>
+                        <div ng-if="ctrl.params.pfu.value">
+                            <field label="Dividendes nets (après IR)" doc="dividendesNetsPFU">{{ctrl.result.dividendes.net | currency:'€':2}} </field>
+                            <field label="PFU sur dividendes" doc="dividendesPFU">{{ctrl.result.IR.impotPFU | currency:'€':2}} </field>
+                        </div>
+                        <field label="Cotisations sociales sur dividendes" doc="dividendesCotisations">{{ctrl.result.dividendes.cotisationsSociales |
+                            currency:'€':2}}</field>
+                        <div ng-if="ctrl.result.dividendes.dividendes10">
+                            <hr />
+                            <div>Part sur 10% du capital :</div>
+                            <field label="Dividendes bruts">{{ctrl.result.dividendes.dividendes10.brut | currency:'€':2}}</field>
+                            <field label="Cotisations sociales">{{ctrl.result.dividendes.dividendes10.cotisationsSociales |
+                                currency:'€':2}}</field>
+                            <field label="Dividendes nets">{{ctrl.result.dividendes.dividendes10.net | currency:'€':2}}</field>
+                            <hr />
+                            <div>Part au delà :</div>
+                            <field label="Dividendes bruts">{{ctrl.result.dividendes.dividendes90.brut | currency:'€':2}}</field>
+                            <field label="Cotisations sociales">{{ctrl.result.dividendes.dividendes90.cotisationsSociales |
+                                currency:'€':2}}</field>
+                            <field label="Dividendes nets">{{ctrl.result.dividendes.dividendes90.net | currency:'€':2}}</field>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-info">
+                        <h3>Impôt sur le revenu</h3>
+                        <field label="Assiette impôt sur le revenu">{{ctrl.result.IR.assiette | currency:'€':2}}</field>
+                        <field label=" dont rémunération">{{ctrl.result.remuneration.assietteIR | currency:'€':2}}</field>
+                        <field label=" dont dividendes">{{ctrl.result.dividendes.assietteIR | currency:'€':2}}</field>
+                        <field label="Impôt sur le revenu">{{ctrl.result.IR.impot | currency:'€':2}}</field>
+                        <ul>
+                            <li ng-repeat="tranche in ctrl.result.IR.tranches">
+                                Tranche {{$index+1}} ({{tranche.min | currency:'€':2}} 
+                                <span ng-if="tranche.max !== null">- {{tranche.max | currency:'€':2}},</span>
+                                <span ng-if="tranche.max === null">et plus,</span>
+                                {{tranche.taux*100|number:0}} %) : {{tranche.value | currency:'€':2}}
+                            </li>
+                        </ul>
+                        <field label="Pourcentage de l'IR sur revenus nets (après CS)">
+                            {{ctrl.result.IR.impot/(ctrl.result.dividendes.net+ctrl.result.remuneration.net+ctrl.result.autresRevenus)*100 |
+                            number:2}} %
+                        </field>
+                    </div>
                 </div>
             </div>
         </div>
-
-        <div class="share">
-            <div class="input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text">URL de partage :</span>
-                </div>
-                <input
-                    type="text"
-                    class="form-control"
-                    readonly
-                    ng-value="ctrl.url"
-                    id="url"
-                />
-                <div class="input-group-append">
-                    <button
-                        class="btn btn-primary"
-                        ngclipboard
-                        data-clipboard-target="#url"
-                    >Copier dans le presse-papier</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-6">
-                <div class="alert alert-info">
-                    <h3>Rémunération</h3>
-                    <field label="Rémunération brute" doc="remunerationBrute">
-                        {{ctrl.result.remuneration.brut | currency:'€':2}}
-                    </field>
-                    <field label="Rémunération nette" doc="remunerationNette">{{ctrl.result.remuneration.net | currency:'€':2}}</field>
-                    <field
-                        label="Cotisations sociales sur rémunération"
-                        doc="cotisationsRemu"
-                    >{{ctrl.result.remuneration.cotisationsSociales | currency:'€':2}}</field>
-                    <div ng-if="ctrl.result.remuneration.cs">
-                        <field label=" dont Maladie">{{ctrl.result.remuneration.cs.getMaladie() | currency:'€':2}}</field>
-                        <field label=" dont Allocations familiales">{{ctrl.result.remuneration.cs.getAllocationsFamiliales()
-                            | currency:'€':2}}</field>
-                        <field label=" dont Formation professionnelle">{{ctrl.result.remuneration.cs.getFormationProfessionnelle()
-                            | currency:'€':2}}</field>
-                        <field label=" dont Retraite base">{{ctrl.result.remuneration.cs.getRetraiteBase() |
-                            currency:'€':2}}</field>
-                        <field label=" dont Retraite complémentaire">{{ctrl.result.remuneration.cs.getRetraiteComplementaire()
-                            | currency:'€':2}}</field>
-                        <field label=" dont Invalidité/Décès">{{ctrl.result.remuneration.cs.getInvaliditeDeces() |
-                            currency:'€':2}}</field>
-                        <field label=" dont CSG/CRDS">{{ctrl.result.remuneration.cs.getCsgCrds() | currency:'€':2}}</field>
-                    </div>
-                    <field
-                        ng-if="ctrl.params.remuneration.value > 0"
-                        label="Pourcentage des CS sur rémunération"
-                        doc="cotisationsRemu"
-                    >
-                        {{ctrl.result.remuneration.cotisationsSociales / ctrl.result.remuneration.net * 100 |
-                        number:2}} %
-                    </field>
-                </div>
-
-                <div class="alert alert-info">
-                    <h3>Impôt sur les sociétés</h3>
-                    <field label="Assiette impôt société" doc="assietteIS">{{ctrl.result.IS.assiette | currency:'€':2}}</field>
-                    <field
-                        label="Impôt société"
-                        doc="impotSocietes"
-                    >
-                        {{ctrl.result.IS.impot | currency:'€':2}} ({{ctrl.result.IS.impot / ctrl.result.IS.assiette *
-                        100 | number:2}} %)
-                    </field>
-                    <ul>
-                        <li ng-repeat="tranche in ctrl.result.IS.tranches">
-                            Tranche {{$index+1}} ({{tranche.min | currency:'€':2}} 
-                            <span ng-if="tranche.max !== null">- {{tranche.max | currency:'€':2}},</span>
-                            <span ng-if="tranche.max === null">et plus,</span>
-                            {{tranche.taux*100|number:0}} %) : {{tranche.value | currency:'€':2}}
-                        </li>
-                    </ul>
-                    <field label="Exonérations sur impôt société" ng-if="ctrl.params.zfu.value" doc="exonerationsZFU">
-                        {{ctrl.result.IS.exonerations | currency:'€':2}} ({{ctrl.result.IS.exonerations / ctrl.result.IS.assiette * 100 | number:2}} %)
-                    </field>
-                    <field
-                        label="Distribuable"
-                        doc="distribuable"
-                    >{{ctrl.result.IS.assiette - ctrl.result.IS.impot | currency:'€':2}}</field>
-                    <field label="Dividendes bruts">{{ctrl.params['dividendes'].value | currency:'€':2}} </field>
-                    <field label="Reste en société" doc="resteSociete">{{ctrl.result.societe.reste | currency:'€':2}} </field>
-                </div>
-            </div>
-
-            <div class="col-md-6">
-                <div class="alert alert-info" ng-if="ctrl.params.dividendes.value > 0">
-                    <h3>Dividendes<span ng-if="ctrl.params.pfu.value"> (avec PFU)</span></h3>
-                    <field label="Dividendes bruts">{{ctrl.params['dividendes'].value | currency:'€':2}}</field>
-                    <div ng-if="!ctrl.params.pfu.value">
-                        <field label="Dividendes nets (avant IR)">{{ctrl.result.dividendes.net | currency:'€':2}} </field>
-                        <field label="Assiette IR sur dividendes" doc="assietteDividendesIR">{{ctrl.result.dividendes.assietteIR | currency:'€':2}} </field>
-                    </div>
-                    <div ng-if="ctrl.params.pfu.value">
-                        <field label="Dividendes nets (après IR)" doc="dividendesNetsPFU">{{ctrl.result.dividendes.net | currency:'€':2}} </field>
-                        <field label="PFU sur dividendes" doc="dividendesPFU">{{ctrl.result.IR.impotPFU | currency:'€':2}} </field>
-                    </div>
-                    <field label="Cotisations sociales sur dividendes" doc="dividendesCotisations">{{ctrl.result.dividendes.cotisationsSociales |
-                        currency:'€':2}}</field>
-                    <div ng-if="ctrl.result.dividendes.dividendes10">
-                        <hr />
-                        <div>Part sur 10% du capital :</div>
-                        <field label="Dividendes bruts">{{ctrl.result.dividendes.dividendes10.brut | currency:'€':2}}</field>
-                        <field label="Cotisations sociales">{{ctrl.result.dividendes.dividendes10.cotisationsSociales |
-                            currency:'€':2}}</field>
-                        <field label="Dividendes nets">{{ctrl.result.dividendes.dividendes10.net | currency:'€':2}}</field>
-                        <hr />
-                        <div>Part au delà :</div>
-                        <field label="Dividendes bruts">{{ctrl.result.dividendes.dividendes90.brut | currency:'€':2}}</field>
-                        <field label="Cotisations sociales">{{ctrl.result.dividendes.dividendes90.cotisationsSociales |
-                            currency:'€':2}}</field>
-                        <field label="Dividendes nets">{{ctrl.result.dividendes.dividendes90.net | currency:'€':2}}</field>
-                    </div>
-                </div>
-
-                <div class="alert alert-info">
-                    <h3>Impôt sur le revenu</h3>
-                    <field label="Assiette impôt sur le revenu">{{ctrl.result.IR.assiette | currency:'€':2}}</field>
-                    <field label=" dont rémunération">{{ctrl.result.remuneration.assietteIR | currency:'€':2}}</field>
-                    <field label=" dont dividendes">{{ctrl.result.dividendes.assietteIR | currency:'€':2}}</field>
-                    <field label="Impôt sur le revenu">{{ctrl.result.IR.impot | currency:'€':2}}</field>
-                    <ul>
-                        <li ng-repeat="tranche in ctrl.result.IR.tranches">
-                            Tranche {{$index+1}} ({{tranche.min | currency:'€':2}} 
-                            <span ng-if="tranche.max !== null">- {{tranche.max | currency:'€':2}},</span>
-                            <span ng-if="tranche.max === null">et plus,</span>
-                            {{tranche.taux*100|number:0}} %) : {{tranche.value | currency:'€':2}}
-                        </li>
-                    </ul>
-                    <field label="Pourcentage de l'IR sur revenus nets (après CS)">
-                        {{ctrl.result.IR.impot/(ctrl.result.dividendes.net+ctrl.result.remuneration.net+ctrl.result.autresRevenus)*100 |
-                        number:2}} %
-                    </field>
-                </div>
-            </div>
-        </div>
-
     </div>
 
     <script
