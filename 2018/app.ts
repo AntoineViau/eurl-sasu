@@ -36,41 +36,42 @@ class AppCtrl {
     private $filter
   ) {
     this.params = {
-      capital: { name: "capital", min: 0, max: 100000, step: 100, value: 0 },
+      capital: { name: "Capital", min: 0, max: 100000, step: 100, value: 0 },
       charges: {
-        name: "charges",
+        name: "Charges",
         min: 0,
         max: 100000,
         step: 500,
         value: 0
       },
-      ca: { name: "ca", min: 0, max: 200000, step: 500, value: 0 },
-      nbMois: { name: "nbMois", min: 0.25, max: 12, step: 0.25, value: 12 },
+      ca: { name: "C.A", min: 0, max: 200000, step: 500, value: 0 },
+      nbMois: { name: "Nb Mois", min: 0.25, max: 12, step: 0.25, value: 12 },
       remuneration: {
-        name: "remuneration",
+        name: "Rémuneration",
         min: 0,
         max: 150000,
         step: 500,
         value: 0
       },
       dividendes: {
-        name: "dividendes",
+        name: "Dividendes",
         min: 0,
         max: 150000,
         step: 500,
         value: 0
       },
       autresRevenus: {
-        name: "autresRevenus",
+        name: "Autres Revenus",
         min: 0,
         max: 50000,
         step: 500,
         value: 0
       },
-      bnc: { name: "bnc", min: 0, max: 70000, step: 500, value: 0 },
-      nbParts: { name: "nbParts", min: 1, max: 10, step: 0.5, value: 1 },
+      bnc: { name: "BNC", min: 0, max: 70000, step: 500, value: 0 },
+      nbParts: { name: "Nb Parts", min: 1, max: 10, step: 0.5, value: 1 },
       accre: { name: "ACCRE", notSlider: true, value: false },
-      flattax: { name: "FLATTAX", notSlider: true, value: false },
+      pfu: { name: 'Flat-Tax', notSlider: true, value: false },
+      zfu: { name: 'ZFU', notSlider: true, value: false },
       forme: { name: "Forme", notSlider: true, value: "SASU" }
     };
 
@@ -91,7 +92,7 @@ class AppCtrl {
     this.onChange();
   }
 
-  hasLocalStorage(){
+  hasLocalStorage() {
     var test = '_test-local-storage';
 
     try {
@@ -104,12 +105,20 @@ class AppCtrl {
   }
 
   saveStates() {
-    if(this.hasLocalStorage()) {
-      localStorage.setItem('states', JSON.stringify(this.states));
+    if(! this.hasLocalStorage()) {
+      return;
     }
+
+    localStorage.setItem('states', JSON.stringify(this.states));
   }
 
   pushState(event) {
+    event.preventDefault();
+
+    if(! this.hasLocalStorage()) {
+      return;
+    }
+
     let filteredStates = this.$filter('filter')(this.states, {name: this.newStateName});
 
     let state = {
@@ -121,21 +130,23 @@ class AppCtrl {
     if(filteredStates.length === 0) {
         this.states.push(state);
     } else {
-        //Merge with existing save
-        state = angular.extend(filteredStates[0], {params: this.params});
+        state = filteredStates[0];
+        state.params = angular.extend(state.params, this.params);
     }
-    
+
     this.saveStates();
     this.currentState = state;
-
-    event.preventDefault();
     return false;
   }
 
   loadStates() {
     this.states = new Array<any>();
 
-    if(this.hasLocalStorage() && localStorage.getItem('states') !== null) {
+    if(! this.hasLocalStorage()) {
+      return;
+    }
+
+    if(localStorage.getItem('states') !== null) {
       this.states = JSON.parse(localStorage.getItem('states'));
       if(this.states.length > 0) {
         this.currentState = this.states[0];
@@ -181,18 +192,23 @@ class AppCtrl {
   }
 
   onChange(param = undefined) {
+    if(this.params.forme.value !== 'SASU') {
+      this.params.pfu.value = false;
+    }
+
     this.exercice.capital = this.params.capital.value;
     this.exercice.ca = this.params.ca.value;
     this.exercice.charges = this.params.charges.value;
     this.exercice.remuneration = this.params.remuneration.value;
     this.exercice.dividendes = this.params.dividendes.value;
     this.exercice.accre = this.params.accre.value; // === 'true';
+    this.exercice.pfu = this.params.pfu.value;// === 'true';
+    this.exercice.zfu = this.params.zfu.value;
     this.exercice.autresRevenus = this.params.autresRevenus.value;
     this.exercice.bnc = this.params.bnc.value;
     this.exercice.nbParts = this.params.nbParts.value;
     this.exercice.nbMois = this.params.nbMois.value;
     this.exercice.forme = this.params.forme.value;
-    this.exercice.flatTax = this.params.flattax.value;
     this.exercice.tauxCsgCrds = 0.172;
     this.exercice.tauxCsgDeductible = 0.068;
 
@@ -255,7 +271,7 @@ angular
             controller: [
               "$scope",
               $scope => {
-                let converter = new showdown.Converter();
+                let converter = new showdown.Converter({simpleLineBreaks: true, smartIndentationFix: true});
                 $scope.title = doc[id].title;
                 $scope.content = $sce.trustAsHtml(
                   converter.makeHtml(doc[id].content)

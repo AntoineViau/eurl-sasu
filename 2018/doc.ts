@@ -7,6 +7,15 @@ export const doc = {
     title: "Revenu",
     content: ``
   },
+  exonerationsZFU: {
+    title: 'Exonerations liées à l\'implantation en ZFU',
+    content: `Lorsque votre entreprise en installée en Zone Franche Urbaine, celle-ci est *exonérée* d'impôt sur les sociétés durant les 5 premières années.
+      **Attention** : pour un freelance (activité non sédentaire), celui-ci doit également réaliser son CA en ZFU. Les exonérations seront calculées sur la proportion de CA réalisé en ZFU (au minimum 25%).`
+  },
+  resteSociete: {
+    title: "Reste en société",
+    content: `Ce qu'il reste dans votre société après votre exercice fiscal.`
+  },
   distribuable: {
     title: "Dividendes distribuables",
     content: `
@@ -22,7 +31,19 @@ De manière générale, l'idée de se rémunérer sur les dividendes signifie qu
   },
   cotisationsRemu: {
     title: "Cotisations sociales sur rémunération",
-    content: ``
+    content: `Montant des cotisations sociales à appliquer sur la rémunération nette.
+* Pour les EURL (CIPAV) : Cotisations sociales listées par la CIPAV [Source](https://www.lacipav.fr/sites/default/files/2018-08/GuideCipav2018_V19-BD-WEB-Pages_0.pdf)
+* Pour les SASU (régime général) : ~ 81.85% de la rémunération nette (28% de charges salariales + 54% de charges patronales) [Source](https://www.expert-comptable-tpe.fr/articles/charges-sociales-montant-salaire/)`
+  },
+  remunerationBrute: {
+    title: "Rémunération brute",
+    content: `Représente le coût total de la rémunération.
+    \`Rémunération brute = Rémunération nette + cotisations sociales\``
+  },
+  remunerationNette: {
+    title: "Rémunération nette",
+    content: `Représente le salaire net perçu par le freelance.
+    \`Rémunération nette = Rémunération brute - cotisations sociales\``
   },
   assietteDividendesIR: {
     title: "Assiette IR des dividendes",
@@ -37,22 +58,39 @@ Par ailleurs, au moment où les dividendes sont distribués, il y a un acompte d
     title: "Impôt sur les sociétés",
     content: `15% pour la partie des bénéfices en dessous de 38 120 €, 28% entre 38 120 et 500 000, et 33 % au-delà.`
   },
+  assietteIS: {
+    title: "Assiette impôt société",
+    content: `Représente les bénéfices avant impôts sur les bénéfices.
+      \`Assiette IS = C.A - charges - rémunération brute\``
+  },
   revenuBrut: {
     title: "Revenu brut",
-    content: `Le revenu brut correspond à l'argent à destination personnelle avant tous les prélèvements.<br />
-        Par exemple : 100K de CA, 10K de charges, 20K d'ARE et on laisse 5K en société à la fin de l'exercice : <br />
-        100 - 10 + 20 - 5 = 105K de revenu brut perso.`
+    content: `Le revenu brut correspond à l'argent à destination personnelle avant tous les prélèvements.
+        Par exemple : 100K de CA, 10K de charges, 20K d'ARE et on laisse 5K en société à la fin de l'exercice : 
+        \`100 - 10 + 20 - 5 = 105K\` de revenu brut perso.`
   },
   revenuNet: {
     title: "Revenu net",
     content: `On parle en réalité de "super-net" : tous les prélèvements sont passés sur le brut, y compris l'impôt sur le revenu. Ce qui reste est donc vraiment ce qui va dans la poche du freelance.`
   },
+  dividendesCotisations: {
+    title: "Cotisations sociales sur dividendes",
+    content: `* Si Flat-Tax : 17.2% des dividendes brutes. [Source](https://www.economie.gouv.fr/particuliers/prelevement-forfaitaire-unique-pfu)`
+  },
+  dividendesPFU: {
+    title: "Prélèvement Forfaitaire Unique sur dividendes",
+    content: `12.8% des dividendes brutes. [Source](https://www.economie.gouv.fr/particuliers/prelevement-forfaitaire-unique-pfu)`
+  },
+  dividendesNetsPFU: {
+    title: "Dividendes nets (après IR)",
+    content: `Représente le montant perçu par le freelance après les impôts car le PFU (Prélèvement Forfaitaire Unique) ou Flat-Tax est *libératoire* sur l'IR. [Source](https://www.economie.gouv.fr/particuliers/prelevement-forfaitaire-unique-pfu)`
+  },
   pourcentagePrelevements: {
     title: "Pourcentage de prélèvements",
-    content: `Le pourcentage de prélèvement repose sur le revenu brut.<br />
-        Exemple : 100K de CA, 10K de charges, 5K reste en société, 30K de prélèvements (impôt sur le revenu et cotisations sociales).<br />
-        100 - 10 - 5 = 85K de revenu brut perso.<br />
-        85 - 30 = 55K de revenu net perso.<br />
-        Taux de prélèvement : 30 / 85 * 100 = 35,29 %`
+    content: `Le pourcentage de prélèvement repose sur le revenu brut.
+        Exemple : 100K de CA, 10K de charges, 5K reste en société, 30K de prélèvements (impôt sur le revenu et cotisations sociales).
+        \`100 - 10 - 5 = 85K\` de revenu brut perso.
+        \`85 - 30 = 55K\` de revenu net perso.
+        Taux de prélèvement : \`30 / 85 * 100 = 35,29%\``
   }
 };

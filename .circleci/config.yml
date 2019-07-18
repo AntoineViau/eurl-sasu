@@ -103,6 +103,8 @@ jobs:
             cp 2018/index.html dist/2018/
             cp builds/2018/bundle.js dist/2018/
 
+            cp index.html dist/
+
             touch dist/.nojekyll
 
             gh-pages --dotfiles --message "[skip ci] Update gh-pages" --dist dist
