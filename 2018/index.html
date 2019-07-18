@@ -399,7 +399,7 @@
                         </li>
                     </ul>
                     <field label="Pourcentage de l'IR sur revenus nets (après CS)">
-                        {{ctrl.result.IR.impot/(ctrl.result.dividendes.net+ctrl.result.remuneration.net)*100 |
+                        {{ctrl.result.IR.impot/(ctrl.result.dividendes.net+ctrl.result.remuneration.net+ctrl.result.autresRevenus)*100 |
                         number:2}} %
                     </field>
                 </div>
