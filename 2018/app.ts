@@ -259,7 +259,7 @@ angular
             controller: [
               "$scope",
               $scope => {
-                let converter = new showdown.Converter();
+                let converter = new showdown.Converter({simpleLineBreaks: true, smartIndentationFix: true});
                 $scope.title = doc[id].title;
                 $scope.content = $sce.trustAsHtml(
                   converter.makeHtml(doc[id].content)

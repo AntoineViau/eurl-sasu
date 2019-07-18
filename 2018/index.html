@@ -218,7 +218,7 @@
                 </div>
                 <div class="alert alert-success">
                     <h3>Résultat</h3>
-                    <field label="Reste en société">{{ctrl.result.societe.reste | currency:'€':2}} </field>
+                    <field label="Reste en société" doc="resteSociete">{{ctrl.result.societe.reste | currency:'€':2}} </field>
                     <field
                         label="Revenu brut perso"
                         doc="revenuBrut"
@@ -271,10 +271,10 @@
             <div class="col-md-6">
                 <div class="alert alert-info">
                     <h3>Rémunération</h3>
-                    <field label="Rémunération brute">
+                    <field label="Rémunération brute" doc="remunerationBrute">
                         {{ctrl.result.remuneration.brut | currency:'€':2}}
                     </field>
-                    <field label="Rémunération nette">{{ctrl.result.remuneration.net | currency:'€':2}}</field>
+                    <field label="Rémunération nette" doc="remunerationNette">{{ctrl.result.remuneration.net | currency:'€':2}}</field>
                     <field
                         label="Cotisations sociales sur rémunération"
                         doc="cotisationsRemu"
@@ -296,6 +296,7 @@
                     <field
                         ng-if="ctrl.params.remuneration.value > 0"
                         label="Pourcentage des CS sur rémunération"
+                        doc="cotisationsRemu"
                     >
                         {{ctrl.result.remuneration.cotisationsSociales / ctrl.result.remuneration.net * 100 |
                         number:2}} %
@@ -304,7 +305,7 @@
 
                 <div class="alert alert-info">
                     <h3>Impôt sur les sociétés</h3>
-                    <field label="Assiette impôt société">{{ctrl.result.IS.assiette | currency:'€':2}}</field>
+                    <field label="Assiette impôt société" doc="assietteIS">{{ctrl.result.IS.assiette | currency:'€':2}}</field>
                     <field
                         label="Impôt société"
                         doc="impotSocietes"
@@ -325,7 +326,7 @@
                         doc="distribuable"
                     >{{ctrl.result.IS.assiette - ctrl.result.IS.impot | currency:'€':2}}</field>
                     <field label="Dividendes bruts">{{ctrl.params['dividendes'].value | currency:'€':2}} </field>
-                    <field label="Reste en société">{{ctrl.result.societe.reste | currency:'€':2}} </field>
+                    <field label="Reste en société" doc="resteSociete">{{ctrl.result.societe.reste | currency:'€':2}} </field>
                 </div>
             </div>
 
@@ -338,10 +339,10 @@
                         <field label="Assiette IR sur dividendes" doc="assietteDividendesIR">{{ctrl.result.dividendes.assietteIR | currency:'€':2}} </field>
                     </div>
                     <div ng-if="ctrl.params.pfu.value">
-                        <field label="Dividendes nets (après IR)">{{ctrl.result.dividendes.net | currency:'€':2}} </field>
-                        <field label="PFU sur dividendes">{{ctrl.result.IR.impotPFU | currency:'€':2}} </field>
+                        <field label="Dividendes nets (après IR)" doc="dividendesNetsPFU">{{ctrl.result.dividendes.net | currency:'€':2}} </field>
+                        <field label="PFU sur dividendes" doc="dividendesPFU">{{ctrl.result.IR.impotPFU | currency:'€':2}} </field>
                     </div>
-                    <field label="Cotisations sociales sur dividendes">{{ctrl.result.dividendes.cotisationsSociales |
+                    <field label="Cotisations sociales sur dividendes" doc="dividendesCotisations">{{ctrl.result.dividendes.cotisationsSociales |
                         currency:'€':2}}</field>
                     <div ng-if="ctrl.result.dividendes.dividendes10">
                         <hr />
