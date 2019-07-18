@@ -36,41 +36,41 @@ class AppCtrl {
     private $filter
   ) {
     this.params = {
-      capital: { name: "capital", min: 0, max: 100000, step: 100, value: 0 },
+      capital: { name: "Capital", min: 0, max: 100000, step: 100, value: 0 },
       charges: {
-        name: "charges",
+        name: "Charges",
         min: 0,
         max: 100000,
         step: 500,
         value: 0
       },
-      ca: { name: "ca", min: 0, max: 200000, step: 500, value: 0 },
-      nbMois: { name: "nbMois", min: 0.25, max: 12, step: 0.25, value: 12 },
+      ca: { name: "C.A", min: 0, max: 200000, step: 500, value: 0 },
+      nbMois: { name: "Nb Mois", min: 0.25, max: 12, step: 0.25, value: 12 },
       remuneration: {
-        name: "remuneration",
+        name: "Rémuneration",
         min: 0,
         max: 150000,
         step: 500,
         value: 0
       },
       dividendes: {
-        name: "dividendes",
+        name: "Dividendes",
         min: 0,
         max: 150000,
         step: 500,
         value: 0
       },
       autresRevenus: {
-        name: "autresRevenus",
+        name: "Autres Revenus",
         min: 0,
         max: 50000,
         step: 500,
         value: 0
       },
-      bnc: { name: "bnc", min: 0, max: 70000, step: 500, value: 0 },
-      nbParts: { name: "nbParts", min: 1, max: 10, step: 0.5, value: 1 },
+      bnc: { name: "BNC", min: 0, max: 70000, step: 500, value: 0 },
+      nbParts: { name: "Nb Parts", min: 1, max: 10, step: 0.5, value: 1 },
       accre: { name: "ACCRE", notSlider: true, value: false },
-      pfu: { name: 'FLATTAX', notSlider: true, value: false },
+      pfu: { name: 'Flat-Tax', notSlider: true, value: false },
       forme: { name: "Forme", notSlider: true, value: "SASU" }
     };
 

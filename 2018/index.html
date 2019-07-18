@@ -54,6 +54,14 @@
         .card {
             margin-bottom: 1rem;
         }
+
+        .col-form-label {
+            font-weight: 300;
+        }
+
+        .form-control-range {
+            margin-top: 0.75rem;
+        }
         
         .share {
             margin: 1.25rem 0;
@@ -84,7 +92,7 @@
     <div class="container" id="app">
 
         <div class="alert alert-warning">
-            <strong>CECI EST UNE VERSION NON TERMINEE ! NE VOUS FIEZ PAS AUX CALCULS !</strong>
+            <strong>CECI EST UNE VERSION NON TERMINÉE ! NE VOUS FIEZ PAS AUX CALCULS !</strong>
         </div>
 
         <div class="row">
@@ -96,10 +104,11 @@
                             class="row form-group"
                             ng-if="!param.notSlider"
                         >
-                            <div class="col-md-2 text-right">{{param.name | uppercase}}</div>
+                            <label for="{{ name}}" class="col-sm-2 col-form-label text-right">{{param.name | uppercase}}</label>
                             <div class="col-md-8">
                                 <input
                                     type="range"
+                                    id="{{ name }}"
                                     class="form-control-range"  
                                     min="{{param.min}}"
                                     max="{{param.max}}"
