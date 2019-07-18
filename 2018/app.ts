@@ -70,7 +70,7 @@ class AppCtrl {
       bnc: { name: "bnc", min: 0, max: 70000, step: 500, value: 0 },
       nbParts: { name: "nbParts", min: 1, max: 10, step: 0.5, value: 1 },
       accre: { name: "ACCRE", notSlider: true, value: false },
-      flattax: { name: "FLATTAX", notSlider: true, value: false },
+      pfu: { name: 'FLATTAX', notSlider: true, value: false },
       forme: { name: "Forme", notSlider: true, value: "SASU" }
     };
 
@@ -181,18 +181,22 @@ class AppCtrl {
   }
 
   onChange(param = undefined) {
+    if(this.params.forme.value !== 'SASU') {
+      this.params.pfu.value = false;
+    }
+
     this.exercice.capital = this.params.capital.value;
     this.exercice.ca = this.params.ca.value;
     this.exercice.charges = this.params.charges.value;
     this.exercice.remuneration = this.params.remuneration.value;
     this.exercice.dividendes = this.params.dividendes.value;
     this.exercice.accre = this.params.accre.value; // === 'true';
+    this.exercice.pfu = this.params.pfu.value;// === 'true';
     this.exercice.autresRevenus = this.params.autresRevenus.value;
     this.exercice.bnc = this.params.bnc.value;
     this.exercice.nbParts = this.params.nbParts.value;
     this.exercice.nbMois = this.params.nbMois.value;
     this.exercice.forme = this.params.forme.value;
-    this.exercice.flatTax = this.params.flattax.value;
     this.exercice.tauxCsgCrds = 0.172;
     this.exercice.tauxCsgDeductible = 0.068;
 

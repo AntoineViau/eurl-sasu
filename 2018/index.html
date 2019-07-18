@@ -135,11 +135,11 @@
                                     <input
                                     type="checkbox"
                                     class="custom-control-input"
-                                    id="flattax"
-                                    ng-model="ctrl.params.flattax.value"
+                                    id="pfu"
+                                    ng-model="ctrl.params.pfu.value"
                                     ng-change="ctrl.onChange()"
                                 />
-                                    <label class="custom-control-label" for="flattax">Flat tax</label>
+                                    <label class="custom-control-label" for="pfu">Flat tax</label>
                                 </div>
                             </div>
                             <div class="col-md-2">
@@ -271,6 +271,9 @@
             <div class="col-md-6">
                 <div class="alert alert-info">
                     <h3>Rémunération</h3>
+                    <field label="Rémunération brute">
+                        {{ctrl.result.remuneration.brut | currency:'€':2}}
+                    </field>
                     <field label="Rémunération nette">{{ctrl.result.remuneration.net | currency:'€':2}}</field>
                     <field
                         label="Cotisations sociales sur rémunération"
@@ -296,9 +299,6 @@
                     >
                         {{ctrl.result.remuneration.cotisationsSociales / ctrl.result.remuneration.net * 100 |
                         number:2}} %
-                    </field>
-                    <field label="Rémunération brute">
-                        {{ctrl.result.remuneration.brut | currency:'€':2}}
                     </field>
                 </div>
 
@@ -330,16 +330,19 @@
             </div>
 
             <div class="col-md-6">
-                <div class="alert alert-info">
-                    <h3>Dividendes</h3>
+                <div class="alert alert-info" ng-if="ctrl.params.dividendes.value > 0">
+                    <h3>Dividendes<span ng-if="ctrl.params.pfu.value"> (avec PFU)</span></h3>
                     <field label="Dividendes bruts">{{ctrl.params['dividendes'].value | currency:'€':2}}</field>
+                    <div ng-if="!ctrl.params.pfu.value">
+                        <field label="Dividendes nets (avant IR)">{{ctrl.result.dividendes.net | currency:'€':2}} </field>
+                        <field label="Assiette IR sur dividendes" doc="assietteDividendesIR">{{ctrl.result.dividendes.assietteIR | currency:'€':2}} </field>
+                    </div>
+                    <div ng-if="ctrl.params.pfu.value">
+                        <field label="Dividendes nets (après IR)">{{ctrl.result.dividendes.net | currency:'€':2}} </field>
+                        <field label="PFU sur dividendes">{{ctrl.result.IR.impotPFU | currency:'€':2}} </field>
+                    </div>
                     <field label="Cotisations sociales sur dividendes">{{ctrl.result.dividendes.cotisationsSociales |
                         currency:'€':2}}</field>
-                    <field label="Dividendes nets">{{ctrl.result.dividendes.net | currency:'€':2}} </field>
-                    <field
-                        label="Assiette IR sur dividendes"
-                        doc="assietteDividendesIR"
-                    >{{ctrl.result.dividendes.assietteIR | currency:'€':2}} </field>
                     <div ng-if="ctrl.result.dividendes.dividendes10">
                         <hr />
                         <div>Part sur 10% du capital :</div>
