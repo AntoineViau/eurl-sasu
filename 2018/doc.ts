@@ -7,6 +7,11 @@ export const doc = {
     title: "Revenu",
     content: ``
   },
+  exonerationsZFU: {
+    title: 'Exonerations liées à l\'implantation en ZFU',
+    content: `Lorsque votre entreprise en installée en Zone Franche Urbaine, celle-ci est *exonérée* d'impôt sur les sociétés durant les 5 premières années.
+      **Attention** : pour un freelance (activité non sédentaire), celui-ci doit également réaliser son CA en ZFU. Les exonérations seront calculées sur la proportion de CA réalisé en ZFU (au minimum 25%).`
+  },
   resteSociete: {
     title: "Reste en société",
     content: `Ce qu'il reste dans votre société après votre exercice fiscal.`

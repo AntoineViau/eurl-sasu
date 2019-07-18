@@ -8,6 +8,7 @@ export default class Exercice {
   charges: number;
   remuneration: number;
   dividendes: number;
+  zfu: boolean = false;
   pfu: boolean = false;
   accre: boolean = false;
   autresRevenus: number = 0;
@@ -140,7 +141,15 @@ export default class Exercice {
     res.IS.assiette = res.societe.brut;
     this.impotSociete.benefice = res.IS.assiette;
     this.impotSociete.prorata = this.nbMois / 12; //Proratisation du palier à 38 120 € 
-    res.IS.impot = this.impotSociete.getImpot();
+
+    if(! this.zfu) {
+      res.IS.exonerations = 0;
+      res.IS.impot = this.impotSociete.getImpot();
+    } else {
+      res.IS.exonerations = this.impotSociete.getImpot();
+      res.IS.impot = 0; //Pas d'IS sur un freelance basé en ZFU qui réalise 100% de son CA en ZFU
+    }
+    
     res.IS.tranches = this.impotSociete.getTranches();
     res.societe.reste = res.societe.brut - res.IS.impot - res.dividendes.brut;
     res.dividendes.supernet = 0; //Utilisé pour la SASU et Flat Tax

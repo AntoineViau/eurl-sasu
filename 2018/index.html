@@ -150,6 +150,18 @@
                                 />
                                     <label class="custom-control-label" for="pfu">Flat tax</label>
                                 </div>
+                                <div class="custom-control custom-checkbox">
+                                    <input
+                                    type="checkbox"
+                                    class="custom-control-input"
+                                    id="zfu"
+                                    ng-model="ctrl.params.zfu.value"
+                                    ng-change="ctrl.onChange()"
+                                />
+                                    <label class="custom-control-label" for="zfu" doc="zfu">
+                                        <abbr title="Zone Franche Urbaine">ZFU</abbr>
+                                    </label>
+                                </div>
                             </div>
                             <div class="col-md-2">
                                 <select
@@ -330,6 +342,9 @@
                             {{tranche.taux*100|number:0}} %) : {{tranche.value | currency:'€':2}}
                         </li>
                     </ul>
+                    <field label="Exonérations sur impôt société" ng-if="ctrl.params.zfu.value" doc="exonerationsZFU">
+                        {{ctrl.result.IS.exonerations | currency:'€':2}} ({{ctrl.result.IS.exonerations / ctrl.result.IS.assiette * 100 | number:2}} %)
+                    </field>
                     <field
                         label="Distribuable"
                         doc="distribuable"

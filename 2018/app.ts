@@ -71,6 +71,7 @@ class AppCtrl {
       nbParts: { name: "Nb Parts", min: 1, max: 10, step: 0.5, value: 1 },
       accre: { name: "ACCRE", notSlider: true, value: false },
       pfu: { name: 'Flat-Tax', notSlider: true, value: false },
+      zfu: { name: 'ZFU', notSlider: true, value: false },
       forme: { name: "Forme", notSlider: true, value: "SASU" }
     };
 
@@ -192,6 +193,7 @@ class AppCtrl {
     this.exercice.dividendes = this.params.dividendes.value;
     this.exercice.accre = this.params.accre.value; // === 'true';
     this.exercice.pfu = this.params.pfu.value;// === 'true';
+    this.exercice.zfu = this.params.zfu.value;
     this.exercice.autresRevenus = this.params.autresRevenus.value;
     this.exercice.bnc = this.params.bnc.value;
     this.exercice.nbParts = this.params.nbParts.value;
