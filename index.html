@@ -1,0 +1,131 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Simulateur de charges sociales et impôts sur société pour EURL / SASU</title>
+    <meta 
+        name="description" 
+        content="Simulez le montant de vos cotisations sociales, impôt sur société et impôt sur revenus de votre EURL ou SASU.">
+    
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    >
+    <link 
+        rel="stylesheet" 
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" 
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" 
+        crossorigin="anonymous"
+    >
+
+    <style>
+    	html, body {
+		    height: 100%;
+		}
+
+    	#app {
+    		height: 100%;
+    	}
+
+    	@media (max-width: 576px) {
+    		.display-1 {
+    			font-size: 4rem;
+    		}
+
+    		.display-4 {
+    			font-size: 2rem;
+    		}
+
+    		#app {
+    			margin-top: 15%;
+    		}
+    	}
+
+		@media (min-width: 768px) {
+    		#app-container {
+    			margin-bottom: 15%;
+    		}
+    	}
+
+    	.card {
+    		border: none;
+    		box-shadow: 0 0.5px 0 0 #ffffff inset, 0 1px 2px 0 #B3B3B3;
+    	}
+
+    	.border-bottom {
+    		border-bottom: 1px solid rgba(0,0,0,.125);
+    	}
+    </style>
+</head>
+
+<body>
+
+    <a href="https://github.com/AntoineViau/eurl-sasu">
+        <img
+            style="position: absolute; top: 0; left: 0; border: 0; z-index: 9999"
+            src="https://camo.githubusercontent.com/121cd7cbdc3e4855075ea8b558508b91ac463ac2/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f677265656e5f3030373230302e706e67"
+            alt="Fork me on GitHub"
+            data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_green_007200.png"
+        >
+    </a>
+
+    <div class="container" id="app">
+    	<div class="row h-100 align-items-center">
+	    	<div class="col text-center">
+		    	<h1 class="display-1">Bienvenue</h1>
+		    	<h2 class="display-4">Choisissez votre année fiscale</h2>
+		    	<div class="row" id="app-container">
+		    		<div class="col-md-6">
+		    			<div href="./2018" class="card mb-3 text-left">
+		    				<div class="row no-gutters">
+		    					<div class="col-md-4 border-bottom">
+				    				<img class="img-fluid m-auto d-block" src="https://via.placeholder.com/200x400?text=Année+2018" srcset="https://via.placeholder.com/400x800?text=Année+2018 2x">
+				    			</div>
+			    				<div class="col-md-8">
+				    				<div class="card-body">
+				    					<h3 class="card-title mb-0">2018 <span class="badge badge-secondary">Nouveau</span></h3>
+				    				</div>
+				    				<ul class="list-group list-group-flush">
+									    <li class="list-group-item">EURL / SASU</li>
+									    <li class="list-group-item">IR / IS</li>
+									    <li class="list-group-item">ACCRE</li>
+									    <li class="list-group-item">Flat tax</li>
+								  	</ul>
+								  	<div class="card-body">
+								  		<a href="./2018" class="btn btn-primary">C'est parti</a>
+								  	</div>
+		    					</div>
+		    				</div>
+		    			</div>
+		    		</div>
+		    		<div class="col-md-6">
+		    			<div href="./2017" class="card mb-3 text-left">
+		    				<div class="row no-gutters">
+		    					<div class="col-md-4 border-bottom">
+				    				<img class="img-fluid m-auto d-block" src="https://via.placeholder.com/200x400?text=Année+2017" srcset="https://via.placeholder.com/400x800?text=Année+2017 2x">
+				    			</div>
+			    				<div class="col-md-8">
+				    				<div class="card-body">
+				    					<h3 class="card-title mb-0">2017</h3>
+				    				</div>
+				    				<ul class="list-group list-group-flush">
+									    <li class="list-group-item">EURL / SASU</li>
+									    <li class="list-group-item">IR / IS</li>
+									    <li class="list-group-item">ACCRE</li>
+								  	</ul>
+								  	<div class="card-body">
+								  		<a href="./2017" class="btn btn-primary">C'est parti</a>
+								  	</div>
+		    					</div>
+		    				</div>
+		    			</div>
+		    		</div>
+		    	</div>
+		    </div>
+	    </div>
+    </div>
+
+</body>
+
+</html>
