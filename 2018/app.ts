@@ -72,8 +72,7 @@ class AppCtrl {
       accre: { name: "ACCRE", notSlider: true, value: false },
       pfu: { name: 'Flat-Tax', notSlider: true, value: false },
       zfu: { name: 'ZFU', notSlider: true, value: false },
-      forme: { name: "Forme", notSlider: true, value: "SASU" },
-      test: { name: "test", notSlider: false, min: 1, max: 10, step: 0.5, value: 1 }
+      forme: { name: "Forme", notSlider: true, value: "SASU" }
     };
 
     this.loadStates();
