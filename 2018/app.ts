@@ -72,7 +72,8 @@ class AppCtrl {
       accre: { name: "ACCRE", notSlider: true, value: false },
       pfu: { name: 'Flat-Tax', notSlider: true, value: false },
       zfu: { name: 'ZFU', notSlider: true, value: false },
-      forme: { name: "Forme", notSlider: true, value: "SASU" }
+      forme: { name: "Forme", notSlider: true, value: "SASU" },
+      test: { name: "test", notSlider: false, min: 1, max: 10, step: 0.5, value: 1 }
     };
 
     this.loadStates();
@@ -92,7 +93,7 @@ class AppCtrl {
     this.onChange();
   }
 
-  hasLocalStorage(){
+  hasLocalStorage() {
     var test = '_test-local-storage';
 
     try {
@@ -105,12 +106,20 @@ class AppCtrl {
   }
 
   saveStates() {
-    if(this.hasLocalStorage()) {
-      localStorage.setItem('states', JSON.stringify(this.states));
+    if(! this.hasLocalStorage()) {
+      return;
     }
+
+    localStorage.setItem('states', JSON.stringify(this.states));
   }
 
   pushState(event) {
+    event.preventDefault();
+
+    if(! this.hasLocalStorage()) {
+      return;
+    }
+
     let filteredStates = this.$filter('filter')(this.states, {name: this.newStateName});
 
     let state = {
@@ -122,21 +131,23 @@ class AppCtrl {
     if(filteredStates.length === 0) {
         this.states.push(state);
     } else {
-        //Merge with existing save
-        state = angular.extend(filteredStates[0], {params: this.params});
+        state = filteredStates[0];
+        state.params = angular.extend(state.params, this.params);
     }
-    
+
     this.saveStates();
     this.currentState = state;
-
-    event.preventDefault();
     return false;
   }
 
   loadStates() {
     this.states = new Array<any>();
 
-    if(this.hasLocalStorage() && localStorage.getItem('states') !== null) {
+    if(! this.hasLocalStorage()) {
+      return;
+    }
+
+    if(localStorage.getItem('states') !== null) {
       this.states = JSON.parse(localStorage.getItem('states'));
       if(this.states.length > 0) {
         this.currentState = this.states[0];
